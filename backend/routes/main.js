@@ -1,7 +1,8 @@
 const router = require("express").Router();
 
 router.route("/").get((req,res) => {
-    res.send("welcome to the backend");
+    console.log("found server");
+    res.send("you have reached the backend");
 });
 
 module.exports = router;
