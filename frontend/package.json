@@ -11,6 +11,7 @@
     "@types/react": "^17.0.26",
     "@types/react-dom": "^17.0.9",
     "axios": "^0.21.4",
+    "prettier": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -21,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write 'src/**/*.jsx' 'src/**/*.ts' 'src/**/*.tsx'"
   },
   "eslintConfig": {
     "extends": [
