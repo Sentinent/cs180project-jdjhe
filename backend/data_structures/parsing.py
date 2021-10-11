@@ -1,5 +1,4 @@
 import xlrd
-import pandas as pd
 import openpyxl
 import xlwt
 from xlwt import Workbook
@@ -22,75 +21,80 @@ class Parsing:
         for zero in range(99):
             violationsList.append(0)
 
-        with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv', encoding='utf-8', newline='') as file:
-            reader = enumerate(csv.reader(file))
+        #with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv', encoding='utf-8', newline='') as file:
+            #reader = enumerate(csv.reader(file))
+        with open('../../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv') as f:
+            content = f.readlines()
+        
 
             """
             Read through the data and using the data with a 
             given data cell as the index for the list to increment 
             its violation count
             """
-            for i, row in reader:
-                if i > 0:
-                    var = row[5]
-                    violationsList[int(var) - 1] += 1
+            index = 0
+            for line in content:
+                if index > 0:
+                    lineList = line.split(',')
+                    var = lineList[5]
+                    if (var.isnumeric()):
+                        violationsList[int(var) - 1] += 1
+                index += 1
 
-        # Creating a workbook object in order to save the new data
-        wb = Workbook()
-        sheet1 = wb.add_sheet('Sheet 1')
+        writeFile = open("../../parsed_data/ViolationCounts.csv", "w")
 
-        sheet1.write(0, 0, 'Violation Code')
-        sheet1.write(0, 1, 'Counts')
+        writeFile.write("Violation Code,")
+        writeFile.write("Counts,\n")
 
         # Write all of the saved data to the workbook
         index = 1
         for v in violationsList:
-            sheet1.write(index, 0, index)
-            sheet1.write(index, 1, v)
+            writeFile.write(str(index) + ",")
+            writeFile.write(str(v) + ",\n")
             index += 1
 
         # Save the new workbook as a file
-        wb.save('../parsed_data/violationCounts.xls')
+        writeFile.close()
     
     # Function to collect the amount of times an object has had a violation
     def ObjectViolations(self, col, objectName, saveFile):
         list = []
-        with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv', encoding='utf-8', newline='') as file:
-            reader = enumerate(csv.reader(file))
+        lineList = []
+        with open('../../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv') as file:
+            content = file.readlines()
 
             """
             If the data in the given cell from the data sheet is in the list
             then simply add 1 to its violation count
             otherwise add it to the list
             """
+            index = 0
             check = 1
-            for i, row in reader:
-                if (i > 0):
+            for line in content:
+                if (index > 0):
+                    lineList = line.split(',')
                     for val in list:
-                        if (val.object == row[col]):
+                        if (val.object == lineList[col]):
                             val.violation += 1
                             check = 0
                             break
                     if (check):
-                        list.append(ViolationObject(1, row[col]))
+                        list.append(ViolationObject(1, lineList[col]))
                     check = 1
-
-            # Set up a workbook in order to save the data
-            wb = Workbook()
-            sheet1 = wb.add_sheet('Sheet 1')
-
-            sheet1.write(0, 0, objectName)
-            sheet1.write(0, 1, 'Violation Counts')
-
-            # Write the data to a file to be saved
-            index = 1
-            for v in list:
-                sheet1.write(index, 0, v.object)
-                sheet1.write(index, 1, v.violation)
                 index += 1
 
+            writeFile = open(f"../../parsed_data/{saveFile}.csv", "w")
+
+            writeFile.write(f"{objectName},")
+            writeFile.write("Violation Counts,\n")
+
+            # Write the data to a file to be saved
+            for v in list:
+                writeFile.write(str(v.object) + ",")
+                writeFile.write(str(v.violation) + ",\n")
+
             # Save the new file
-            wb.save(f"../parsed_data/{saveFile}.xls")
+            writeFile.close()
 
 
     # Function to get the types of violations with their respective counts with another object associated with it such as counties
