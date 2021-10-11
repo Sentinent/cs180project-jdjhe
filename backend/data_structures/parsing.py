@@ -10,6 +10,7 @@ from violation_objects import *
 
 
 class Parsing:
+    #############################################################################
     # Function to parse the total amount of Violations occuring in the data sheet
     def ParseViolations(self):
         violationsList = []
@@ -56,6 +57,7 @@ class Parsing:
         # Save the new workbook as a file
         writeFile.close()
     
+    #######################################################################
     # Function to collect the amount of times an object has had a violation
     def ObjectViolations(self, col, objectName, saveFile):
         list = []
@@ -96,7 +98,7 @@ class Parsing:
             # Save the new file
             writeFile.close()
 
-
+    ######################################################################################
     # Function to get the types of violations with their respective counts with another object associated with it such as counties
     def ListObjectViolations(self, col, objectName, saveFile):
         list = []
@@ -146,8 +148,9 @@ class Parsing:
     # Function to parse data to collect the number of violations occuring at a given time
     def TimeViolations(self, objectName, saveFile):
         list = []
-        with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv', encoding='utf-8', newline='') as file:
-            reader = enumerate(csv.reader(file))
+        lineList = []
+        with open('../../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv') as file:
+            content = file.readlines()
 
             # Read through the time column
             # Save the value as a string then check to see if it is in the form 0000A
@@ -155,10 +158,11 @@ class Parsing:
             # Otherwise set the string variable to "Unclear Time"
             # Then store it in the list if it is not present, while if it is there then add 1 to the violation count 
             time = ""
-            check = 1
-            for i, row in reader:
-                if (i > 0):
-                    timeWord = str(row[19])
+            index = 0
+            for line in content:
+                if (index > 0):
+                    lineList = line.split(',')
+                    timeWord = str(lineList[19])
                     if (len(timeWord) >= 5):
                         if (timeWord[0] == "1" or timeWord[0] == "0"):
                             time = timeWord[0] + timeWord[1] + timeWord[4] + "M"
@@ -172,20 +176,17 @@ class Parsing:
                         list[true].violation += 1
                     else:
                         list.append(ViolationObject(1, time))
-
-            # Open a workbook to save the data
-            wb = Workbook()
-            sheet1 = wb.add_sheet('Sheet 1')
-
-            sheet1.write(0, 0, objectName)
-            sheet1.write(0, 1, 'Violation Counts')
-
-            # Read through the list of times and write them to a file
-            index = 1
-            for v in list:
-                sheet1.write(index, 0, v.object)
-                sheet1.write(index, 1, v.violation)
                 index += 1
 
-            # Save the file
-            wb.save(f"../parsed_data/{saveFile}.xls") 
+            writeFile = open(f"../../parsed_data/{saveFile}.csv", "w")
+
+            writeFile.write(f"{objectName},")
+            writeFile.write("Violation Counts,\n")
+
+            # Write the data to a file to be saved
+            for v in list:
+                writeFile.write(str(v.object) + ",")
+                writeFile.write(str(v.violation) + ",\n")
+
+            # Save the new file
+            writeFile.close()
