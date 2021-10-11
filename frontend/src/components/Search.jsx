@@ -15,7 +15,7 @@ function Search(){
             return
         }
         if (!columns) {
-            alert('Please enter a columns number')
+            alert('Please enter a columns name')
             return
         }
         fetchData()
