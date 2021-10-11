@@ -1,9 +1,16 @@
 import React from "react";
 import "./App.css";
 import { ShowConnection } from "./components/ShowConnection.jsx";
+import Header from "./components/Header"
 
 function App() {
-  return <ShowConnection />;
+  return (
+    <>
+      <Header />
+      <ShowConnection />
+    </>
+  );
+  
 }
 
 export default App;
