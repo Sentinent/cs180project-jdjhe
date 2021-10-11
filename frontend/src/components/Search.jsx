@@ -45,7 +45,7 @@ function Search(){
                     <label>Columns</label>
                     <input
                     type='text'
-                    placeholder='Columns numbers'
+                    placeholder='Columns name'
                     value={columns}
                     onChange={(e) => setColumns(e.target.value)}
                     />
