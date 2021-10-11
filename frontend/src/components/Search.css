@@ -8,3 +8,54 @@
     border-style: solid;
     border-radius: 5px;
 }
+
+
+.add-form {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    margin: 10px 0;
+}
+
+.form-control label {
+    display: block;
+}
+
+.form-control input {
+    width: 80%;
+    height: 30px;
+    margin: 5px;
+    padding: 3px 7px;
+    font-size: 17px;
+}
+
+.form-control-check {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.btn-block {
+    display: block;
+    width: 20%;
+}
+
+.btn-block:hover {
+    background-color: #555;
+    color: white;
+}
