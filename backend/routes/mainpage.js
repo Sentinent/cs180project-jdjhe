@@ -11,7 +11,7 @@ router.route("/data/cols=:columns&page=:pageNum").get((req, res) => {
 
   console.log("requesting data");
   console.log("found server: " + columns + " " + pageNum);
-  res.send("searching for " + columns + " " + pageNum);
+  res.send("searching for columns " + columns + " on page" + pageNum);
 });
 
 module.exports = router;
