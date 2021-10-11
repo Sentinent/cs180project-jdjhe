@@ -1,15 +1,13 @@
 import "./Header.css"
 
-function Header(){
+function Header({onClick, show}){
     return (
-        <ul>
-            <li><a href="#">Most common types of violations</a></li>
-            <li><a href="#">Car brands that get a violation the most</a></li>
-            <li><a href="#">Frequencies of violations given based on time of day</a></li>
-            <li><a href="#">Frequencies of violations given based on month of the year</a></li>
-            <li><a href="#">Repeat offenders</a></li>
-            <li><a href="#">Frequency of violations per county</a></li>
-        </ul>
+        <div className="topNav">
+            <ul>
+                <li><button className="title">NY Parking Violations - Datas</button></li>
+                <li><button onClick={onClick}> Fields of interest</button></li>
+            </ul>
+        </div>
     );
 }
 

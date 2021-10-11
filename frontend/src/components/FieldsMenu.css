@@ -1,0 +1,29 @@
+
+.fielsMenu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    overflow: hidden;
+    background-color: rgb(182, 182, 182);
+}
+
+.fielsMenu li {
+    display: left;
+}
+
+.fielsMenu li button{
+    display: block;
+    background-color: rgb(133, 133, 133);
+    /* block-size: 30px,30px; */
+    border-style: double;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.fielsMenu li button:hover{
+    background-color: rgb(117, 117, 117);
+}
