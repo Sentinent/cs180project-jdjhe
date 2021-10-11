@@ -1,2 +1,6 @@
-
+/datasets
+/backend/data_structures/tests.py
+/backend/data_structures/__pycache__
+/backend/data_structures/parsing_tests.py
+/parsed_data
 .DS_Store
