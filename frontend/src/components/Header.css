@@ -3,26 +3,30 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    /* height: 10%; */
     overflow: hidden;
-    background-color: #333;
+    position: static;
+    background-color: #404040;
 }
 
 .topNav li {
     display: inline;
 }
 
-.topNav li button title {
+.title {
     display: inline;
-    color: rgb(0, 0, 0);
+    background-color: #404040;
+    border: none;
+    color: rgb(255, 255, 255);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 30pt;
+    font-size: 17pt;
 }
 
-.topNav li button{
+.fields{
     display: inline;
-    background-color: #333;
+    background-color: #404040;
     border-style: ridge;
     color: rgb(255, 255, 255);
     text-align: center;
@@ -31,6 +35,6 @@
     font-size: 17pt;
 }
 
-.topNav li button:hover{
-    background-color: rgb(117, 117, 117);
+.fields:hover{
+    background-color: rgb(102, 102, 102);
 }

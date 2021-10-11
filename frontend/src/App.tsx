@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { ShowConnection } from "./components/ShowConnection.jsx";
+import { ShowConnection } from "./components/ShowConnection.jsx"
 import Header from "./components/Header"
-import FieldsMenu from "./components/FieldsMenu";
-import "./App.css";
+import FieldsMenu from "./components/FieldsMenu"
+import Search from "./components/Search.jsx";
+import "./App.css"
 
 function App() {
   const [showInput, setShowInput] = useState(false)
@@ -15,6 +16,7 @@ function App() {
       />
       <div>
         {showInput && <FieldsMenu /> }
+        {showInput && <Search />}
         <ShowConnection />
       </div>
     </>
@@ -22,4 +24,4 @@ function App() {
   
 }
 
-export default App;
+export default App
