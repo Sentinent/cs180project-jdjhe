@@ -67,3 +67,25 @@
     background-color: #555;
     color: white;
 }
+
+.change-page {
+    width: 95%;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+.change-page-block{
+    display: flex;
+    margin: auto;
+    justify-content: center;  
+    align-items: center;  
+}
+.change-page-block button{
+    display: inline-block;
+    font-size: 17px;
+}
+
+.change-page-block p{
+    display: inline;
+    font-size: 20px;
+}

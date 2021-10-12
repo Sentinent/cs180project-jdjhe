@@ -4,7 +4,7 @@ import Result from "./Result";
 import "./Search.css"
 
 function Search(){
-    const [pageNum, setPageNum] = useState("")
+    const [pageNum, setPageNum] = useState("1")
     const [columnName, setColumnName] = useState("")
     const [searchTerms, setSearchTerms] = useState("")
     const [serverReturns, setServerReturns] = useState([
@@ -99,15 +99,18 @@ function Search(){
             "Double Parking Violation": ""
         }
     ])
+    
+    const increasePage = () => {
+        setPageNum(parseInt(pageNum, 10) + 1)
+    }
 
+    const decreasePage = () => {
+        setPageNum(parseInt(pageNum, 10) - 1)
+    }
 
     const onSubmit = (e) => {
         e.preventDefault()
-    
-        if (!pageNum) {
-            alert('Please enter a page number')
-            return
-        }
+        
         if (!columnName) {
             alert('Please enter a columns name')
             return
@@ -116,8 +119,10 @@ function Search(){
             alert('Please enter a search terms')
             return
         }
+
         fetchDatas()
-        setPageNum("")
+
+        setPageNum("1")
         setColumnName("")
         setSearchTerms("")
     }
@@ -150,15 +155,6 @@ function Search(){
                     onChange={(e) => setSearchTerms(e.target.value)}
                     />
                 </div>
-                <div className='form-control'>
-                    <label>Page</label>
-                    <input
-                    type='text'
-                    placeholder='Page Number'
-                    value={pageNum}
-                    onChange={(e) => setPageNum(e.target.value)}
-                    />
-                </div>
         
                 <input type='submit' value='Search' className='btn btn-block' />
             </form>
@@ -186,6 +182,16 @@ function Search(){
                 ) : (
                     'No Result To Show'
                 )}
+            </div>
+            <div className="change-page">
+                <div className="change-page-block">
+                    {/* eslint-disable-next-line*/}
+                    {!(pageNum == "1") ?  (
+                        <button className='btn btn-block' onClick={decreasePage}>&laquo; Previous</button>
+                    ) : <></>}
+                    <p> Page {pageNum} </p>
+                    <button className='btn btn-block' onClick={increasePage}>Next &raquo;</button>
+                </div>
             </div>
         </div>
     );
