@@ -12,31 +12,31 @@
 const Result = ({ server }) => {
     return (
         <tr>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Plate ID"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Registration State"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Issue Date"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Violation Time"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Violation Code"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Vehicle Make"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Vehicle Body Type"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Vehicle Year"]}
             </td>
-            <td key={server["Summons Number"]}>
+            <td>
                 {server["Street Name"]}
             </td>
         </tr>
