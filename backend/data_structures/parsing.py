@@ -102,9 +102,9 @@ class Parsing:
     # Function to get the types of violations with their respective counts with another object associated with it such as counties
     def ListObjectViolations(self, col, objectName, saveFile):
         list = []
-        violationsList = []
-        with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv', encoding='utf-8', newline='') as file:
-            reader = enumerate(csv.reader(file))
+        lineList = []
+        with open('../../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv') as file:
+            content = file.readlines()
 
             """
             Read through the desired Data Column and if we encounter a new value add it to the list
@@ -112,38 +112,38 @@ class Parsing:
             and add it to the value's sublist of violations with their counts
             """
             check = 1
-            for i, row in reader:
-                if (i > 0):
+            index = 0
+            for line in content:
+                if (index > 0):
+                    lineList = line.split(',')
                     for val in list:
-                        if (val.primaryObject == row[col]):
-                            val.addListing(row[5])
+                        if (val.primaryObject == lineList[col]):
+                            if (lineList[5].isnumeric()):
+                                val.addListing(lineList[5])
                             check = 0
                             break
                     if (check == 1):
-                        list.append(ObjectListViolations(row[col]))
-                    check = 1 
+                        list.append(ObjectListViolations(lineList[col]))
+                        if (lineList[5].isnumeric()):
+                            list[len(list) - 1].addListing(lineList[5])
+                    check = 1
+                index += 1 
 
-            # Create a workbook in order to save the data to another file
-            wb = Workbook()
-            sheet1 = wb.add_sheet('Sheet 1')
+            writeFile = open(f"../../parsed_data/{saveFile}.csv", "w")
 
-            sheet1.write(0, 0, objectName)
+            writeFile.write(f"{objectName},\n")
 
-            print(list[0].getListing(0))
-
-            prime_index = 1
             for v in list:
-                sheet1.write(prime_index, 0, v.primaryObject)
-                sheet1.write(prime_index + 1, 0, "Violation Code")
-                sheet1.write(prime_index + 2, 0, "Violation Count")
-                index = 1
+                writeFile.write(str(v.primaryObject) + ",\n")
+                writeFile.write("Violation Code,")
                 for j in v.list:
-                    sheet1.write(prime_index + 1, index, int(j.object))
-                    sheet1.write(prime_index + 2, index, j.violation)
-                    index += 1
-                prime_index += 3
+                    writeFile.write(str(j.object) + ",")
+                writeFile.write("\nViolation Count,")
+                for j in v.list:
+                    writeFile.write(str(j.violation) + ",")
+                writeFile.write("\n")
 
-            wb.save(f"../parsed_data/{saveFile}.xls")
+            writeFile.close()
 
     # Function to parse data to collect the number of violations occuring at a given time
     def TimeViolations(self, objectName, saveFile):
