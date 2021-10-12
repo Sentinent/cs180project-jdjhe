@@ -1,64 +1,115 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import Result from "./Result";
 import "./Search.css"
 
 function Search(){
-    const [pageNum, setPageNum] = useState("");
-    const [columns, setColumns] = useState("");
-    const [serverStr, setServerStr] = useState("");
+    const [pageNum, setPageNum] = useState(1)
+    const [columnName, setColumnName] = useState("Plate ID")
+    const [searchTerms, setSearchTerms] = useState("")
+    const [serverReturns, setServerReturns] = useState([])
 
-    const onSubmit = (e) => {
+    useEffect(() => {
+        if(searchTerms){
+            fetchDatas()
+        }
+        /* eslint-disable-next-line*/
+    }, [pageNum]);
+
+    const onSubmit = async (e) => {
         e.preventDefault()
-    
-        if (!pageNum) {
-            alert('Please enter a page number')
+
+        if (!searchTerms) {
+            setPageNum(0)
+            setColumnName("Plate ID")
+            setSearchTerms("")
+            setServerReturns([])
+            alert('Please enter a search terms')
+            
             return
-        }
-        if (!columns) {
-            alert('Please enter a columns name')
-            return
-        }
-        fetchData()
-        setPageNum("")
-        setColumns("")
+        } 
+        setPageNum(1)
+        setColumnName("Plate ID")
+        setServerReturns([])
+        fetchDatas()
     }
 
-    const fetchData = async () => {
-        const res = await axios("http://localhost:5000/data/cols="+ columns + "&page=" + pageNum)
+    const fetchDatas = async () => {
+        const res = await axios("http://localhost:5000/data/cols="+ columnName + "&page=" + pageNum + "&terms=" + searchTerms)
         console.log(res.data)
-        setServerStr(res.data)
+        setServerReturns(res.data)
     }
 
     return (
         <div className="search">
+            <h3 className="search-title">Search From</h3>
             <form className='add-form' onSubmit={onSubmit}>
                 <div className='form-control'>
-                    <label>Page</label>
-                    <input
-                    type='text'
-                    placeholder='Page Number'
-                    value={pageNum}
-                    onChange={(e) => setPageNum(e.target.value)}
-                    />
+                    <label>Column</label>
+                    <select 
+                        name="Column" 
+                        id="Column"
+                        value={columnName}
+                        onChange={(e) => setColumnName(e.target.value)}
+                    >
+                        <option value="Plate ID">Plate ID</option>
+                        <option value="Registration State">Registration State</option>
+                        <option value="Issue Date">Issue Date</option>
+                        <option value="Violation Time">Violation Time</option>
+                        <option value="Violation Code">Violation Code</option>
+                        <option value="Vehicle Make">Vehicle Make</option>
+                        <option value="Vehicle Body Type">Vehicle Body Type</option>
+                        <option value="Vehicle Year">Vehicle Year</option>
+                        <option value="Street Name">Street Name</option>
+                    </select>
                 </div>
                 <div className='form-control'>
-                    <label>Columns</label>
+                    <label>Search Terms</label>
                     <input
                     type='text'
-                    placeholder='Columns name'
-                    value={columns}
-                    onChange={(e) => setColumns(e.target.value)}
+                    placeholder='Search Terms'
+                    value={searchTerms}
+                    onChange={(e) => setSearchTerms(e.target.value)}
                     />
                 </div>
         
                 <input type='submit' value='Search' className='btn btn-block' />
             </form>
             <div>
-                {serverStr.length > 0 ? (
-                    <p>{serverStr}</p>
+                {serverReturns.length > 0 ? (
+                    <table className="result-table">
+                        <tbody>
+                            <tr>
+                                <th>Plate ID</th>
+                                <th>Registration State</th>
+                                <th>Issue Date</th>
+                                <th>Violation Time</th>
+                                <th>Violation Code</th>
+                                <th>Vehicle Make</th>
+                                <th>Vehicle Body Type</th>
+                                <th>Vehicle Year</th>
+                                <th>Street Name</th>
+                            </tr>
+                            <>
+                                {serverReturns.map((serverReturn) => (
+                                    <Result key={serverReturn["Summons Number"]} server={serverReturn}/>
+                                ))}
+                            </>
+                        </tbody>
+                    </table>
                 ) : (
-                    'No Tasks To Show'
+                    'No Result To Show'
                 )}
+            </div>
+            <div className="change-page">
+                <div className="change-page-block">
+                    {/* eslint-disable-next-line*/}
+                    {(pageNum > 1) ?  (
+                        <button className='btn btn-block' onClick={() => setPageNum(pageNum-1)}>&laquo; Previous</button>
+                    ) : <></>}
+                    <p> Page {pageNum} </p>
+                    <button className='btn btn-block' onClick={() => setPageNum(pageNum+1)}>Next &raquo;</button>
+                </div>
             </div>
         </div>
     );
