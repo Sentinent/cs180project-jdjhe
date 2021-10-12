@@ -1,8 +1,3 @@
-import xlrd
-import openpyxl
-import xlwt
-from xlwt import Workbook
-import csv
 
 #from data_structures.violation_objects import *
 from violation_objects import *
