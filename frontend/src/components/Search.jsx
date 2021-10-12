@@ -5,7 +5,7 @@ import "./Search.css"
 
 function Search(){
     const [pageNum, setPageNum] = useState("1")
-    const [columnName, setColumnName] = useState("")
+    const [columnName, setColumnName] = useState("Plate ID")
     const [searchTerms, setSearchTerms] = useState("")
     const [serverReturns, setServerReturns] = useState([
         {
@@ -110,20 +110,26 @@ function Search(){
 
     const onSubmit = (e) => {
         e.preventDefault()
-        
+
         if (!columnName) {
             alert('Please enter a columns name')
+            setPageNum("1")
+            setColumnName("Plate ID")
+            setSearchTerms("")
             return
         }
         if (!searchTerms) {
             alert('Please enter a search terms')
+            setPageNum("1")
+            setColumnName("Plate ID")
+            setSearchTerms("")
             return
         }
 
         fetchDatas()
 
         setPageNum("1")
-        setColumnName("")
+        setColumnName("Plate ID")
         setSearchTerms("")
     }
 
@@ -139,12 +145,22 @@ function Search(){
             <form className='add-form' onSubmit={onSubmit}>
                 <div className='form-control'>
                     <label>Column</label>
-                    <input
-                    type='text'
-                    placeholder='Column name'
-                    value={columnName}
-                    onChange={(e) => setColumnName(e.target.value)}
-                    />
+                    <select 
+                        name="Column" 
+                        id="Column"
+                        value={columnName}
+                        onChange={(e) => setColumnName(e.target.value)}
+                    >
+                        <option value="Plate ID">Plate ID</option>
+                        <option value="Registration State">Registration State</option>
+                        <option value="Issue Date">Issue Date</option>
+                        <option value="Violation Time">Violation Time</option>
+                        <option value="Violation Code">Violation Code</option>
+                        <option value="Vehicle Make">Vehicle Make</option>
+                        <option value="Vehicle Body Type">Vehicle Body Type</option>
+                        <option value="Vehicle Year">Vehicle Year</option>
+                        <option value="Street Name">Street Name</option>
+                    </select>
                 </div>
                 <div className='form-control'>
                     <label>Search Terms</label>
@@ -159,9 +175,8 @@ function Search(){
                 <input type='submit' value='Search' className='btn btn-block' />
             </form>
             <div>
-                
                 {serverReturns.length > 0 ? (
-                    <table>
+                    <table className="result-table">
                         <tr>
                             <th>Plate ID</th>
                             <th>Registration State</th>

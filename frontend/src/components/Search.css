@@ -27,11 +27,21 @@
 
 .form-control label {
     display: block;
+    padding: 5px;
+    font-size: 17px;
 }
 
 .form-control input {
     width: 80%;
     height: 30px;
+    margin: 5px 5px 5px 5px;
+    padding: 3px 7px;
+    font-size: 17px;
+}
+
+.form-control select {
+    width: 80%;
+    height: 40px;
     margin: 5px;
     padding: 3px 7px;
     font-size: 17px;
@@ -53,7 +63,7 @@
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 17px;
     font-family: inherit;
     cursor: pointer;
 }
@@ -80,12 +90,37 @@
     justify-content: center;  
     align-items: center;  
 }
-.change-page-block button{
-    display: inline-block;
-    font-size: 17px;
-}
 
 .change-page-block p{
     display: inline;
+    padding: 0px 20px;
     font-size: 20px;
+}
+
+.result-table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.result-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.result-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+
+.result-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.result-table tr:hover {background-color: #ddd;}
+
+.result-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #505050;
+  color: white;
 }
