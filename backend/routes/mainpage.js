@@ -1,7 +1,5 @@
-// const {runPy} = require("./python_tools/runPython")
 const router = require("express").Router();
-const {spawn} = require('child_process');
-
+const {spawn} = require("child_process");
 
 router.route("/").get((req, res) => {
   console.log("found server");
@@ -14,29 +12,30 @@ router.route("/data/cols=:columns&page=:pageNum&terms=:searchTerms").get((req, r
   let searchTerms = req.params.searchTerms;
 
   let testObject = ["first", "second"];
-  let dataToSend;
-  // {stdio:['pipe', 'pipe', 'pipe']}
-  console.log("before py");
-  const py = spawn('python3', ['../functions/test.py'], {stdio:['pipe']});
-  // const py = spawn ('ls', ['-l']);
 
-  py.stdout.on('data', function (data) { 
-    console.log('Pipe data from python script ...');
-    console.log("data: " + data)
-    dataToSend = data;
+  // let runPy = new Promise(function(success, nosuccess) {
+  let pyprog = spawn('python3', ['./functions/test.py']);
+
+  pyprog.stdout.on('data', function(data) {
+      console.log("reading stdout data");
+      const msg = String.fromCharCode.apply(null,data);
+      const jjjson = JSON.parse(msg);
+      // console.log("jjjson: ");
+      console.log(jjjson);
+      res.send(jjjson);
+      // success(data);
+  }); 
+
+  pyprog.on('close', (msg) => {
+      console.log("closing py: ${code}");
   });
 
-  // let ttt = py.stdout;
-  // console.log(ttt);
-
-  py.on('close', (code) => {
-    console.log('child process close all stdio with code ${code}');
-    // res.send(dataToSend);
+  pyprog.stderr.on('data',(data) => {
+    console.log("error: " + data);
+      // nosuccess(data);
   });
   
-  // console.log("requesting data"); 
   console.log("found server: " + columns + " " + pageNum + " " + searchTerms);
-  console.log("data to send: " + dataToSend);
   // will use this dummy data to test the front end, until search fully works
   let dummyData = {
     col: columns,
@@ -45,7 +44,8 @@ router.route("/data/cols=:columns&page=:pageNum&terms=:searchTerms").get((req, r
     "reciepe": "ble"
   }
 
-  res.send(dummyData);
+  // res.send(dummyData);
+  // res.send(dataToSend);
   // res.send("searching for columns " + columns + " on page " + pageNum + " for terms " + searchTerms);
 });
 
