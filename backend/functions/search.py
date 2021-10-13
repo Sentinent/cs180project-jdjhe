@@ -1,5 +1,60 @@
 
 
+def simpleSearch(pnum, col, row):
+    """
+    Quick Search Function to find a particular set of rows in a given column
+    """
+    psize = 10
+
+    # Determine the file based on the given page number
+    if (pnum == 1):
+        page = "parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
+    elif (pnum == 2):
+        page = "parking-violations-issued-fiscal-year-2016.csv"
+    elif (pnum == 3):
+        page = "parking-violations-issued-fiscal-year-2018.csv"
+    else:
+        return 0
+    
+    result = []
+
+    with open (f"datasets/{page}") as f:
+        content = f.readlines()
+
+    index = 0
+    searchRow = 0
+    end = 0
+    endSearch = 0
+
+    for val in content:
+        lineL = val.split(',')
+        for l in lineL:
+            if (l == col):
+                colIndex = lineL.index(l)
+                break
+        break
+
+
+
+    for line in content:
+        lineList = line.split(',')
+        if (index == 0):
+            result.append(lineList[colIndex])
+        else:
+            if (endSearch == 1):
+                end += 1
+                result.append(lineList[colIndex])
+            if (searchRow == row - 1):
+                result.append(lineList[colIndex])
+                endSearch = 1
+            if (end >= psize):
+                break
+        searchRow += 1
+        index += 1
+    
+    return result
+
+
 def search(pnum, colNames, searchList):
     """
     Function to search for specific columns and parameters for a given csv dataset
