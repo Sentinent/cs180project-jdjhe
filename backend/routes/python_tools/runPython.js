@@ -1,6 +1,6 @@
 let runPy = new Promise(function(success, nosuccess) {
     const {spawn} = require('child_process');
-    const pyprog = spawn('python3', ['../../pycode/test.py']);
+    const pyprog = spawn('python3', ['../../functions/test.py']);
 
     pyprog.stdout.on('data', function(data) {
         success(data);
