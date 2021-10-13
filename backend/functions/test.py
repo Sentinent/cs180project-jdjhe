@@ -5,7 +5,21 @@
 
 # return run()
 
-import "../../data_structures/parsing.py"
+# import "../../data_structures/parsing.py"
+# import "search.py"
+import sys
+import json
 
-parser = new Parsing()
-parser.ParseViolations()
+def call()  :
+    print("sys: ")
+    print(sys.argv)
+    return "python test code ran"
+
+value = {
+    "language" : "english",
+    "name" : "justin",
+    "price" : 45
+}
+
+# print (json.dumps(value))
+print (69)

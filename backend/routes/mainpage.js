@@ -1,5 +1,7 @@
-const {runPy} = require("./python_tools/runPython")
+// const {runPy} = require("./python_tools/runPython")
 const router = require("express").Router();
+const {spawn} = require('child_process');
+
 
 router.route("/").get((req, res) => {
   console.log("found server");
@@ -11,20 +13,36 @@ router.route("/data/cols=:columns&page=:pageNum&terms=:searchTerms").get((req, r
   let pageNum = req.params.pageNum;
   let searchTerms = req.params.searchTerms;
 
-  console.log("requesting data");
-  console.log("found server: " + columns + " " + pageNum + " " + searchTerms);
-  
-  // calls python code
-  runPy.then(function(fromRunpy) {
-    console.log(fromRunpy);
-    res.send(fromRunpy);
-  }).catch(err => console.log("python error: " + err));
+  let testObject = ["first", "second"];
+  let dataToSend;
+  // {stdio:['pipe', 'pipe', 'pipe']}
+  console.log("before py");
+  const py = spawn('python3', ['../functions/test.py'], {stdio:['pipe']});
+  // const py = spawn ('ls', ['-l']);
 
+  py.stdout.on('data', function (data) { 
+    console.log('Pipe data from python script ...');
+    console.log("data: " + data)
+    dataToSend = data;
+  });
+
+  // let ttt = py.stdout;
+  // console.log(ttt);
+
+  py.on('close', (code) => {
+    console.log('child process close all stdio with code ${code}');
+    // res.send(dataToSend);
+  });
+  
+  // console.log("requesting data"); 
+  console.log("found server: " + columns + " " + pageNum + " " + searchTerms);
+  console.log("data to send: " + dataToSend);
   // will use this dummy data to test the front end, until search fully works
   let dummyData = {
     col: columns,
     pg: pageNum,
-    search: searchTerms
+    search: searchTerms,
+    "reciepe": "ble"
   }
 
   res.send(dummyData);
