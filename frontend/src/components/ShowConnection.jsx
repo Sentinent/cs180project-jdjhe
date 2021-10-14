@@ -1,22 +1,24 @@
-import React, { Component } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-export class ShowConnection extends Component {
-  constructor(props) {
-    super(props);
+function ShowConnection(){
+  const [Connected, setConnect] = useState("no connection");
 
-    this.state = {
-      msg: "no connection",
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        "http://localhost:5000/"
+      );
+
+      setConnect(result.data);
     };
+    fetchData();
+  }, []);
 
-    axios.get("http://localhost:5000/").then((res) => {
-      console.log("called backend");
-      this.setState({ msg: res.data });
-    });
-    console.log(this.state.msg);
-  }
-
-  render() {
-    return <h1>{this.state.msg}</h1>;
-  }
+  return(
+    <h1>{Connected}</h1>
+  );
 }
+
+
+export default ShowConnection
