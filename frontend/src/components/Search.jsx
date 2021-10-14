@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Result from "./Result";
-import "./Search.css"
+import "./Search.css";
+import { Button, Row, Col, FloatingLabel, Form } from 'react-bootstrap';
 
-function Search(){
+function Search() {
     const [pageNum, setPageNum] = useState(1)
     const [columnName, setColumnName] = useState("Plate ID")
     const [searchTerms, setSearchTerms] = useState("temp")
     const [serverReturns, setServerReturns] = useState([])
 
     useEffect(() => {
-        if(searchTerms){
+        if (searchTerms) {
             fetchDatas()
         }
         /* eslint-disable-next-line*/
@@ -18,6 +19,7 @@ function Search(){
 
     const onSubmit = async (e) => {
         e.preventDefault()
+
 
         // if (!searchTerms) {
         //     setPageNum(0)
@@ -32,14 +34,16 @@ function Search(){
     }
 
     const fetchDatas = async () => {
-        const res = await axios("http://localhost:5000/data/cols="+ columnName + "&page=" + pageNum + "&terms=" + searchTerms)
+        const res = await axios("http://localhost:5000/data/cols=" + columnName + "&page=" + pageNum + "&terms=" + searchTerms)
         console.log(res.data)
         setServerReturns(res.data)
     }
 
     return (
         <div className="search">
-            <h3 className="search-title">Search From</h3>
+            <Row>
+                <h3 className="search-title">Search From</h3>
+            </Row>
             <form className='add-form' onSubmit={onSubmit}>
                 <div className='form-control'>
                     <label>Column</label>
@@ -101,14 +105,14 @@ function Search(){
             <div className="change-page">
                 <div className="change-page-block">
                     {/* eslint-disable-next-line*/}
-                    {(pageNum > 1) ?  (
-                        <button className='btn btn-block' onClick={() => setPageNum(pageNum-1)}>&laquo; Previous</button>
+                    {(pageNum > 1) ? (
+                        <Button className='btn btn-block' onClick={() => setPageNum(pageNum - 1)}>&laquo; Previous</Button>
                     ) : <></>}
                     <p> Page {pageNum} </p>
-                    <button className='btn btn-block' onClick={() => setPageNum(pageNum+1)}>Next &raquo;</button>
+                    <button className='btn btn-block' onClick={() => setPageNum(pageNum + 1)}>Next &raquo;</button>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

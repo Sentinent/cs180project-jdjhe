@@ -1,10 +1,11 @@
 import "./Header.css"
 
-function Header({onClick, show}){
+
+function Header({ onClick, show }) {
     return (
         <div className="topNav">
             <ul>
-                <li><button className="title">NY Parking Violations - Datas</button></li>
+                <li><button className="title">NY Parking Violations - Data</button></li>
                 <li><button className="fields" onClick={onClick}>Search</button></li>
             </ul>
         </div>
