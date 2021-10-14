@@ -6,7 +6,7 @@ import "./Search.css"
 function Search(){
     const [pageNum, setPageNum] = useState(1)
     const [columnName, setColumnName] = useState("Plate ID")
-    const [searchTerms, setSearchTerms] = useState("")
+    const [searchTerms, setSearchTerms] = useState("temp")
     const [serverReturns, setServerReturns] = useState([])
 
     useEffect(() => {
@@ -19,18 +19,15 @@ function Search(){
     const onSubmit = async (e) => {
         e.preventDefault()
 
-        if (!searchTerms) {
-            setPageNum(0)
-            setColumnName("Plate ID")
-            setSearchTerms("")
-            setServerReturns([])
-            alert('Please enter a search terms')
+        // if (!searchTerms) {
+        //     setPageNum(0)
+        //     setColumnName("Plate ID")
+        //     setServerReturns([])
+        //     alert('Please enter a search terms')
             
-            return
-        } 
+        //     return
+        // } 
         setPageNum(1)
-        setColumnName("Plate ID")
-        setServerReturns([])
         fetchDatas()
     }
 
@@ -63,7 +60,7 @@ function Search(){
                         <option value="Street Name">Street Name</option>
                     </select>
                 </div>
-                <div className='form-control'>
+                {/* <div className='form-control'>
                     <label>Search Terms</label>
                     <input
                     type='text'
@@ -71,7 +68,7 @@ function Search(){
                     value={searchTerms}
                     onChange={(e) => setSearchTerms(e.target.value)}
                     />
-                </div>
+                </div> */}
         
                 <input type='submit' value='Search' className='btn btn-block' />
             </form>
@@ -80,15 +77,15 @@ function Search(){
                     <table className="result-table">
                         <tbody>
                             <tr>
-                                <th>Plate ID</th>
-                                <th>Registration State</th>
+                                {/* <th>{columnName}</th> */}
+                                {/* <th>Registration State</th>
                                 <th>Issue Date</th>
                                 <th>Violation Time</th>
                                 <th>Violation Code</th>
                                 <th>Vehicle Make</th>
                                 <th>Vehicle Body Type</th>
                                 <th>Vehicle Year</th>
-                                <th>Street Name</th>
+                                <th>Street Name</th> */}
                             </tr>
                             <>
                                 {serverReturns.map((serverReturn) => (

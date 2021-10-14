@@ -13,9 +13,9 @@ const Result = ({ server }) => {
     return (
         <tr>
             <td>
-                {server["Plate ID"]}
+                {server}
             </td>
-            <td>
+            {/* <td>
                 {server["Registration State"]}
             </td>
             <td>
@@ -38,7 +38,7 @@ const Result = ({ server }) => {
             </td>
             <td>
                 {server["Street Name"]}
-            </td>
+            </td> */}
         </tr>
     )
 }
