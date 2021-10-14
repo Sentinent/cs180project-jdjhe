@@ -159,5 +159,5 @@ def search(pnum, colNames, searchList):
     if (len(result) == 0):
         return 0
 
-    return (json.dumps(result))
+    print (json.dumps(result))
                 

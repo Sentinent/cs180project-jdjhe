@@ -11,10 +11,10 @@ router.route("/data/cols=:columns&page=:pageNum&terms=:searchTerms").get((req, r
   let pageNum = req.params.pageNum;
   let searchTerms = req.params.searchTerms;
 
-  let testObject = ["first", "second"];
+  let Object = [pageNum, columns, searchTerms];
 
   // let runPy = new Promise(function(success, nosuccess) {
-  let pyprog = spawn('python3', ['./functions/test.py']);
+  let pyprog = spawn('python3', ['./functions/main.py', pageNum, columns, searchTerms]);
 
   pyprog.stdout.on('data', function(data) {
       console.log("reading stdout data");
