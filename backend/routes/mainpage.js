@@ -13,12 +13,15 @@ router.route("/data/cols=:columns&page=:pageNum&terms=:searchTerms").get((req, r
 
   let Object = [pageNum, columns, searchTerms];
 
-  // let runPy = new Promise(function(success, nosuccess) {
-  let pyprog = spawn('python3', ['./functions/main.py', pageNum, columns, searchTerms]);
+  // call simple search
+  let pyprog = spawn('python3', ['./functions/main.py', Number(pageNum), columns, 20]);
 
   pyprog.stdout.on('data', function(data) {
       console.log("reading stdout data");
-      const msg = String.fromCharCode.apply(null,data);
+      console.log(data);
+      const msg = String.fromCharCode(...data);
+      console.log(msg);
+      // const msg = String.fromCharCode.apply(null,data);
       const jjjson = JSON.parse(msg);
       console.log("jjjson: ");
       console.log(jjjson);
