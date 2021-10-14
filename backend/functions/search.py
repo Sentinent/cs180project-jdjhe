@@ -54,7 +54,7 @@ def simpleSearch(pnum, col, row):
         searchRow += 1
         index += 1
     
-    print(json.dumps(result))
+    return result
 
 
 def search(pnum, colNames, searchList):

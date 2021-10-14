@@ -20,7 +20,7 @@ router.route("/data/cols=:columns&page=:pageNum&terms=:searchTerms").get((req, r
       console.log("reading stdout data");
       const msg = String.fromCharCode.apply(null,data);
       const jjjson = JSON.parse(msg);
-      // console.log("jjjson: ");
+      console.log("jjjson: ");
       console.log(jjjson);
       res.send(jjjson);
       // success(data);

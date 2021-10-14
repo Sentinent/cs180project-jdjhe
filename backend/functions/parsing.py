@@ -19,7 +19,7 @@ class Parsing:
 
         #with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv', encoding='utf-8', newline='') as file:
             #reader = enumerate(csv.reader(file))
-        with open('../../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv') as f:
+        with open('../datasets/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv') as f:
             content = f.readlines()
         
 
@@ -37,7 +37,7 @@ class Parsing:
                         violationsList[int(var) - 1] += 1
                 index += 1
 
-        writeFile = open("../../parsed_data/ViolationCounts.csv", "w")
+        writeFile = open("../parsed_data/ViolationCounts.csv", "w")
 
         writeFile.write("Violation Code,")
         writeFile.write("Counts,\n")
