@@ -24,6 +24,8 @@ def parsing_json():
     # pnum is an indicator for what page of data to read from
     pnum = 1
 
+    fileNumber = 1
+
     # The While loop is looping through the multiple datasets to be parsed
     while pnum < 2:
 
@@ -69,18 +71,26 @@ def parsing_json():
 
                 # Append a copy of the dictionary to the final list of dictionary objects 
                 result.append(copy.deepcopy(violation))
+
+                # Write the list of violation dictionary objects to a json object
+                if (len(result) >= 2500000):
+                    jsonString = json.dumps(result, indent = 4)
+                    jsonFile = open(f"parsed_data/data{fileNumber}.json", "w")
+                    jsonFile.write(jsonString)
+                    jsonFile.close()
+                    result.clear()
+                    fileNumber += 1
             skipL1 += 1
-        
+
+        jsonString = json.dumps(result, indent = 4)
+        jsonFile = open(f"parsed_data/data{fileNumber}.json", "w")
+        jsonFile.write(jsonString)
+        jsonFile.close()
+        result.clear()
+        fileNumber += 1
+
         # Increment the page counter
         pnum += 1
-
-    # Write the list of violation dictionary objects to a json object
-    jsonString = json.dumps(result, indent = 4)
-    jsonFile = open("parsed_data/data.json", "w")
-    jsonFile.write(jsonString)
-    jsonFile.close()
-                    
-
     
 
 
