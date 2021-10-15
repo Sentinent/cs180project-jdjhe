@@ -31,7 +31,7 @@ def parsing_json():
 
         # Determine which dataset to read through based on pnum
         if (pnum == 1):
-            page = "parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
+            page = "/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
         elif (pnum == 2):
             page = "parking-violations-issued-fiscal-year-2016.csv"
         elif (pnum == 3):
@@ -43,7 +43,7 @@ def parsing_json():
         result = []
 
         # Opening up the desired dataset
-        with open (f"datasets/{page}") as file:
+        with open (f"../datasets/{page}") as file:
             content = file.readlines()
 
         # Desired Columns
@@ -81,6 +81,7 @@ def parsing_json():
                     result.clear()
                     fileNumber += 1
             skipL1 += 1
+
 
         jsonString = json.dumps(result, indent = 4)
         jsonFile = open(f"parsed_data/data{fileNumber}.json", "w")
