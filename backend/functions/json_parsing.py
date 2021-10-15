@@ -29,7 +29,7 @@ def parsing_json():
 
         # Determine which dataset to read through based on pnum
         if (pnum == 1):
-            page = "parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
+            page = "/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
         elif (pnum == 2):
             page = "parking-violations-issued-fiscal-year-2016.csv"
         elif (pnum == 3):
@@ -41,7 +41,7 @@ def parsing_json():
         result = []
 
         # Opening up the desired dataset
-        with open (f"datasets/{page}") as file:
+        with open (f"../datasets/{page}") as file:
             content = file.readlines()
 
         # Desired Columns
@@ -76,7 +76,7 @@ def parsing_json():
 
     # Write the list of violation dictionary objects to a json object
     jsonString = json.dumps(result, indent = 4)
-    jsonFile = open("parsed_data/data.json", "w")
+    jsonFile = open("../parsed_data/data.json", "w")
     jsonFile.write(jsonString)
     jsonFile.close()
                     
