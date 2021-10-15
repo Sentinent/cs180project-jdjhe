@@ -20,7 +20,7 @@ def simpleSearch(pnum, col, row):
     
     result = []
 
-    with open (f"../datasets/{page}") as f:
+    with open (f"datasets/{page}") as f:
         content = f.readlines()
 
     index = 0
@@ -159,5 +159,5 @@ def search(pnum, colNames, searchList):
     if (len(result) == 0):
         return 0
 
-    print (json.dumps(result))
+    return (json.dumps(result))
                 

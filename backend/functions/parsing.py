@@ -2,8 +2,6 @@
 #from data_structures.violation_objects import *
 from violation_objects import *
 
-
-
 class Parsing:
     #############################################################################
     # Function to parse the total amount of Violations occuring in the data sheet

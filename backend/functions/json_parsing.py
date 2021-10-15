@@ -1,14 +1,12 @@
 import copy
 import json
 
-def find_title(list, index):
-    for val in list:
-        if (val == index):
-            return list.index(val)
-    return -1
-
+"""
+Function to collect desired data through the given csv datasets
+"""
 def parsing_json():
 
+    # Dictionary Object to hold the data needed from the datasets
     violation = {
     "Summons Number": "123456789",
     "Plate ID": "FCJ5493",
@@ -23,8 +21,13 @@ def parsing_json():
     "County": "K",
     }
 
+    # pnum is an indicator for what page of data to read from
     pnum = 1
+
+    # The While loop is looping through the multiple datasets to be parsed
     while pnum < 2:
+
+        # Determine which dataset to read through based on pnum
         if (pnum == 1):
             page = "parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
         elif (pnum == 2):
@@ -34,21 +37,24 @@ def parsing_json():
         else:
             return 0
     
+        # A list to hold the many dictionary objects
         result = []
 
-        with open (f"datasets/{page}") as f:
-            titles = f.readline()
-
+        # Opening up the desired dataset
         with open (f"datasets/{page}") as file:
             content = file.readlines()
 
-        lineOne = titles.split(',')
-        titleIndexList = [0, 1, 2, 4, 19, 5, 7, 6, 35, 24, 21]
+        # Desired Columns
+        #titleIndexList = [0, 1, 2, 4, 19, 5, 7, 6, 35, 24, 21]
 
+        # skipL1 is an index counter intended to skip the first line which holds the titles 
         skipL1 = 0
+        # Read through each line in the given dataset 
         for line in content:
+            # Turn the given line into a list to be manipulated
             lineList = line.split(',')
             if (skipL1 > 0):
+                # Assign the right values to the base dictionary object
                 violation["Summons Number"] = lineList[0]
                 violation["Plate ID"] = lineList[1]
                 violation["Registration State"] = lineList[2]
@@ -61,11 +67,14 @@ def parsing_json():
                 violation["Street Name"] = lineList[24]
                 violation["Violation County"] = lineList[21]
 
+                # Append a copy of the dictionary to the final list of dictionary objects 
                 result.append(copy.deepcopy(violation))
             skipL1 += 1
-
+        
+        # Increment the page counter
         pnum += 1
 
+    # Write the list of violation dictionary objects to a json object
     jsonString = json.dumps(result, indent = 4)
     jsonFile = open("parsed_data/data.json", "w")
     jsonFile.write(jsonString)
