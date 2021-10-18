@@ -20,7 +20,8 @@ app.use("/insert", insert);
 app.use("/delete", del);
 app.use("/update", update);
 
-let JSONDATA = {};
+let JSONDATA;
+
 fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   console.log("checking if file exists");
   if (err) {
@@ -38,20 +39,15 @@ fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   }
 
   console.log("found data json files, loading into memory...");
-
-  const numFiles = 8;
-  for (let i = 1; i <= numFiles; ++i) {
-    console.log("reading data" + i + ".json");
-    fs.readFile("../parsed_data/data" + i + ".json", 'utf8', function (err, data) {
-      if (err) {
-        console.log(err);
-      } else {
-        const content = String.fromCharCode(...data)
-        JSONDATA.append(JSON.parse(content));
-        console.log("finished data" + i);
-      }
-    });
-  }  
+  
+  'use strict';
+  let num = 2;
+  JSONDATA = require('../parsed_data/data1.json');
+  while (num != 9){
+      JSONDATA = JSONDATA.concat(require('../parsed_data/data' + num +'.json'));
+      num++;
+  }
+  console.log("Sucessfully loaded " + JSONDATA.length + " rows into memory");
   
 });
 
