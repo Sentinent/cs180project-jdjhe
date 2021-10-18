@@ -10,7 +10,7 @@ def parsing_json():
     violation = {
     "Summons Number": "123456789",
     "Plate ID": "FCJ5493",
-    "Registration": "NY",
+    "Registration State": "NY",
     "Issue Date": "1970-12-18T00:00:00.000",
     "Violation Time": "0358A",
     "Violation Code": 20,
@@ -18,7 +18,7 @@ def parsing_json():
     "Vehicle Body Type": "SUBN",
     "Vehicle Year": "2013",
     "Street Name": "E 5 ST",
-    "County": "K",
+    "County County": "K",
     }
 
     # pnum is an indicator for what page of data to read from
@@ -75,7 +75,7 @@ def parsing_json():
                 # Write the list of violation dictionary objects to a json object
                 if (len(result) >= 2500000):
                     jsonString = json.dumps(result, indent = 4)
-                    jsonFile = open(f"parsed_data/data{fileNumber}.json", "w")
+                    jsonFile = open(f"../parsed_data/data{fileNumber}.json", "w")
                     jsonFile.write(jsonString)
                     jsonFile.close()
                     result.clear()
@@ -84,7 +84,7 @@ def parsing_json():
 
 
         jsonString = json.dumps(result, indent = 4)
-        jsonFile = open(f"parsed_data/data{fileNumber}.json", "w")
+        jsonFile = open(f"../parsed_data/data{fileNumber}.json", "w")
         jsonFile.write(jsonString)
         jsonFile.close()
         result.clear()
