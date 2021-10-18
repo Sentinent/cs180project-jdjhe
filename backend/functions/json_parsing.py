@@ -73,7 +73,7 @@ def parsing_json():
                 result.append(copy.deepcopy(violation))
 
                 # Write the list of violation dictionary objects to a json object
-                if (len(result) >= 2500000):
+                if (len(result) >= 1200000):
                     jsonString = json.dumps(result, indent = 4)
                     jsonFile = open(f"../parsed_data/data{fileNumber}.json", "w")
                     jsonFile.write(jsonString)
