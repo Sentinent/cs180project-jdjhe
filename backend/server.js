@@ -42,13 +42,15 @@ fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   
   'use strict';
   let num = 2;
+  console.log("loading file 1");
   JSONDATA = require('../parsed_data/data1.json');
-  while (num != 9){
+  while (num != 2){
+      console.log("loading file " + num);
       JSONDATA = JSONDATA.concat(require('../parsed_data/data' + num +'.json'));
       num++;
   }
   console.log("Sucessfully loaded " + JSONDATA.length + " rows into memory");
-  
+  module.exports = JSONDATA;
 });
 
 app.listen(port, () => {
