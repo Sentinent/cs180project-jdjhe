@@ -17,6 +17,6 @@
 
 from json_parsing import *
 # print("before")
-# parsing_json()
+parsing_json()
 # print("after")
-print("create json")
+# print("create json")

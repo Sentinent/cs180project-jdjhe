@@ -4,7 +4,7 @@
   "description": "backend for CS 180 project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon --max-old-space-size=8192 server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write '**/*.js'"
   },
