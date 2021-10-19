@@ -1,8 +1,10 @@
 /datasets
-/backend/data_structures/tests.py
-/backend/data_structures/__pycache__
-/backend/data_structures/parsing_tests.py
+/backend/functions/parsing_tests.py
 /parsed_data
 /backend/functions/__pycache__
 /backend/functions/search_tests.py
+/backend/datasets
+/backend/parsed_data
 .DS_Store
+
+/*/package-lock.json
