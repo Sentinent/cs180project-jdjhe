@@ -22,7 +22,7 @@ app.use("/update", update);
 
 let JSONDATA;
 
-fs.access("./parsed_data/data8.json", fs.constants.F_OK, (err) => {
+fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   console.log("checking if file exists");
   if (err) {
     console.log("file does not exist");
@@ -43,10 +43,10 @@ fs.access("./parsed_data/data8.json", fs.constants.F_OK, (err) => {
   'use strict';
   let num = 2;
   console.log("loading file 1");
-  JSONDATA = require('./parsed_data/data1.json');
+  JSONDATA = require('../parsed_data/data1.json');
   while (num < 9){
       console.log("loading file " + num);
-      JSONDATA = JSONDATA.concat(require('./parsed_data/data' + num +'.json'));
+      JSONDATA = JSONDATA.concat(require('../parsed_data/data' + num +'.json'));
       num++;
   }
   console.log("Sucessfully loaded " + JSONDATA.length + " rows into memory");
