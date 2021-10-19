@@ -1,3 +1,5 @@
+const JSONDATA = require("../server");
+
 const router = require("express").Router();
 
 // this route is used for debugging
@@ -21,7 +23,6 @@ router
       "county=:county"
   )
   .get((req, res) => {
-    console.log("inside insert route");
 
     const data = {
       "Summons Number": req.params.sumNum,
@@ -37,8 +38,25 @@ router
       "Violation County": req.params.county,
     };
 
-    res.send(data);
-    // res.send("you tried to insert" + JSON.parse(data));
+    console.log("\nInsert function:")
+    
+    let JSONDATA = require('../server.js')
+
+    console.log("Wants to insert " + data["Summons Number"])
+    const index = JSONDATA.findIndex(x => x["Summons Number"] == data["Summons Number"]);
+    if(index > -1){
+      console.log("index = " + index)
+      console.log("Summons Number already exist")
+      res.send("Summons Number already exist")
+    } else {
+      console.log("index = " + index)
+      JSONDATA.push(data)
+      console.log("Data added to database")
+      res.send("Data added to database");
+    }
+    console.log("After insertion length:" + JSONDATA.length)
+    console.log("Insert function ended\n")
+    
   });
 
 module.exports = router;
