@@ -31,7 +31,7 @@ def parsing_json():
 
         # Determine which dataset to read through based on pnum
         if (pnum == 1):
-            page = "/parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
+            page = "parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv"
         elif (pnum == 2):
             page = "parking-violations-issued-fiscal-year-2016.csv"
         elif (pnum == 3):
