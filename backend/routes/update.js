@@ -49,9 +49,10 @@ router
       res.send("Summons Number does not exist")
     } else {
       console.log("index = " + index)
-      // JSONDATA.push(data)
+      console.log("before :")
       console.log(JSONDATA[index])
       JSONDATA[index] = data
+      console.log("after :")
       console.log(JSONDATA[index])
       console.log("Data has been updated")
       res.send("Data has been updated");
