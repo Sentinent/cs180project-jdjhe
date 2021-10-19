@@ -3,8 +3,8 @@
 /parsed_data
 /backend/functions/__pycache__
 /backend/functions/search_tests.py
-/backend/datasets
-/backend/parsed_data
+/backend/datasets/*
+/backend/parsed_data/*
 .DS_Store
 
 /*/package-lock.json
