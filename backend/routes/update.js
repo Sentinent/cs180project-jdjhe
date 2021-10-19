@@ -22,7 +22,6 @@ router
       "county=:county"
   )
   .get((req, res) => {
-    console.log("about to do some updating");
 
     const data = {
       "Summons Number": req.params.sumNum,
@@ -38,7 +37,27 @@ router
       "Violation County": req.params.county,
     };
 
-    res.send(data);
+    console.log("\nUpdate function:")
+    
+    let JSONDATA = require('../server.js')
+
+    console.log("Wants to update " + data["Summons Number"])
+    const index = JSONDATA.findIndex(x => x["Summons Number"] == data["Summons Number"]);
+    if(index == -1){
+      console.log("index = " + index)
+      console.log("Summons Number does not exist")
+      res.send("Summons Number does not exist")
+    } else {
+      console.log("index = " + index)
+      // JSONDATA.push(data)
+      console.log(JSONDATA[index])
+      JSONDATA[index] = data
+      console.log(JSONDATA[index])
+      console.log("Data has been updated")
+      res.send("Data has been updated");
+    }
+    console.log("After Update length:" + JSONDATA.length)
+    console.log("Update function ended\n")
   });
 
 module.exports = router;
