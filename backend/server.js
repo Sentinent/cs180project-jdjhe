@@ -10,12 +10,12 @@ const port = 5000;
 app.use(express.json());
 app.use(cors());
 
-const mainpage = require("./routes/mainpage");
+const search = require("./routes/search");
 const insert = require("./routes/insert");
 const del = require("./routes/delete");
 const update = require("./routes/update");
 
-app.use("/", mainpage);
+app.use("/", search);
 app.use("/insert", insert);
 app.use("/delete", del);
 app.use("/update", update);
