@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Result from "../components/Result.jsx";
-import "../components/Search.css";
+import "./SearchHome.css";
 import "../App.css"
-import { Button, Container, Row, Col, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Container, Row, Col, FloatingLabel, Form, Table } from 'react-bootstrap';
 
 function SearchHome() {
     const [pageNum, setPageNum] = useState(1)
-    const [columnName, setColumnName] = useState("Plate ID")
+    const [columnName, setColumnName] = useState("Choose one")
     const [searchTerms, setSearchTerms] = useState("")
     const [serverReturns, setServerReturns] = useState([])
 
@@ -21,18 +20,7 @@ function SearchHome() {
     const onSubmit = async (e) => {
         e.preventDefault()
 
-        if (!searchTerms) {
-            setPageNum(0)
-            setColumnName("Plate ID")
-            setSearchTerms("")
-            setServerReturns([])
-            alert('Please enter a search term')
-
-            return
-        }
         setPageNum(1)
-        setColumnName("Plate ID")
-        setServerReturns([])
         fetchDatas()
     }
 
@@ -46,7 +34,9 @@ function SearchHome() {
         <div>
             <Container>
                 <div>
-                    <h1 className="text-center">Search</h1>
+                    <div>
+                        <h1 className="text-center">Search</h1>
+                    </div>
                 </div>
                 <Form onSubmit={onSubmit}>
                     <Row>
@@ -55,7 +45,8 @@ function SearchHome() {
                             <div className="center-box">
                                 <FloatingLabel controlId="floatingSelectGrid" label="Column">
                                     <Form.Select aria-label="Floating label select example" onChange={(e) => setColumnName(e.target.value)} name="Column" id="Column" value={columnName}>
-                                        <option value="Select One">Choose One</option>
+                                        <option value="Choose One">Choose One</option>
+                                        <option value="Summons Number">Summons Number</option>
                                         <option value="Plate ID">Plate ID</option>
                                         <option value="Registration State">Registration State</option>
                                         <option value="Issue Date">Issue Date</option>
@@ -65,6 +56,7 @@ function SearchHome() {
                                         <option value="Vehicle Body Type">Vehicle Body Type</option>
                                         <option value="Vehicle Year">Vehicle Year</option>
                                         <option value="Street Name">Street Name</option>
+                                        <option value="Violation County">Violation County</option>
                                     </Form.Select>
                                 </FloatingLabel>
                             </div>
@@ -86,10 +78,11 @@ function SearchHome() {
                     </Row>
                 </Form>
 
-                {serverReturns.length > 0 ? (
-                    <table className="text-center result-table">
-                        <tbody>
+                {serverReturns ? (
+                    <Table striped bordered hover className="text-center">
+                        <thead>
                             <tr>
+                                <th>Summons Number</th>
                                 <th>Plate ID</th>
                                 <th>Registration State</th>
                                 <th>Issue Date</th>
@@ -99,14 +92,30 @@ function SearchHome() {
                                 <th>Vehicle Body Type</th>
                                 <th>Vehicle Year</th>
                                 <th>Street Name</th>
+                                <th>Violation County</th>
                             </tr>
-                            <>
-                                {serverReturns.map((serverReturn) => (
-                                    <Result key={serverReturn["Summons Number"]} server={serverReturn} />
-                                ))}
-                            </>
+                        </thead>
+                        <tbody>
+                            {serverReturns.map(el => {
+                                return (
+                                    <tr>
+                                        <td>{el["Summons Number"]}</td>
+                                        <td>{el["Plate ID"]}</td>
+                                        <td>{el["Registration State"]}</td>
+                                        <td>{el["Issue Date"]}</td>
+                                        <td>{el["Violation Time"]}</td>
+                                        <td>{el["Violation Code"]}</td>
+                                        <td>{el["Vehicle Make"]}</td>
+                                        <td>{el["Vehicle Body Type"]}</td>
+                                        <td>{el["Vehicle Year"]}</td>
+                                        <td>{el["Street Name"]}</td>
+                                        <td>{el["Violation County"]}</td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
-                    </table>
+
+                    </Table>
                 ) : (
                     <div className="text-center">No Result To Show</div>
                 )}

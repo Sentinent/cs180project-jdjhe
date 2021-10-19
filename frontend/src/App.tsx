@@ -1,30 +1,18 @@
 import React from "react";
 // import { useState } from "react";
 // import ShowConnection from "./components/ShowConnection.jsx"
-// import Header from "./components/Header"
-// import FieldsMenu from "./components/FieldsMenu"
-// import Search from "./components/Search.jsx";
 import ToolBar from "./components/ToolBar";
 import SearchHome from "./pages/SearchHome";
+// import Insert from "./components/Insert";
 import "./App.css";
 
 function App() {
   // const [showInput, setShowInput] = useState(false);
   return (
     <>
-      {/* <Header
-        onClick={() => setShowInput(!showInput)}
-        show={showInput}
-      /> */}
       <ToolBar />
       <SearchHome />
-      {/* 
-      <div>
-        {showInput && <FieldsMenu />}
-        {showInput && <Search />}
-        <ShowConnection />
-      </div> */}
-
+      {/* <Insert /> */}
     </>
   );
 
