@@ -1,0 +1,53 @@
+.datagrid * {
+    margin: 0;
+    padding: 0;
+}
+
+.datagrid {
+    background: lightgrey;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* header row */
+.datagrid input {
+    width: 90%;
+}
+
+/* each row of the table */
+.datagrid span {
+    padding: 0.5rem 0.5rem;
+}
+
+.datagrid span:nth-child(even) {
+    background: grey;
+}
+/* each cell in the table */
+.datagrid span p {
+    /* width: 30%; */
+
+    display: inline-block;
+}
+
+/* last cell in the table */
+.datagrid .actions {
+    width: 64px;
+}
+
+/* svg icons */
+.datagrid .icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* footer row things */
+.datagrid .right-arrow {
+    transform: rotate(180deg);
+}
+
+.datagrid span:last-child .actions {
+    float: right;
+}
