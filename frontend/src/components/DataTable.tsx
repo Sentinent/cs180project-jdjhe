@@ -1,111 +1,285 @@
-import React from 'react';
-import './DataTable.css';
+import React, {
+  Dispatch,
+  FormEvent,
+  ReactElement,
+  useEffect,
+  useReducer,
+} from "react";
+import EntryModal from "./EntryModal";
+import "./DataTable.css";
 
-import PencilSvg from './assets/pencil.svg';
-import TrashSvg from './assets/trash.svg';
-import LeftArrowSvg from './assets/left-arrow.svg';
-import PlusSvg from './assets/plus.svg';
+import PencilSvg from "./assets/pencil.svg";
+import TrashSvg from "./assets/trash.svg";
+import LeftArrowSvg from "./assets/left-arrow.svg";
+import PlusSvg from "./assets/plus.svg";
+import axios from "axios";
+import { string } from "yargs";
 
-const onFilter = (e: React.FormEvent<HTMLInputElement>) => {
-    console.log(e);
+const ENDPOINT = "localhost:5000";
+const cols = [
+  "Summons Number",
+  "Plate ID",
+  "Registration State",
+  "Issue Date",
+  "Violation Time",
+  "Violation Code",
+  "Vehicle Make",
+  "Vehicle Body Type",
+  "Vehicle Year",
+  "Street Name",
+  "County County",
+  "Violation County",
+];
+
+let existingTimeout: NodeJS.Timeout;
+
+export interface DataTableState {
+  rows: ReactElement[];
+  modalType: string;
+  modalShown: boolean;
+  modalData: string[];
 }
 
-function createHeader(colNames: String[]): React.ReactElement {
-    const widthPercent = Math.floor(90 / colNames.length);
-
-    const headerRow = React.createElement('span', {}, [
-        colNames.map(col =>
-            React.createElement('p', { style: { width: `${widthPercent}%` } }, [
-                col,
-                React.createElement('br'),
-                React.createElement('input', { type: 'text', onInput: onFilter }),
-            ])),
-        React.createElement('p', { className: 'actions' })
-    ]);
-
-    return headerRow;
+export interface DataTableStateAction {
+  type: string;
+  data: any;
 }
 
-function createData(data: Number[][]): React.ReactElement[] {
-    if (data.length === 0) {
-        return [];
+function reducer(state: DataTableState, action: DataTableStateAction) {
+  switch (action.type) {
+    case "updateData":
+      return { ...state, rows: action.data };
+    case "modalType":
+      return { ...state, modalType: action.data };
+    case "modalShown":
+      return { ...state, modalShown: !state.modalShown };
+    case "modalData":
+      return { ...state, modalData: action.data };
+    default:
+      return state;
+  }
+}
+
+function getCurrentDataQuery(): string {
+  // returns the data query url for the current filters
+  let queryParts = [];
+  for (const headerCell of Array.from(
+    document.querySelectorAll(".datagrid-header")
+  )) {
+    const key: string = (headerCell as any).innerText.trim();
+    let value: string = (headerCell as any).querySelector("input").value;
+    if (value === "") value = "*"; // default is match all
+
+    if (
+      value.startsWith("<") ||
+      value.startsWith(">") ||
+      value.startsWith("==")
+    )
+      queryParts.push(key + value);
+    else {
+      // assume default operator is ~ (in)
+      queryParts.push(key + "~" + value);
     }
+  }
+  let terms = queryParts.join(",");
+  return `http://${ENDPOINT}/data/cols=_&page=1&terms=${terms}`;
+}
 
-    const widthPercent = Math.floor(90 / data[0].length); // 90% available to the data cells
-    let rows = [];
+function createHeader(
+  colNames: String[],
+  dispatch: Dispatch<DataTableStateAction>
+): ReactElement {
+  const onFilter = () => {
+    // wait a second from the last input so we don't spam the backend
+    if (existingTimeout) clearTimeout(existingTimeout);
+    existingTimeout = setTimeout(() => {
+      createTable(getCurrentDataQuery(), dispatch);
+    }, 1000);
+  };
 
-    for (const row of data) {
-        // <span> </span>
-        const cells = row.map(val => React.createElement('p', { style: { width: `${widthPercent}%` } }, val));
-        const actionElem = React.createElement('p', { className: 'action' }, [
-            React.createElement('img', { className: 'icon', src: PencilSvg, style: { marginRight: '0.5rem' } }),
-            React.createElement('img', { className: 'icon', src: TrashSvg })
-        ]);
-        const rowElem = React.createElement('span', {}, [cells, actionElem]);
+  const headerRow = React.createElement("span", { key: `colheader` }, [
+    colNames.map((col, i) =>
+      React.createElement(
+        "p",
+        { key: `colheader${i}`, className: "datagrid-cell datagrid-header" },
+        [
+          col,
+          React.createElement("br", { key: `colheader${i}_br` }),
+          React.createElement("input", {
+            type: "text",
+            key: `colheader${i}_input`,
+            onInput: onFilter,
+          }),
+        ]
+      )
+    ),
+    // TODO: Switch between AND and OR here vvv
+    // React.createElement('p', { className: 'actions', key: 'colheader_actions' })
+  ]);
 
-        /*
-                const rowElem = React.createElement('span', {},
-                    row.map(val => React.createElement('p', {
-                        style: ''
-                    }, val))
-                        .concat(React.createElement('p', { className: 'actions' }, [
-                            React.createElement('img', { className: 'icon', src: PencilSvg, style: { marginRight: '0.5rem' } }),
-                            React.createElement('img', { className: 'icon', src: TrashSvg })
-                        ]))
-                        
-                );
-                */
-        rows.push(rowElem);
+  return headerRow;
+}
+
+function createData(
+  data: string[][],
+  dispatch: Dispatch<DataTableStateAction>
+): React.ReactElement[] {
+  if (data.length === 0) {
+    return [];
+  }
+
+  const onEdit = (summonsId: string) => {
+    // create modal with existing data
+    dispatch({ type: "modalType", data: "edit" });
+    const row: HTMLSpanElement = document.getElementById(
+      summonsId
+    ) as HTMLSpanElement;
+    const cells: HTMLParagraphElement[] = Array.from(row.querySelectorAll("p"));
+    const cellData = cells.map((x) => x.innerText);
+
+    dispatch({ type: "modalData", data: cellData });
+    dispatch({ type: "modalShown", data: undefined });
+  };
+  const onDelete = (summonsId: string) => {
+    const confirm = window.confirm(
+      `Are you sure you want to delete summons number ${summonsId}?`
+    );
+    if (confirm) {
+      // DELETE action with GET lol
+      axios
+        .get(`http://${ENDPOINT}/delete/summonsNum=${summonsId}`)
+        .then((resp) => {
+          alert(resp.data);
+          createTable(getCurrentDataQuery(), dispatch);
+        });
     }
+  };
 
-    return rows;
+  let rows = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    // <span> </span>
+    const summonsId = row[0]; // used as an id
+
+    const cells = row.map((val, j) =>
+      React.createElement(
+        "p",
+        { key: `row${i}_${j}`, className: `datagrid-cell` },
+        val
+      )
+    );
+    const actionElem = React.createElement(
+      "p",
+      { className: `action`, key: `row${i}_actions` },
+      [
+        React.createElement("img", {
+          className: "icon",
+          key: `row${i}_edit`,
+          src: PencilSvg,
+          style: { marginRight: "0.5rem" },
+          onClick: () => onEdit(summonsId),
+        }),
+        React.createElement("img", {
+          className: "icon",
+          key: `row${i}_delete`,
+          src: TrashSvg,
+          onClick: () => onDelete(summonsId),
+        }),
+      ]
+    );
+    const rowElem = React.createElement(
+      "span",
+      { id: summonsId, key: `coldata${i}`, className: `datagrid-row` },
+      [cells, actionElem]
+    );
+    rows.push(rowElem);
+  }
+
+  return rows;
 }
 
-function createFooter() {
-    const footerRow = React.createElement('span', {}, [
-        'Showing page 1 of 10',
-        React.createElement('img', { className: 'icon left-arrow', src: LeftArrowSvg, style: { marginLeft: '0.5rem', marginRight: '0.5rem' } }),
-        React.createElement('img', { className: 'icon right-arrow', src: LeftArrowSvg }),
-        React.createElement('p', { className: 'actions' }, [
-            React.createElement('img', { className: 'icon', src: PlusSvg })
-        ])
-    ]);
+function createFooter(dispatch: Dispatch<DataTableStateAction>) {
+  const onInsertClicked = () => {
+    dispatch({ type: "modalType", data: "insert" });
+    dispatch({ type: "modalData", data: [] });
+    dispatch({ type: "modalShown", data: undefined });
+  };
 
-    return footerRow;
+  const footerRow = React.createElement("span", { key: "colfooter" }, [
+    "Showing page 1 of 10",
+    React.createElement("img", {
+      className: "icon left-arrow",
+      key: "colfooter_prevpage",
+      src: LeftArrowSvg,
+      style: { marginLeft: "0.5rem", marginRight: "0.5rem" },
+    }),
+    React.createElement("img", {
+      className: "icon right-arrow",
+      key: "colfooter_nextpage",
+      src: LeftArrowSvg,
+    }),
+    React.createElement(
+      "p",
+      { className: "actions", key: "colfooter_actions" },
+      [
+        React.createElement("img", {
+          className: "icon",
+          key: "col_footer_insert",
+          src: PlusSvg,
+          onClick: onInsertClicked,
+        }),
+      ]
+    ),
+  ]);
+
+  return footerRow;
 }
 
-function createTable(): React.ReactElement[] {
-    /*
+function createTable(
+  dataQueryURL: string,
+  dispatch: Dispatch<DataTableStateAction>
+) {
+  /*
     header
     [data]
     footer
-    */
+  */
 
-    // TODO: from backend
-    const cols = ['Col1', 'Col2', 'Col3'];
+  axios.get(dataQueryURL).then((resp) => {
+    // result from backend is a list of objects { colName: colVal }
+    const data = resp.data.map((x: Object[]) => Object.values(x));
 
-    const data = [
-        [1, 2, 3],
-        [1, 1, 1],
-        [3, 3, 3],
-        [4, 4, 4],
-        [5, 5, 5]
-    ];
+    let rows: React.ReactElement[] = [createHeader(cols, dispatch)];
+    rows = rows.concat(createData(data, dispatch));
+    rows.push(createFooter(dispatch));
 
-
-    let rows: React.ReactElement[] = [createHeader(cols)];
-    rows = rows.concat(createData(data));
-    rows.push(createFooter());
-
-    return rows;
+    dispatch({ type: "updateData", data: rows });
+  });
 }
 
 function DataTable() {
-    return (
-        <div className="datagrid">
-            {createTable()}
-        </div>
-    )
+  const [state, dispatch] = useReducer(reducer, {
+    rows: [],
+    modalType: "insert",
+    modalShown: false,
+    modalData: [],
+  });
+
+  useEffect(() => {
+    const terms = cols.map((col) => `${col}~*`).join(",");
+    createTable(
+      `http://${ENDPOINT}/data/cols=_&page=1&terms=${terms}`,
+      dispatch
+    );
+  }, []);
+
+  return (
+    <div className="datagrid">
+      <EntryModal state={state} dispatch={dispatch} />
+      {state.rows}
+    </div>
+  );
 }
 
 export default DataTable;

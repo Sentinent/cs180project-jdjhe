@@ -8,16 +8,19 @@
 
     display: flex;
     flex-direction: column;
+    overflow-x: scroll;
 }
 
 /* header row */
-.datagrid input {
+.datagrid .datagrid-cell input {
     width: 90%;
 }
 
 /* each row of the table */
 .datagrid span {
+    width: max-content;
     padding: 0.5rem 0.5rem;
+    white-space: nowrap;
 }
 
 .datagrid span:nth-child(even) {
@@ -25,9 +28,11 @@
 }
 /* each cell in the table */
 .datagrid span p {
-    /* width: 30%; */
-
     display: inline-block;
+}
+
+.datagrid .datagrid-cell {
+    width: 10vw;
 }
 
 /* last cell in the table */
