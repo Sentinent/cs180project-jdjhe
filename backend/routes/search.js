@@ -27,12 +27,9 @@ router
       page.push(results[i]);
     }
 
-    // console.log(page);
     console.log("found server: " + columns + " " + pageNum + " " + searchTerms);
 
     res.send(page);
-    // res.send(dataToSend);
-    // res.send("searching for columns " + columns + " on page " + pageNum + " for terms " + searchTerms);
   });
 
 module.exports = router;
