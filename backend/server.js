@@ -29,10 +29,6 @@ fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
 
     let pyprog = spawnSync("python3", ["./functions/main.py"]);
     
-    pyprog.on("close", (msg) => {
-      console.log("closing py: ${code}");
-    });
-    
     pyprog.stderr.on("data", (data) => {
       console.log("error: " + data);
     });
@@ -53,8 +49,14 @@ fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   module.exports = JSONDATA;
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log("Server is running on port: " + port);
 });
+
+app.on('SIGKILL', () => {
+  app.close(() => {
+    console.log('Process killed')
+  })
+})
 
 module.exports = JSONDATA;
