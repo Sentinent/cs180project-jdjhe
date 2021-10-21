@@ -3,7 +3,7 @@ import React from "react";
 // import ShowConnection from "./components/ShowConnection.jsx"
 import ToolBar from "./components/ToolBar";
 import SearchHome from "./pages/SearchHome";
-// import Insert from "./components/Insert";
+import MainView from "./components/MainView";
 import "./App.css";
 
 function App() {
@@ -11,11 +11,24 @@ function App() {
   return (
     <>
       <ToolBar />
-      <SearchHome />
-      {/* <Insert /> */}
+      <MainView />
     </>
-  );
 
+    /* <SearchHome /> */
+    /*
+      { <Header
+        onClick={() => setShowInput(!showInput)}
+        show={showInput}
+      /> }
+    
+    {
+      <div>
+        {showInput && <FieldsMenu />}
+        {showInput && <Search />}
+        <ShowConnection />
+      </div>
+    */
+  );
 }
 
-export default App
+export default App;

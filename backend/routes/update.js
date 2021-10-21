@@ -19,10 +19,10 @@ router
       "vehBody=:vehBody&" +
       "vehYear=:vehYear&" +
       "street=:street&" +
-      "county=:county"
+      "cCounty=:cCounty&" +
+      "vCounty=:vCounty"
   )
   .get((req, res) => {
-
     const data = {
       "Summons Number": req.params.sumNum,
       "Plate ID": req.params.plateID,
@@ -34,31 +34,34 @@ router
       "Vehicle Body Type": req.params.vehBody,
       "Vehicle Year": req.params.vehYear,
       "Street Name": req.params.street,
-      "Violation County": req.params.county,
+      "County County": req.params.cCounty,
+      "Violation County": req.params.vCounty,
     };
 
-    console.log("\nUpdate function:")
-    
-    let JSONDATA = require('../server.js')
+    console.log("\nUpdate function:");
 
-    console.log("Wants to update " + data["Summons Number"])
-    const index = JSONDATA.findIndex(x => x["Summons Number"] == data["Summons Number"]);
-    if(index == -1){
-      console.log("index = " + index)
-      console.log("Summons Number does not exist")
-      res.send("Summons Number does not exist")
+    let JSONDATA = require("../server.js");
+
+    console.log("Wants to update " + data["Summons Number"]);
+    const index = JSONDATA.findIndex(
+      (x) => x["Summons Number"] == data["Summons Number"]
+    );
+    if (index == -1) {
+      console.log("index = " + index);
+      console.log("Summons Number does not exist");
+      res.send("Summons Number does not exist");
     } else {
-      console.log("index = " + index)
-      console.log("before :")
-      console.log(JSONDATA[index])
-      JSONDATA[index] = data
-      console.log("after :")
-      console.log(JSONDATA[index])
-      console.log("Data has been updated")
+      console.log("index = " + index);
+      console.log("before :");
+      console.log(JSONDATA[index]);
+      JSONDATA[index] = data;
+      console.log("after :");
+      console.log(JSONDATA[index]);
+      console.log("Data has been updated");
       res.send("Data has been updated");
     }
-    console.log("After Update length:" + JSONDATA.length)
-    console.log("Update function ended\n")
+    console.log("After Update length:" + JSONDATA.length);
+    console.log("Update function ended\n");
   });
 
 module.exports = router;

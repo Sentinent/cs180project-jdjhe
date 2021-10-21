@@ -1,9 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+<<<<<<< HEAD
+const { spawn } = require("child_process");
+const { spawnSync } = require("child_process");
+=======
 const {spawnSync} = require("child_process");
 const readline = require("readline");
 process = require("process");
+>>>>>>> 0383ad8fcb2a0c962225b880ddef750317457f0d
 
 var app = express();
 const port = 5000;
@@ -31,16 +36,18 @@ fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   }
 
   console.log("found data json files, loading into memory...");
-  
-  'use strict';
+
+  ("use strict");
   let num = 2;
   console.log("loading file 1");
   JSONDATA = require('../parsed_data/data1.json');
+  /*
   while (num < 9){
       console.log("loading file " + num);
       JSONDATA = JSONDATA.concat(require('../parsed_data/data' + num +'.json'));
       num++;
   }
+  */
   console.log("Sucessfully loaded " + JSONDATA.length + " rows into memory");
   module.exports = JSONDATA;
 });

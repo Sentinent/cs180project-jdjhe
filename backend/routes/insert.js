@@ -20,10 +20,10 @@ router
       "vehBody=:vehBody&" +
       "vehYear=:vehYear&" +
       "street=:street&" +
-      "county=:county"
+      "cCounty=:cCounty&" +
+      "vCounty=:vCounty"
   )
   .get((req, res) => {
-
     const data = {
       "Summons Number": req.params.sumNum,
       "Plate ID": req.params.plateID,
@@ -35,28 +35,30 @@ router
       "Vehicle Body Type": req.params.vehBody,
       "Vehicle Year": req.params.vehYear,
       "Street Name": req.params.street,
-      "Violation County": req.params.county,
+      "County County": req.params.cCounty,
+      "Violation County": req.params.vCounty,
     };
 
-    console.log("\nInsert function:")
-    
-    let JSONDATA = require('../server.js')
+    console.log("\nInsert function:");
 
-    console.log("Wants to insert " + data["Summons Number"])
-    const index = JSONDATA.findIndex(x => x["Summons Number"] == data["Summons Number"]);
-    if(index > -1){
-      console.log("index = " + index)
-      console.log("Summons Number already exist")
-      res.send("Summons Number already exist")
+    let JSONDATA = require("../server.js");
+
+    console.log("Wants to insert " + data["Summons Number"]);
+    const index = JSONDATA.findIndex(
+      (x) => x["Summons Number"] == data["Summons Number"]
+    );
+    if (index > -1) {
+      console.log("index = " + index);
+      console.log("Summons Number already exist");
+      res.send("Summons Number already exist");
     } else {
-      console.log("index = " + index)
-      JSONDATA.push(data)
-      console.log("Data added to database")
+      console.log("index = " + index);
+      JSONDATA.push(data);
+      console.log("Data added to database");
       res.send("Data added to database");
     }
-    console.log("After insertion length:" + JSONDATA.length)
-    console.log("Insert function ended\n")
-    
+    console.log("After insertion length:" + JSONDATA.length);
+    console.log("Insert function ended\n");
   });
 
 module.exports = router;
