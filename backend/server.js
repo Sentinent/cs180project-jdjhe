@@ -1,14 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-<<<<<<< HEAD
-const { spawn } = require("child_process");
-const { spawnSync } = require("child_process");
-=======
+
 const {spawnSync} = require("child_process");
 const readline = require("readline");
 process = require("process");
->>>>>>> 0383ad8fcb2a0c962225b880ddef750317457f0d
 
 var app = express();
 const port = 5000;
@@ -20,11 +16,17 @@ const search = require("./routes/search");
 const insert = require("./routes/insert");
 const del = require("./routes/delete");
 const update = require("./routes/update");
+const feature1 = require("./routes/feature1");
+const featurecb = require("./routes/featurecb");
+const featuretime = require("./routes/featuretime");
 
 app.use("/", search);
 app.use("/insert", insert);
 app.use("/delete", del);
 app.use("/update", update);
+app.use("/feature1", feature1);
+app.use("/featurecb", featurecb);
+app.use("/featuretime", featuretime);
 
 let JSONDATA;
 
