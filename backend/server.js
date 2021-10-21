@@ -1,8 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+<<<<<<< HEAD
 const { spawn } = require("child_process");
 const { spawnSync } = require("child_process");
+=======
+const {spawnSync} = require("child_process");
+const readline = require("readline");
+process = require("process");
+>>>>>>> 0383ad8fcb2a0c962225b880ddef750317457f0d
 
 var app = express();
 const port = 5000;
@@ -25,17 +31,8 @@ let JSONDATA;
 fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
   console.log("checking if file exists");
   if (err) {
-    console.log("file does not exist");
-
+    console.log("file does not exist, generating files...");
     let pyprog = spawnSync("python3", ["./functions/main.py"]);
-
-    pyprog.on("close", (msg) => {
-      console.log("closing py: ${code}");
-    });
-
-    pyprog.stderr.on("data", (data) => {
-      console.log("error: " + data);
-    });
   }
 
   console.log("found data json files, loading into memory...");
@@ -57,6 +54,36 @@ fs.access("../parsed_data/data8.json", fs.constants.F_OK, (err) => {
 
 app.listen(port, () => {
   console.log("Server is running on port: " + port);
+});
+
+process.on("SIGINT", () => {
+  console.log("Got kill signal. Backing up all data...");
+  const EntriesPerFile = 1200000;
+
+  for (let i = 0, files = 1; i < JSONDATA.length; i += EntriesPerFile, files++) {
+    if (i + EntriesPerFile < JSONDATA.length) {
+      console.log(i);
+      let data = JSON.stringify(JSONDATA.slice(i, i + EntriesPerFile), null, 4);
+      fs.writeFileSync("../parsed_data/data" + files + ".json", data , (err) => {
+        if (err)
+          throw err;
+        else
+          console.log("wrote file data" + files + ".json");
+      });
+    } else {
+      console.log("last");
+      let data = JSON.stringify(JSONDATA.slice(i, JSONDATA.length), null, 4);
+      fs.writeFileSync("../parsed_data/data" + files + ".json", data, (err) => {
+        if (err)
+          throw err;
+        else
+          console.log("wrote file data" + files + ".json");
+      });
+    }
+  }
+
+  console.log("Finished backing up data");
+  process.exit();
 });
 
 module.exports = JSONDATA;
