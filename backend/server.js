@@ -1,14 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-<<<<<<< HEAD
 const { spawn } = require("child_process");
 const { spawnSync } = require("child_process");
-=======
-const {spawnSync} = require("child_process");
 const readline = require("readline");
 process = require("process");
->>>>>>> 0383ad8fcb2a0c962225b880ddef750317457f0d
 
 var app = express();
 const port = 5000;
@@ -64,7 +60,7 @@ process.on("SIGINT", () => {
     if (i + EntriesPerFile < JSONDATA.length) {
       console.log(i);
       let data = JSON.stringify(JSONDATA.slice(i, i + EntriesPerFile), null, 4);
-      fs.writeFileSync("../parsed_data/data" + files + ".json", data , (err) => {
+      fs.writeFileSync("../parsed_data/data" + files + ".json", data, (err) => {
         if (err)
           throw err;
         else
