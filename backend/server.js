@@ -15,11 +15,17 @@ const search = require("./routes/search");
 const insert = require("./routes/insert");
 const del = require("./routes/delete");
 const update = require("./routes/update");
+const feature1 = require("./routes/feature1");
+const featurecb = require("./routes/featurecb");
+const featuretime = require("./routes/featuretime");
 
 app.use("/", search);
 app.use("/insert", insert);
 app.use("/delete", del);
 app.use("/update", update);
+app.use("/feature1", feature1);
+app.use("/featurecb", featurecb);
+app.use("/featuretime", featuretime);
 
 let JSONDATA;
 
