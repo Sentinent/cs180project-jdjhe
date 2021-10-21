@@ -65,7 +65,6 @@ router
     }
 
     res.send(results);
-
     /*
     let results = JSONDATA.filter(
       (JSONDATA) => JSONDATA[columns] == searchTerms[0]
