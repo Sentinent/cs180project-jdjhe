@@ -41,9 +41,14 @@ router
           query = `${row[col]} ${op} ${val}`;
         }
 
-        // console.log(query);
-        const condResult = eval(query);
-        if (!condResult) {
+        try {
+          const condResult = eval(query);
+          if (!condResult) {
+            failed = true;
+            break;
+          }
+        } catch {
+          console.log(`Failed query: ${query}`);
           failed = true;
           break;
         }
