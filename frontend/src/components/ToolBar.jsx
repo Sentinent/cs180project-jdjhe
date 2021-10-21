@@ -1,8 +1,5 @@
 import React, { useState, useRef } from "react";
 import { useOnClickOutside } from '../hooks';
-// import axios from "axios";
-// import Result from "../components/Result.jsx";
-// import "../components/Search.css";
 import { Navbar, Container, Row, Col } from 'react-bootstrap';
 import Burger from "./Burger/Burger";
 import Menu from "./Menu/Menu";
