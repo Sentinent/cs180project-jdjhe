@@ -1,14 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-<<<<<<< HEAD
-const { spawn } = require("child_process");
-const { spawnSync } = require("child_process");
-=======
 const {spawnSync} = require("child_process");
 const readline = require("readline");
 process = require("process");
->>>>>>> 0383ad8fcb2a0c962225b880ddef750317457f0d
 
 var app = express();
 const port = 5000;
