@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 
 export const StyledMenu = styled.nav`
+  z-index: 5;
   display: flex;
   flex-direction: column;
   background: #faebd7;
