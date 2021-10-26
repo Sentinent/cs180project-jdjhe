@@ -1,6 +1,6 @@
 import React, {
   Dispatch,
-  FormEvent,
+  // FormEvent,
   ReactElement,
   useEffect,
   useReducer,
@@ -13,7 +13,7 @@ import TrashSvg from "./assets/trash.svg";
 import LeftArrowSvg from "./assets/left-arrow.svg";
 import PlusSvg from "./assets/plus.svg";
 import axios from "axios";
-import { string } from "yargs";
+// import { string } from "yargs";
 
 const ENDPOINT = "localhost:5000";
 const cols = [
@@ -279,6 +279,7 @@ function DataTable() {
       <EntryModal state={state} dispatch={dispatch} />
       {state.rows}
     </div>
+
   );
 }
 
