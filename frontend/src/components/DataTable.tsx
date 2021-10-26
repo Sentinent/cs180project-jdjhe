@@ -1,9 +1,7 @@
 import React, {
-  DetailedReactHTMLElement,
   Dispatch,
   // FormEvent,
   ReactElement,
-  StyleHTMLAttributes,
   useEffect,
   useReducer,
 } from 'react';
@@ -30,6 +28,7 @@ const cols = [
   'County County',
   'Violation County',
 ];
+const RESULTS_PER_PAGE = 16; // make sure this is the same in the backend
 
 let existingTimeout: NodeJS.Timeout;
 
@@ -119,7 +118,9 @@ function createHeader(
     )
   );
 
-  headerCells.push(React.createElement('p'));
+  headerCells.push(
+    React.createElement('p', { className: '', key: 'asd', style: {} }, [])
+  );
   return headerCells;
 
   // TODO: Switch between AND and OR here vvv
@@ -258,6 +259,10 @@ function DataTable() {
     dispatch({ type: 'modalShown', data: undefined });
   };
 
+  const onAnalyzeClicked = () => {
+    window.location.href = '/analytics?asd';
+  };
+
   const onPrevPage = () => {
     if (state.currentPage > 1) {
       createTable(getCurrentDataQuery(state.currentPage - 1), dispatch);
@@ -282,6 +287,9 @@ function DataTable() {
     gridTemplateColumns: Array(cols.length + 1)
       .fill('1fr')
       .join(' '),
+    gridTemplateRows: Array(RESULTS_PER_PAGE - 1)
+      .fill('1fr')
+      .join(' '),
   };
 
   return (
@@ -292,7 +300,7 @@ function DataTable() {
       <div className="datagrid-actions">
         <div className="data-actions">
           <button onClick={onInsertClicked}>Insert Row</button>
-          <button>Analyze Current Query</button>
+          <button onClick={onAnalyzeClicked}>Analyze Current Query</button>
         </div>
         <div className="page-actions">
           <p>
@@ -302,12 +310,14 @@ function DataTable() {
             <img
               className="icon left-arrow"
               src={LeftArrowSvg}
+              alt=""
               style={{ margin: '0 0.5rem' }}
               onClick={onPrevPage}
             />
             <img
               className="icon right-arrow"
               src={LeftArrowSvg}
+              alt=""
               style={{ margin: '0 0.5rem' }}
               onClick={onNextPage}
             />
