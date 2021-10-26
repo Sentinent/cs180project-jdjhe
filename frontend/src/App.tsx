@@ -2,8 +2,9 @@ import React from "react";
 // import { useState } from "react";
 // import ShowConnection from "./components/ShowConnection.jsx"
 import ToolBar from "./components/ToolBar";
-import SearchHome from "./pages/SearchHome";
+// import SearchHome from "./pages/SearchHome";
 import MainView from "./components/MainView";
+import Analytics from "./pages/Analytics";
 import "./App.css";
 
 function App() {
@@ -12,9 +13,10 @@ function App() {
     <>
       <ToolBar />
       <MainView />
+      {/* <Analytics /> */}
     </>
 
-    /* <SearchHome /> */
+
     /*
       { <Header
         onClick={() => setShowInput(!showInput)}
