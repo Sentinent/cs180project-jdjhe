@@ -1,11 +1,5 @@
-const JSONDATA = require('../server');
-
 const router = require('express').Router();
-
-// this route is used for debugging
-router.route('/').get((req, res) => {
-  res.send('hi');
-});
+const JSONDATA = require('../data.js');
 
 // this route does the inserting
 router
@@ -40,9 +34,6 @@ router
     };
 
     console.log('\nInsert function:');
-
-    let JSONDATA = require('../server.js');
-
     console.log('Wants to insert ' + data['Summons Number']);
     const index = JSONDATA.findIndex(
       (x) => x['Summons Number'] == data['Summons Number']

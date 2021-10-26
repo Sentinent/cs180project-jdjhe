@@ -1,10 +1,5 @@
 const router = require('express').Router();
-
-// this route is used for debugging
-router.route('/').get((req, res) => {
-  console.log('inside delete update route');
-  res.send('what would you like to delete?');
-});
+const JSONDATA = require('../data.js');
 
 // this route does the updating
 router
@@ -39,9 +34,6 @@ router
     };
 
     console.log('\nUpdate function:');
-
-    let JSONDATA = require('../server.js');
-
     console.log('Wants to update ' + data['Summons Number']);
     const index = JSONDATA.findIndex(
       (x) => x['Summons Number'] == data['Summons Number']

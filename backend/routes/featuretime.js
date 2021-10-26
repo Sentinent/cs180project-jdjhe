@@ -1,14 +1,7 @@
 const router = require('express').Router();
-
-const queryFilter = /([A-Za-z0-9\s]+)(<|>|==|<=|>=|~)([A-Za-z0-9\*]+)/;
-
-router.route('/').get((req, res) => {
-  console.log('found server');
-  res.send('you have reached the backend');
-});
+const JSONDATA = require('../data.js');
 
 router.route('/data/timeviolations').get((req, res) => {
-  let JSONDATA = require('../server.js');
   const resultsPerPage = 16;
 
   //////////////////////////////////////////////////////////////////
