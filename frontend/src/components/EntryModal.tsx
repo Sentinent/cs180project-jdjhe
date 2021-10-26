@@ -1,10 +1,10 @@
-import { Dispatch, useEffect } from "react";
-import "./EntryModal.css";
-import "./DataTable";
-import { DataTableState, DataTableStateAction } from "./DataTable";
-import axios from "axios";
+import { Dispatch, useEffect } from 'react';
+import './EntryModal.css';
+import './DataTable';
+import { DataTableState, DataTableStateAction } from './DataTable';
+import axios from 'axios';
 
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = 'localhost:5000';
 
 // op is either 'insert' or 'update'
 function insertOrEditEntry(
@@ -13,24 +13,24 @@ function insertOrEditEntry(
 ) {
   // could use useRef here instead of dom but oh well
   const fields = [
-    "summonsNum",
-    "plateID",
-    "regState",
-    "issDate",
-    "vTime",
-    "vCode",
-    "vehMake",
-    "vehBody",
-    "vehYear",
-    "street",
-    "cCounty",
-    "vCounty",
+    'summonsNum',
+    'plateID',
+    'regState',
+    'issDate',
+    'vTime',
+    'vCode',
+    'vehMake',
+    'vehBody',
+    'vehYear',
+    'street',
+    'cCounty',
+    'vCounty',
   ];
 
-  let queryString = "";
+  let queryString = '';
   for (const field of fields) {
     const val = (document.getElementById(field) as HTMLInputElement).value;
-    if (queryString === "") queryString += `${field}=${val}`;
+    if (queryString === '') queryString += `${field}=${val}`;
     // no '?' ?
     else queryString += `&${field}=${val}`;
   }
@@ -38,7 +38,7 @@ function insertOrEditEntry(
   axios.get(`http://${ENDPOINT}/${op}/${queryString}`).then((resp) => {
     alert(resp.data);
     // TODO: maybe trigger a reload if we are fancy
-    dispatch({ type: "modalShown", data: undefined });
+    dispatch({ type: 'modalShown', data: undefined });
     // BIG HACK YEE HAW
     window.location.reload();
   });
@@ -52,23 +52,23 @@ function EntryModal({
   dispatch: Dispatch<DataTableStateAction>;
 }) {
   const title =
-    state.modalType === "insert"
-      ? "Add new entry"
+    state.modalType === 'insert'
+      ? 'Add new entry'
       : `Modify entry ${state.modalData[0]}`;
 
   useEffect(() => {
     const modalElem = document.getElementById(
-      "entrymodal-content"
+      'entrymodal-content'
     ) as HTMLDivElement;
 
-    if (state.modalType === "insert") {
+    if (state.modalType === 'insert') {
       // empty all inputs
-      for (const inputElem of Array.from(modalElem.querySelectorAll("input"))) {
-        inputElem.value = "";
+      for (const inputElem of Array.from(modalElem.querySelectorAll('input'))) {
+        inputElem.value = '';
       }
-    } else if (state.modalType === "edit") {
+    } else if (state.modalType === 'edit') {
       let i = 0;
-      for (const inputElem of Array.from(modalElem.querySelectorAll("input"))) {
+      for (const inputElem of Array.from(modalElem.querySelectorAll('input'))) {
         if (i < state.modalData.length) {
           inputElem.value = state.modalData[i];
           i++;
@@ -80,8 +80,8 @@ function EntryModal({
   return (
     <div
       className="entrymodal"
-      style={{ display: state.modalShown ? "block" : "none" }}
-      onClick={() => dispatch({ type: "modalShown", data: undefined })}
+      style={{ display: state.modalShown ? 'block' : 'none' }}
+      onClick={() => dispatch({ type: 'modalShown', data: undefined })}
     >
       <div
         className="entrymodal-content"
@@ -163,18 +163,18 @@ function EntryModal({
         <br />
 
         <span className="modal-actions">
-          {state.modalType === "insert" && (
-            <button onClick={() => insertOrEditEntry("insert", dispatch)}>
+          {state.modalType === 'insert' && (
+            <button onClick={() => insertOrEditEntry('insert', dispatch)}>
               Insert
             </button>
           )}
-          {state.modalType === "edit" && (
-            <button onClick={() => insertOrEditEntry("update", dispatch)}>
+          {state.modalType === 'edit' && (
+            <button onClick={() => insertOrEditEntry('update', dispatch)}>
               Edit
             </button>
           )}
           <button
-            onClick={() => dispatch({ type: "modalShown", data: undefined })}
+            onClick={() => dispatch({ type: 'modalShown', data: undefined })}
           >
             Cancel
           </button>

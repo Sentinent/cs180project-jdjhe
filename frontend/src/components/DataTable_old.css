@@ -1,58 +1,58 @@
 .datagrid * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .datagrid {
-    background: lightgrey;
+  background: lightgrey;
 
-    display: flex;
-    flex-direction: column;
-    overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
 }
 
 /* header row */
 .datagrid .datagrid-cell input {
-    width: 90%;
+  width: 90%;
 }
 
 /* each row of the table */
 .datagrid span {
-    width: max-content;
-    padding: 0.5rem 0.5rem;
-    white-space: nowrap;
+  width: max-content;
+  padding: 0.5rem 0.5rem;
+  white-space: nowrap;
 }
 
 .datagrid span:nth-child(even) {
-    background: grey;
+  background: grey;
 }
 /* each cell in the table */
 .datagrid span p {
-    display: inline-block;
+  display: inline-block;
 }
 
 .datagrid .datagrid-cell {
-    width: 10vw;
+  width: 10vw;
 }
 
 /* last cell in the table */
 .datagrid .actions {
-    width: 64px;
+  width: 64px;
 }
 
 /* svg icons */
 .datagrid .icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
 
 /* footer row things */
 .datagrid .right-arrow {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .datagrid span:last-child .actions {
-    float: right;
+  float: right;
 }

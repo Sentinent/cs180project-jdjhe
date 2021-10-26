@@ -4,31 +4,31 @@ import React, {
   ReactElement,
   useEffect,
   useReducer,
-} from "react";
-import EntryModal from "./EntryModal";
-import "./DataTable.css";
+} from 'react';
+import EntryModal from './EntryModal';
+import './DataTable.css';
 
-import PencilSvg from "./assets/pencil.svg";
-import TrashSvg from "./assets/trash.svg";
-import LeftArrowSvg from "./assets/left-arrow.svg";
-import PlusSvg from "./assets/plus.svg";
-import axios from "axios";
-import { string } from "yargs";
+import PencilSvg from './assets/pencil.svg';
+import TrashSvg from './assets/trash.svg';
+import LeftArrowSvg from './assets/left-arrow.svg';
+import PlusSvg from './assets/plus.svg';
+import axios from 'axios';
+import { string } from 'yargs';
 
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = 'localhost:5000';
 const cols = [
-  "Summons Number",
-  "Plate ID",
-  "Registration State",
-  "Issue Date",
-  "Violation Time",
-  "Violation Code",
-  "Vehicle Make",
-  "Vehicle Body Type",
-  "Vehicle Year",
-  "Street Name",
-  "County County",
-  "Violation County",
+  'Summons Number',
+  'Plate ID',
+  'Registration State',
+  'Issue Date',
+  'Violation Time',
+  'Violation Code',
+  'Vehicle Make',
+  'Vehicle Body Type',
+  'Vehicle Year',
+  'Street Name',
+  'County County',
+  'Violation County',
 ];
 
 let existingTimeout: NodeJS.Timeout;
@@ -47,13 +47,13 @@ export interface DataTableStateAction {
 
 function reducer(state: DataTableState, action: DataTableStateAction) {
   switch (action.type) {
-    case "updateData":
+    case 'updateData':
       return { ...state, rows: action.data };
-    case "modalType":
+    case 'modalType':
       return { ...state, modalType: action.data };
-    case "modalShown":
+    case 'modalShown':
       return { ...state, modalShown: !state.modalShown };
-    case "modalData":
+    case 'modalData':
       return { ...state, modalData: action.data };
     default:
       return state;
@@ -64,24 +64,24 @@ function getCurrentDataQuery(): string {
   // returns the data query url for the current filters
   let queryParts = [];
   for (const headerCell of Array.from(
-    document.querySelectorAll(".datagrid-header")
+    document.querySelectorAll('.datagrid-header')
   )) {
     const key: string = (headerCell as any).innerText.trim();
-    let value: string = (headerCell as any).querySelector("input").value;
-    if (value === "") value = "*"; // default is match all
+    let value: string = (headerCell as any).querySelector('input').value;
+    if (value === '') value = '*'; // default is match all
 
     if (
-      value.startsWith("<") ||
-      value.startsWith(">") ||
-      value.startsWith("==")
+      value.startsWith('<') ||
+      value.startsWith('>') ||
+      value.startsWith('==')
     )
       queryParts.push(key + value);
     else {
       // assume default operator is ~ (in)
-      queryParts.push(key + "~" + value);
+      queryParts.push(key + '~' + value);
     }
   }
-  let terms = queryParts.join(",");
+  let terms = queryParts.join(',');
   return `http://${ENDPOINT}/data/cols=_&page=1&terms=${terms}`;
 }
 
@@ -97,16 +97,16 @@ function createHeader(
     }, 1000);
   };
 
-  const headerRow = React.createElement("span", { key: `colheader` }, [
+  const headerRow = React.createElement('span', { key: `colheader` }, [
     colNames.map((col, i) =>
       React.createElement(
-        "p",
-        { key: `colheader${i}`, className: "datagrid-cell datagrid-header" },
+        'p',
+        { key: `colheader${i}`, className: 'datagrid-cell datagrid-header' },
         [
           col,
-          React.createElement("br", { key: `colheader${i}_br` }),
-          React.createElement("input", {
-            type: "text",
+          React.createElement('br', { key: `colheader${i}_br` }),
+          React.createElement('input', {
+            type: 'text',
             key: `colheader${i}_input`,
             onInput: onFilter,
           }),
@@ -130,15 +130,15 @@ function createData(
 
   const onEdit = (summonsId: string) => {
     // create modal with existing data
-    dispatch({ type: "modalType", data: "edit" });
+    dispatch({ type: 'modalType', data: 'edit' });
     const row: HTMLSpanElement = document.getElementById(
       summonsId
     ) as HTMLSpanElement;
-    const cells: HTMLParagraphElement[] = Array.from(row.querySelectorAll("p"));
+    const cells: HTMLParagraphElement[] = Array.from(row.querySelectorAll('p'));
     const cellData = cells.map((x) => x.innerText);
 
-    dispatch({ type: "modalData", data: cellData });
-    dispatch({ type: "modalShown", data: undefined });
+    dispatch({ type: 'modalData', data: cellData });
+    dispatch({ type: 'modalShown', data: undefined });
   };
   const onDelete = (summonsId: string) => {
     const confirm = window.confirm(
@@ -164,24 +164,24 @@ function createData(
 
     const cells = row.map((val, j) =>
       React.createElement(
-        "p",
+        'p',
         { key: `row${i}_${j}`, className: `datagrid-cell` },
         val
       )
     );
     const actionElem = React.createElement(
-      "p",
+      'p',
       { className: `action`, key: `row${i}_actions` },
       [
-        React.createElement("img", {
-          className: "icon",
+        React.createElement('img', {
+          className: 'icon',
           key: `row${i}_edit`,
           src: PencilSvg,
-          style: { marginRight: "0.5rem" },
+          style: { marginRight: '0.5rem' },
           onClick: () => onEdit(summonsId),
         }),
-        React.createElement("img", {
-          className: "icon",
+        React.createElement('img', {
+          className: 'icon',
           key: `row${i}_delete`,
           src: TrashSvg,
           onClick: () => onDelete(summonsId),
@@ -189,7 +189,7 @@ function createData(
       ]
     );
     const rowElem = React.createElement(
-      "span",
+      'span',
       { id: summonsId, key: `coldata${i}`, className: `datagrid-row` },
       [cells, actionElem]
     );
@@ -201,31 +201,31 @@ function createData(
 
 function createFooter(dispatch: Dispatch<DataTableStateAction>) {
   const onInsertClicked = () => {
-    dispatch({ type: "modalType", data: "insert" });
-    dispatch({ type: "modalData", data: [] });
-    dispatch({ type: "modalShown", data: undefined });
+    dispatch({ type: 'modalType', data: 'insert' });
+    dispatch({ type: 'modalData', data: [] });
+    dispatch({ type: 'modalShown', data: undefined });
   };
 
-  const footerRow = React.createElement("span", { key: "colfooter" }, [
-    "Showing page 1 of 10",
-    React.createElement("img", {
-      className: "icon left-arrow",
-      key: "colfooter_prevpage",
+  const footerRow = React.createElement('span', { key: 'colfooter' }, [
+    'Showing page 1 of 10',
+    React.createElement('img', {
+      className: 'icon left-arrow',
+      key: 'colfooter_prevpage',
       src: LeftArrowSvg,
-      style: { marginLeft: "0.5rem", marginRight: "0.5rem" },
+      style: { marginLeft: '0.5rem', marginRight: '0.5rem' },
     }),
-    React.createElement("img", {
-      className: "icon right-arrow",
-      key: "colfooter_nextpage",
+    React.createElement('img', {
+      className: 'icon right-arrow',
+      key: 'colfooter_nextpage',
       src: LeftArrowSvg,
     }),
     React.createElement(
-      "p",
-      { className: "actions", key: "colfooter_actions" },
+      'p',
+      { className: 'actions', key: 'colfooter_actions' },
       [
-        React.createElement("img", {
-          className: "icon",
-          key: "col_footer_insert",
+        React.createElement('img', {
+          className: 'icon',
+          key: 'col_footer_insert',
           src: PlusSvg,
           onClick: onInsertClicked,
         }),
@@ -254,20 +254,20 @@ function createTable(
     rows = rows.concat(createData(data, dispatch));
     rows.push(createFooter(dispatch));
 
-    dispatch({ type: "updateData", data: rows });
+    dispatch({ type: 'updateData', data: rows });
   });
 }
 
 function DataTable() {
   const [state, dispatch] = useReducer(reducer, {
     rows: [],
-    modalType: "insert",
+    modalType: 'insert',
     modalShown: false,
     modalData: [],
   });
 
   useEffect(() => {
-    const terms = cols.map((col) => `${col}~*`).join(",");
+    const terms = cols.map((col) => `${col}~*`).join(',');
     createTable(
       `http://${ENDPOINT}/data/cols=_&page=1&terms=${terms}`,
       dispatch

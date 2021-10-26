@@ -1,23 +1,23 @@
-const router = require("express").Router();
+const router = require('express').Router();
 
 const queryFilter = /([A-Za-z0-9\s]+)(<|>|==|<=|>=|~)([A-Za-z0-9\*]+)/;
 
-router.route("/").get((req, res) => {
-  console.log("found server");
-  res.send("you have reached the backend");
+router.route('/').get((req, res) => {
+  console.log('found server');
+  res.send('you have reached the backend');
 });
 
 router
-  .route("/data/cols=:columns&page=:pageNum&terms=:searchTerms")
+  .route('/data/cols=:columns&page=:pageNum&terms=:searchTerms')
   .get((req, res) => {
-    let JSONDATA = require("../server.js");
+    let JSONDATA = require('../server.js');
     const resultsPerPage = 16;
 
     let { columns, pageNum, searchTerms } = req.params;
-    console.log("found server: " + columns + " " + pageNum + " " + searchTerms);
+    console.log('found server: ' + columns + ' ' + pageNum + ' ' + searchTerms);
 
     let parsedConditions = [];
-    for (const condition of req.params.searchTerms.split(",")) {
+    for (const condition of req.params.searchTerms.split(',')) {
       const match = queryFilter.exec(condition);
       if (match) {
         // (column) (operator) (value)
@@ -34,8 +34,8 @@ router
         // lazy eval hack
         // meh
         let query;
-        if (op === "~") {
-          if (val === "*") continue;
+        if (op === '~') {
+          if (val === '*') continue;
           query = `'${row[col]}'.indexOf('${val}') !== -1`;
         } else {
           query = `${row[col]} ${op} ${val}`;
