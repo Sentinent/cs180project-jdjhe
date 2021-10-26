@@ -5,14 +5,30 @@ import ToolBar from "./components/ToolBar";
 // import SearchHome from "./pages/SearchHome";
 import MainView from "./components/MainView";
 import Analytics from "./pages/Analytics";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 import "./App.css";
 
 function App() {
   // const [showInput, setShowInput] = useState(false);
   return (
     <>
-      <ToolBar />
-      <MainView />
+      <Router>
+        <Switch>
+          <Route path='/' exact={true}>
+            <ToolBar />
+            <MainView />
+          </Route>
+          <Route path='/analytics' exact={true}>
+            <ToolBar />
+            <Analytics />
+          </Route>
+        </Switch>
+      </Router>
+
       {/* <Analytics /> */}
     </>
 
