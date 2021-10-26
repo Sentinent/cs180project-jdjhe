@@ -6,24 +6,20 @@ import { StyledMenu } from './Menu.styled';
 // import { Link, Router } from "react-router-dom";
 
 const Menu = ({ open }) => {
-  return (
-    <StyledMenu open={open}>
-      <a href="/">
-        <span role="img" aria-label="about us">
-          &#128270;
-        </span>
-        Search
-      </a>
-      <a href="/analytics">
-        <span role="img" aria-label="price">
-          &#128073;
-        </span>
-        Analytics
-      </a>
-    </StyledMenu>
-  );
-};
+    return (
+        <StyledMenu open={open}>
+            <a href="/">
+                <span role="img" aria-label="about us">&#128270;</span>
+                Search
+            </a>
+            <a href="/analytics">
+                <span role="img" aria-label="price">&#128073;</span>
+                Analytics
+            </a>
+        </StyledMenu>
+    )
+}
 Menu.propTypes = {
-  open: bool.isRequired,
-};
+    open: bool.isRequired,
+}
 export default Menu;

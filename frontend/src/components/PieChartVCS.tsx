@@ -4,8 +4,8 @@ import CanvasJSReact from './canvasjs.react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface CarBrand {
-    CarBrand: String;
+interface ViolationCount {
+    ViolationCode: Number;
     Percentage: Number;
 }
 
@@ -37,17 +37,17 @@ interface DataPoint {
 //     });
 // }
 
-function PieChartCB() {
+function PieChartVCS() {
     const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/featurecb/data/carbrandviolations')
+            .get('http://localhost:5000/feature1/data/violationcount')
             .then((resp) => {
                 const data = resp.data;
 
-                const mappedData = data.map((x: CarBrand) => ({
-                    label: x['CarBrand'],
+                const mappedData = data.map((x: ViolationCount) => ({
+                    label: "Violation " + x['ViolationCode'],
                     y: x['Percentage'],
                 }));
                 setDataPoints(mappedData);
@@ -55,24 +55,20 @@ function PieChartCB() {
     }, []);
 
     const options = {
-        exportEnabled: true,
+        // exportEnabled: true,
         animationEnabled: true,
         title: {
-            text: 'Most Common Violations by Car Brand',
+            text: 'Most Common Types of Violations',
         },
-        // legend: {
-        //     verticalAlign: "bottom",
-        //     horizontalAlign: "left",
-        // },
         data: [
             {
                 type: 'pie',
                 startAngle: 75,
                 toolTipContent: "<b>{label}</b>: {y}%",
-                showInLegend: "true",
-                legendText: "{label}",
-                indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}%",
+                // showInLegend: "true",
+                // legendText: "{label}",
+                indexLabelFontSize: 9,
+                // indexLabel: "{label} - {y}%",
                 dataPoints: dataPoints,
             },
         ],
@@ -85,4 +81,4 @@ function PieChartCB() {
     );
 }
 
-export default PieChartCB;
+export default PieChartVCS;

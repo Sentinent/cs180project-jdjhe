@@ -37,7 +37,7 @@ interface DataPoint {
 //     });
 // }
 
-function PieChartCB() {
+function PieChartCBS() {
     const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
     useEffect(() => {
@@ -55,24 +55,20 @@ function PieChartCB() {
     }, []);
 
     const options = {
-        exportEnabled: true,
+        // exportEnabled: true,
         animationEnabled: true,
         title: {
             text: 'Most Common Violations by Car Brand',
         },
-        // legend: {
-        //     verticalAlign: "bottom",
-        //     horizontalAlign: "left",
-        // },
         data: [
             {
                 type: 'pie',
                 startAngle: 75,
                 toolTipContent: "<b>{label}</b>: {y}%",
-                showInLegend: "true",
-                legendText: "{label}",
-                indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}%",
+                // showInLegend: "true",
+                // legendText: "{label}",
+                indexLabelFontSize: 9,
+                // indexLabel: "{label} - {y}%",
                 dataPoints: dataPoints,
             },
         ],
@@ -85,4 +81,4 @@ function PieChartCB() {
     );
 }
 
-export default PieChartCB;
+export default PieChartCBS;
