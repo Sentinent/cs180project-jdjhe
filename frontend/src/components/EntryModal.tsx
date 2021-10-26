@@ -1,6 +1,5 @@
 import { Dispatch, useEffect } from 'react';
 import './EntryModal.css';
-import './DataTable';
 import { DataTableState, DataTableStateAction } from './DataTable';
 import axios from 'axios';
 
