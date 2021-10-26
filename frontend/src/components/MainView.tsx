@@ -1,12 +1,19 @@
-import DataTable from './DataTable';
+import BarChart from './BarChart';
+import DataTable from './DataTable_old';
 import './MainView.css';
 
 function MainView() {
-    return (
-        <div className='main-view'>
-            <DataTable></DataTable>
-        </div>
-    );
+  const activeView = {
+    search: false,
+    analytics: true,
+  };
+
+  return (
+    <div className="main-view">
+      {activeView['search'] && <DataTable></DataTable>}
+      {activeView['analytics'] && <BarChart></BarChart>}
+    </div>
+  );
 }
 
 export default MainView;
