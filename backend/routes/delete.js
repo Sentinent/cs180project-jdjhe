@@ -2,7 +2,7 @@ const router = require("express").Router();
 
 // this route does the deleting
 router.route("/summonsNum=:sumNum").get((req, res) => {
-  let JSONDATA = require('../server.js')
+  let JSONDATA = require('../server.js') // Array
   const sumNum = req.params.sumNum;
   console.log("\nDelete function:")
   console.log("Wants to delete " + sumNum);
