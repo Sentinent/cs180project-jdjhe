@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import CanvasJSReact from './canvasjs.react';
+import { Modal, Button, ModalProps } from 'react-bootstrap';
+import { Omit, BsPrefixProps } from 'react-bootstrap/esm/helpers';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -37,7 +39,7 @@ interface DataPoint {
 //     });
 // }
 
-function PieChartVC() {
+function PieChartVC(props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>> & { ref?: ((instance: HTMLDivElement | null) => void) | React.RefObject<HTMLDivElement> | null | undefined; }, BsPrefixProps<"div"> & ModalProps> & BsPrefixProps<"div"> & ModalProps & { children?: React.ReactNode; }) {
     const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
     useEffect(() => {
@@ -57,9 +59,9 @@ function PieChartVC() {
     const options = {
         exportEnabled: true,
         animationEnabled: true,
-        title: {
-            text: 'Most Common Types of Violations',
-        },
+        // title: {
+        //     text: 'Most Common Types of Violations',
+        // },
         data: [
             {
                 type: 'pie',
@@ -75,9 +77,26 @@ function PieChartVC() {
     };
 
     return (
-        <div className="piechart">
-            <CanvasJSChart options={options}></CanvasJSChart>
-        </div>
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Most Common Types of Violations
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="piechart">
+                    <CanvasJSChart options={options}></CanvasJSChart>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide}>Close</Button>
+            </Modal.Footer>
+        </Modal>
     );
 }
 
