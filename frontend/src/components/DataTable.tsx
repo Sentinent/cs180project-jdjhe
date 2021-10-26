@@ -1,7 +1,7 @@
 import React, {
   DetailedReactHTMLElement,
   Dispatch,
-  FormEvent,
+  // FormEvent,
   ReactElement,
   StyleHTMLAttributes,
   useEffect,
@@ -210,13 +210,8 @@ function createData(
   return rows;
 }
 
+/*
 function createFooter(dispatch: Dispatch<DataTableStateAction>) {
-  const onInsertClicked = () => {
-    dispatch({ type: 'modalType', data: 'insert' });
-    dispatch({ type: 'modalData', data: [] });
-    dispatch({ type: 'modalShown', data: undefined });
-  };
-
   const footerRow = React.createElement('span', { key: 'colfooter' }, [
     'Showing page 1 of 10',
     React.createElement('img', {
@@ -246,6 +241,7 @@ function createFooter(dispatch: Dispatch<DataTableStateAction>) {
 
   return footerRow;
 }
+*/
 
 function createTable(
   dataQueryURL: string,
@@ -263,7 +259,7 @@ function createTable(
 
     let rows: React.ReactElement[] = createHeader(cols, dispatch);
     rows = rows.concat(createData(data, dispatch));
-    rows.push(createFooter(dispatch));
+    // rows.push(createFooter(dispatch));
 
     dispatch({ type: 'updateData', data: rows });
   });
@@ -276,6 +272,12 @@ function DataTable() {
     modalShown: false,
     modalData: [],
   });
+
+  const onInsertClicked = () => {
+    dispatch({ type: 'modalType', data: 'insert' });
+    dispatch({ type: 'modalData', data: [] });
+    dispatch({ type: 'modalShown', data: undefined });
+  };
 
   useEffect(() => {
     const terms = cols.map((col) => `${col}~*`).join(',');
@@ -295,6 +297,27 @@ function DataTable() {
     <>
       <div className="datagrid" style={style}>
         {state.rows}
+      </div>
+      <div className="datagrid-actions">
+        <div className="data-actions">
+          <button onClick={onInsertClicked}>Insert Row</button>
+          <button>Analyze Current Query</button>
+        </div>
+        <div className="page-actions">
+          <p>Page 1 of N</p>
+          <p>
+            <img
+              className="icon left-arrow"
+              src={LeftArrowSvg}
+              style={{ margin: '0 0.5rem' }}
+            />
+            <img
+              className="icon right-arrow"
+              src={LeftArrowSvg}
+              style={{ margin: '0 0.5rem' }}
+            />
+          </p>
+        </div>
       </div>
       <EntryModal state={state} dispatch={dispatch} />
     </>

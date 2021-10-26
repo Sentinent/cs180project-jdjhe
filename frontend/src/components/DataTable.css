@@ -4,7 +4,7 @@
 }
 
 .datagrid {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
 
@@ -31,4 +31,40 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
+}
+
+.datagrid-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.datagrid-actions * {
+  margin: 0;
+  padding: 0;
+}
+
+.datagrid-actions p {
+  display: inline-block;
+}
+
+.datagrid-actions .icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.datagrid-actions .right-arrow {
+  transform: rotate(180deg);
+}
+
+.datagrid-actions .data-actions button {
+  margin: 6px;
+  padding: 0.25rem;
+}
+
+.datagrid-actions .page-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

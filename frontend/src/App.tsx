@@ -12,9 +12,9 @@ function App() {
     <>
       <ToolBar />
       <MainView />
+      {/* <Analytics /> */}
     </>
 
-    /* <SearchHome /> */
     /*
       { <Header
         onClick={() => setShowInput(!showInput)}
