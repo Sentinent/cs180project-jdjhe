@@ -58,6 +58,7 @@ function search(cols, page, terms) {
 
   return {
     results,
+    currPage: page,
     totalPages: Math.ceil(totalResults / resultsPerPage),
   };
 }

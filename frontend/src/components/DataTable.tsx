@@ -13,7 +13,6 @@ import './DataTable.css';
 import PencilSvg from './assets/pencil.svg';
 import TrashSvg from './assets/trash.svg';
 import LeftArrowSvg from './assets/left-arrow.svg';
-import PlusSvg from './assets/plus.svg';
 import axios from 'axios';
 
 const ENDPOINT = 'localhost:5000';
@@ -36,6 +35,8 @@ let existingTimeout: NodeJS.Timeout;
 
 export interface DataTableState {
   rows: ReactElement[];
+  currentPage: Number;
+  totalPages: Number;
   modalType: string;
   modalShown: boolean;
   modalData: string[];
@@ -50,6 +51,10 @@ function reducer(state: DataTableState, action: DataTableStateAction) {
   switch (action.type) {
     case 'updateData':
       return { ...state, rows: action.data };
+    case 'updateCurrPage':
+      return { ...state, currentPage: action.data };
+    case 'updateTotalPages':
+      return { ...state, totalPages: action.data };
     case 'modalType':
       return { ...state, modalType: action.data };
     case 'modalShown':
@@ -61,7 +66,7 @@ function reducer(state: DataTableState, action: DataTableStateAction) {
   }
 }
 
-function getCurrentDataQuery(): string {
+function getCurrentDataQuery(currPage: Number): string {
   // returns the data query url for the current filters
   let queryParts = [];
   for (const headerCell of Array.from(
@@ -83,7 +88,7 @@ function getCurrentDataQuery(): string {
     }
   }
   let terms = queryParts.join(',');
-  return `http://${ENDPOINT}/data/cols=_&page=1&terms=${terms}`;
+  return `http://${ENDPOINT}/data/cols=_&page=${currPage}&terms=${terms}`;
 }
 
 function createHeader(
@@ -94,7 +99,7 @@ function createHeader(
     // wait a second from the last input so we don't spam the backend
     if (existingTimeout) clearTimeout(existingTimeout);
     existingTimeout = setTimeout(() => {
-      createTable(getCurrentDataQuery(), dispatch);
+      createTable(getCurrentDataQuery(1), dispatch);
     }, 1000);
   };
 
@@ -151,7 +156,7 @@ function createData(
         .get(`http://${ENDPOINT}/delete/summonsNum=${summonsId}`)
         .then((resp) => {
           alert(resp.data);
-          createTable(getCurrentDataQuery(), dispatch);
+          createTable(getCurrentDataQuery(1), dispatch);
         });
     }
   };
@@ -210,39 +215,6 @@ function createData(
   return rows;
 }
 
-/*
-function createFooter(dispatch: Dispatch<DataTableStateAction>) {
-  const footerRow = React.createElement('span', { key: 'colfooter' }, [
-    'Showing page 1 of 10',
-    React.createElement('img', {
-      className: 'icon left-arrow',
-      key: 'colfooter_prevpage',
-      src: LeftArrowSvg,
-      style: { marginLeft: '0.5rem', marginRight: '0.5rem' },
-    }),
-    React.createElement('img', {
-      className: 'icon right-arrow',
-      key: 'colfooter_nextpage',
-      src: LeftArrowSvg,
-    }),
-    React.createElement(
-      'p',
-      { className: 'actions', key: 'colfooter_actions' },
-      [
-        React.createElement('img', {
-          className: 'icon',
-          key: 'col_footer_insert',
-          src: PlusSvg,
-          onClick: onInsertClicked,
-        }),
-      ]
-    ),
-  ]);
-
-  return footerRow;
-}
-*/
-
 function createTable(
   dataQueryURL: string,
   dispatch: Dispatch<DataTableStateAction>
@@ -255,19 +227,26 @@ function createTable(
 
   axios.get(dataQueryURL).then((resp) => {
     // result from backend is a list of objects { colName: colVal }
-    const data = resp.data.map((x: Object[]) => Object.values(x));
+    const data = resp.data['results'].map((x: Object[]) => Object.values(x));
 
     let rows: React.ReactElement[] = createHeader(cols, dispatch);
     rows = rows.concat(createData(data, dispatch));
     // rows.push(createFooter(dispatch));
 
     dispatch({ type: 'updateData', data: rows });
+    dispatch({ type: 'updateCurrPage', data: Number(resp.data['currPage']) });
+    dispatch({
+      type: 'updateTotalPages',
+      data: Number(resp.data['totalPages']),
+    });
   });
 }
 
 function DataTable() {
   const [state, dispatch] = useReducer(reducer, {
     rows: [],
+    currentPage: 1,
+    totalPages: 1,
     modalType: 'insert',
     modalShown: false,
     modalData: [],
@@ -277,6 +256,18 @@ function DataTable() {
     dispatch({ type: 'modalType', data: 'insert' });
     dispatch({ type: 'modalData', data: [] });
     dispatch({ type: 'modalShown', data: undefined });
+  };
+
+  const onPrevPage = () => {
+    if (state.currentPage > 1) {
+      createTable(getCurrentDataQuery(state.currentPage - 1), dispatch);
+    }
+  };
+
+  const onNextPage = () => {
+    if (state.currentPage < state.totalPages) {
+      createTable(getCurrentDataQuery(state.currentPage + 1), dispatch);
+    }
   };
 
   useEffect(() => {
@@ -304,17 +295,21 @@ function DataTable() {
           <button>Analyze Current Query</button>
         </div>
         <div className="page-actions">
-          <p>Page 1 of N</p>
+          <p>
+            Page {state.currentPage} of {state.totalPages}
+          </p>
           <p>
             <img
               className="icon left-arrow"
               src={LeftArrowSvg}
               style={{ margin: '0 0.5rem' }}
+              onClick={onPrevPage}
             />
             <img
               className="icon right-arrow"
               src={LeftArrowSvg}
               style={{ margin: '0 0.5rem' }}
+              onClick={onNextPage}
             />
           </p>
         </div>
