@@ -4,7 +4,7 @@ import BarChartS from "../components/BarChartS";
 // import PieChartVC from "../components/PieChartVC";
 // import PieChartCB from "../components/PieChartCB";
 // import BarChart from "../components/BarChart";
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col} from 'react-bootstrap';
 
 function Analytics() {
     // const showPieChartVC = () => {

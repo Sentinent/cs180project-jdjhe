@@ -1,43 +1,43 @@
 .entrymodal {
-    padding: 0;
-    margin: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 99;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
 
-    background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.9);
 }
 
-.datagrid .entrymodal-content {
-    position: absolute;
+.entrymodal-content {
+  position: absolute;
 
-    width: 25rem;
+  width: 25rem;
 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #eee;
-    padding: 1rem;
-    border-radius: 5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #eee;
+  padding: 1rem;
+  border-radius: 5%;
 }
 
 .entrymodal-content span label {
-    width: 50%;
+  width: 50%;
 }
 
 .entrymodal-content span input {
-    width: 40%;
+  width: 40%;
 }
 
 .entrymodal-content span button {
-    width: 40%;
+  width: 40%;
 }
 
 .entrymodal-content .modal-actions {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

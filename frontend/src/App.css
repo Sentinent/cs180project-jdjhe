@@ -1,3 +1,9 @@
 .text-center {
-    align-content: center;
+  align-content: center;
+}
+
+#root {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
