@@ -1,4 +1,7 @@
 .main-view {
-    width: 80%;
-    margin: 0 auto;
+  position: relative;
+
+  width: 90%;
+  height: 80%;
+  margin: 0 auto;
 }
