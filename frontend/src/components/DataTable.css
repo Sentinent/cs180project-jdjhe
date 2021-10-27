@@ -1,58 +1,70 @@
 .datagrid * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .datagrid {
-    background: lightgrey;
+  position: relative;
+  width: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: column;
-    overflow-x: scroll;
-}
+  margin-top: 5vh;
+  border: #aaa solid 2px;
 
-/* header row */
-.datagrid .datagrid-cell input {
-    width: 90%;
-}
+  display: grid;
+  /* grid-column-gap: 12px; */
 
-/* each row of the table */
-.datagrid span {
-    width: max-content;
-    padding: 0.5rem 0.5rem;
-    white-space: nowrap;
-}
-
-.datagrid span:nth-child(even) {
-    background: grey;
-}
-/* each cell in the table */
-.datagrid span p {
-    display: inline-block;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 .datagrid .datagrid-cell {
-    width: 10vw;
+  padding: 6px;
 }
 
-/* last cell in the table */
-.datagrid .actions {
-    width: 64px;
+.datagrid .action {
+  width: 50px;
 }
 
-/* svg icons */
-.datagrid .icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
+.datagrid .action img {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
 
-/* footer row things */
-.datagrid .right-arrow {
-    transform: rotate(180deg);
+.datagrid-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.datagrid span:last-child .actions {
-    float: right;
+.datagrid-actions * {
+  margin: 0;
+  padding: 0;
+}
+
+.datagrid-actions p {
+  display: inline-block;
+}
+
+.datagrid-actions .icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.datagrid-actions .right-arrow {
+  transform: rotate(180deg);
+}
+
+.datagrid-actions .data-actions button {
+  margin: 6px;
+  padding: 0.25rem;
+}
+
+.datagrid-actions .page-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

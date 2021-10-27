@@ -1,64 +1,55 @@
-const JSONDATA = require("../server");
-
-const router = require("express").Router();
-
-// this route is used for debugging
-router.route("/").get((req, res) => {
-  res.send("hi");
-});
+const router = require('express').Router();
+const JSONDATA = require('../data.js');
 
 // this route does the inserting
 router
   .route(
-    "/summonsNum=:sumNum&" +
-      "plateID=:plateID&" +
-      "regState=:regState&" +
-      "issDate=:issDate&" +
-      "vTime=:vioTime&" +
-      "vCode=:vioCode&" +
-      "vehMake=:vehMake&" +
-      "vehBody=:vehBody&" +
-      "vehYear=:vehYear&" +
-      "street=:street&" +
-      "cCounty=:cCounty&" +
-      "vCounty=:vCounty"
+    '/summonsNum=:sumNum&' +
+      'plateID=:plateID&' +
+      'regState=:regState&' +
+      'issDate=:issDate&' +
+      'vTime=:vioTime&' +
+      'vCode=:vioCode&' +
+      'vehMake=:vehMake&' +
+      'vehBody=:vehBody&' +
+      'vehYear=:vehYear&' +
+      'street=:street&' +
+      'cCounty=:cCounty&' +
+      'vCounty=:vCounty'
   )
   .get((req, res) => {
     const data = {
-      "Summons Number": req.params.sumNum,
-      "Plate ID": req.params.plateID,
-      "Registration State": req.params.regState,
-      "Issue Date": req.params.issDate,
-      "Violation Time": req.params.vioTime,
-      "Violation Code": req.params.vioCode,
-      "Vehicle Make": req.params.vehMake,
-      "Vehicle Body Type": req.params.vehBody,
-      "Vehicle Year": req.params.vehYear,
-      "Street Name": req.params.street,
-      "County County": req.params.cCounty,
-      "Violation County": req.params.vCounty,
+      'Summons Number': req.params.sumNum,
+      'Plate ID': req.params.plateID,
+      'Registration State': req.params.regState,
+      'Issue Date': req.params.issDate,
+      'Violation Time': req.params.vioTime,
+      'Violation Code': req.params.vioCode,
+      'Vehicle Make': req.params.vehMake,
+      'Vehicle Body Type': req.params.vehBody,
+      'Vehicle Year': req.params.vehYear,
+      'Street Name': req.params.street,
+      'County County': req.params.cCounty,
+      'Violation County': req.params.vCounty,
     };
 
-    console.log("\nInsert function:");
-
-    let JSONDATA = require("../server.js");
-
-    console.log("Wants to insert " + data["Summons Number"]);
+    console.log('\nInsert function:');
+    console.log('Wants to insert ' + data['Summons Number']);
     const index = JSONDATA.findIndex(
-      (x) => x["Summons Number"] == data["Summons Number"]
+      (x) => x['Summons Number'] == data['Summons Number']
     );
     if (index > -1) {
-      console.log("index = " + index);
-      console.log("Summons Number already exist");
-      res.send("Summons Number already exist");
+      console.log('index = ' + index);
+      console.log('Summons Number already exist');
+      res.send('Summons Number already exist');
     } else {
-      console.log("index = " + index);
+      console.log('index = ' + index);
       JSONDATA.push(data);
-      console.log("Data added to database");
-      res.send("Data added to database");
+      console.log('Data added to database');
+      res.send('Data added to database');
     }
-    console.log("After insertion length:" + JSONDATA.length);
-    console.log("Insert function ended\n");
+    console.log('After insertion length:' + JSONDATA.length);
+    console.log('Insert function ended\n');
   });
 
 module.exports = router;
