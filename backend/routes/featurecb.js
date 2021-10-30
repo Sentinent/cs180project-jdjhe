@@ -48,11 +48,23 @@ router.route('/data/carbrandviolations').get((req, res) => {
   /*
     Read through the final array and calculate the percentages based on 
     the amount of violations certain car brands recieved over the total number of violations
-    */
-  for (var i = 0; i < final.length; i++) {
-    final[i].Percentage = final[i].Occurences / total;
+  */
+  var otherline = { CarBrand: "Other", Occurences: 0, Percentage: 0.0 };
+  for (var i = 0; i < final.length; i++) 
+  {
+    final[i].Percentage = parseFloat(((final[i].Occurences / total) * 100).toFixed(3));
+
+    if (final[i].Percentage < 0.5)
+    {
+      otherline.Occurences += final[i].Occurences;
+      final.splice(i, 1);
+      i--;
+    }
     //totalp += final[i].Percentage;
   }
+
+  otherline.Percentage = (otherline.Occurences / total) * 100;
+  final.push(otherline);
   //console.log(totalp);
 
   //////////////////////////////////////////////////////////////////
