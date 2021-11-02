@@ -8,6 +8,7 @@ const update = require('./routes/update');
 const feature1 = require('./routes/feature1');
 const featurecb = require('./routes/featurecb');
 const featuretime = require('./routes/featuretime');
+const featureVPC = require('./routes/featureVPC');
 
 const app = express();
 const port = 5000;
@@ -22,6 +23,7 @@ app.use('/update', update);
 app.use('/feature1', feature1);
 app.use('/featurecb', featurecb);
 app.use('/featuretime', featuretime);
+app.use('/featureVPC', featureVPC);
 
 app.listen(port, () => {
   console.log('Server is running on port: ' + port);
