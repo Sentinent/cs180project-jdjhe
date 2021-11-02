@@ -10,6 +10,7 @@ const featurecb = require('./routes/featurecb');
 const featuretime = require('./routes/featuretime');
 const featuremonth = require('./routes/featuremonth');
 const repeats = require('./routes/featurerepeats');
+const featureVPC = require('./routes/featureVPC');
 
 const app = express();
 const port = 5000;
@@ -26,6 +27,7 @@ app.use('/featurecb', featurecb);
 app.use('/featuretime', featuretime);
 app.use('/featuremonth', featuremonth);
 app.use('/featurerepeats', repeats);
+app.use('/featureVPC', featureVPC);
 
 app.listen(port, () => {
   console.log('Server is running on port: ' + port);

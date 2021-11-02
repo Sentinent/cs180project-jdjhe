@@ -35,15 +35,28 @@ router
 
     console.log('\nInsert function:');
     console.log('Wants to insert ' + data['Summons Number']);
+
+    //check if the data wants to insert is already in the index
     const index = JSONDATA.findIndex(
       (x) => x['Summons Number'] == data['Summons Number']
     );
-    if (index > -1) {
-      console.log('index = ' + index);
+
+    if (index > -1) {  // For the data is already exist, no action
       console.log('Summons Number already exist');
       res.send('Summons Number already exist');
-    } else {
-      console.log('index = ' + index);
+    } else { //For those did not found in the index.
+      //change all the data to uppercase
+      data['Plate ID'] = data['Plate ID'].toUpperCase();
+      data['Registration State'] = data['Registration State'].toUpperCase();
+      data['Issue Date'] = data['Issue Date'].toUpperCase();
+      data['Violation Time'] = data['Violation Time'].toUpperCase();
+      data['Violation Code'] = data['Violation Code'].toUpperCase();
+      data['Vehicle Make'] = data['Vehicle Make'].toUpperCase();
+      data['Vehicle Body Type'] = data['Vehicle Body Type'].toUpperCase();
+      data['Vehicle Year'] = data['Vehicle Year'].toUpperCase();
+      data['Street Name'] = data['Street Name'].toUpperCase();
+      data['County County'] = data['County County'].toUpperCase();
+      data['Violation County'] = data['Violation County'].toUpperCase();
       JSONDATA.push(data);
       console.log('Data added to database');
       res.send('Data added to database');
