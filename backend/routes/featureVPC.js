@@ -16,18 +16,18 @@ router.route('/data/violationspercounty').get((req, res) => {
             total += 1;
         }
     }
-
+    
     const iterator1 = allCounty[Symbol.iterator]();
     let other = {County: 'other', Violations: 0, Percentage: 0.0};
     for(const item of iterator1){
         if((parseFloat(item[1])/total).toFixed(2) <= 0.01){
             other.Violations += item[1];
         } else {
-            let line = {County : item[0], Violations: item[1], Percentage: (item[1]/total).toFixed(2)};
+            let line = {County : item[0], Violations: item[1], Percentage: ((item[1]/total).toFixed(2))*100};
             result.push(line);
         }
     }
-    other.Percentage = (other.Violations/total).toFixed(2);
+    other.Percentage = ((other.Violations/total).toFixed(2))*100;
     result.push(other);
     
     res.send(result);
