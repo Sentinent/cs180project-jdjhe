@@ -41,7 +41,6 @@ function Analytics() {
                     <BarChartTOD show={showBarChartTOD} onHide={() => setShowBarChartTOD(false)} />
                 </Col>
             </Row>
-            <Row>{' '}</Row>
             <Row>
                 <Col className="text-center">
                     <PieChartVPCS />
