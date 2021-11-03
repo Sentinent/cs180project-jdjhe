@@ -27,7 +27,7 @@ def parsing_json():
     fileNumber = 1
 
     # The While loop is looping through the multiple datasets to be parsed
-    while pnum < 2:
+    while pnum < 4:
 
         # Determine which dataset to read through based on pnum
         if (pnum == 1):
