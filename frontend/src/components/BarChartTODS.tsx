@@ -37,7 +37,7 @@ function sort(data: TimeViolation[]) {
     });
 }
 
-function BarChartS() {
+function BarChartTODS() {
     const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
     useEffect(() => {
@@ -74,4 +74,4 @@ function BarChartS() {
     );
 }
 
-export default BarChartS;
+export default BarChartTODS;
