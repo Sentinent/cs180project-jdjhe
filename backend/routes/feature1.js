@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
 
-router.route('/data/violationcount').get((req, res) => {
+let final = [];
+
+function calculate() {
   const resultsPerPage = 16;
 
   //////////////////////////////////////////////////////////////////
@@ -17,7 +19,6 @@ router.route('/data/violationcount').get((req, res) => {
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
   var total = 0;
-  let final = [];
 
   /*
     Read through the JSONDATA rows and increment the position of the
@@ -38,26 +39,31 @@ router.route('/data/violationcount').get((req, res) => {
     of violations. Then store the values in the line and store the line in the final list, then 
     keep repeating until all the violation codes has been reached
     */
-  for (var i = 0; i < violationCounts.length; i++) {
-    var percent = violationCounts[i] / total;
+  for (var i = 1; i < violationCounts.length; i++) {
+    var percent = parseFloat(((violationCounts[i] / total) * 100).toFixed(3));
+    
     //totalp += percent;
     // A line to represent the values needed to be returned and stored in the final result
     var line = {
-      ViolationCode: i + 1,
+      ViolationCode: i,
       Occurences: violationCounts[i],
       Percentage: percent,
     };
-    /*
-        line[0].ViolationCode = i + 1;
-        line[0].Occurences = violationCounts[i];
-        line[0].Percentage = percent;
-        */
+    
     final.push(line);
   }
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
+}
 
+// run it once, just so featurerepeats can access it
+// after this, it will run again each time the front
+// end calls this route
+calculate();
+
+router.route('/data/violationcount').get((req, res) => {
+  calculate();
   res.send(final);
 });
 
-module.exports = router;
+module.exports = {router, final};

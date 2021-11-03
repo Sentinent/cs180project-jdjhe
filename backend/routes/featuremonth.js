@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
 
-router.route('/data/timeviolations').get((req, res) => {
+router.route('/data/monthviolations').get((req, res) => {
   const resultsPerPage = 16;
 
   //////////////////////////////////////////////////////////////////
@@ -14,34 +14,49 @@ router.route('/data/timeviolations').get((req, res) => {
   let final = [];
 
   /*
-    Find the correct time the violation occured, putting any unknown time in a
-    variable called unknown, and then add their respective count of violations in
-    a list
-    */
+    Check to see which month the violation occured and then add it to its respective
+    violation count
+  */
   for (var i = 0; i < JSONDATA.length; i++) {
-    var time = JSONDATA[i]['Violation Time'];
-    if (time.length > 5) {
-      code = 'Unknown Time';
-    } else if (Number(time[1]) == 0 && Number(time[0]) != 1) {
-      code = 'Unknown Time';
-    } else if (Number(time[0]) != 0 && Number(time[0]) != 1) {
-      code = 'Unknown Time';
-    } else if (Number(time[0]) == 1 && Number(time[1]) > 2) {
-      code = 'Unknown Time';
+    var date = JSONDATA[i]['Issue Date'];
+    if (date[5] == 0 && date[6] == 1) {
+      code = 'January';
+    } else if (date[5] == 0 && date[6] == 2) {
+      code = 'February';
+    } else if (date[5] == 0 && date[6] == 3) {
+      code = 'March';
+    } else if (date[5] == 0 && date[6] == 4) {
+      code = 'April';
+    } else if (date[5] == 0 && date[6] == 5) {
+      code = 'May';
+    } else if (date[5] == 0 && date[6] == 6) {
+      code = 'June';
+    } else if (date[5] == 0 && date[6] == 7) {
+      code = 'July';
+    } else if (date[5] == 0 && date[6] == 8) {
+      code = 'August';
+    } else if (date[5] == 0 && date[6] == 9) {
+      code = 'September';
+    } else if (date[5] == 1 && date[6] == 0) {
+      code = 'October';
+    } else if (date[5] == 1 && date[6] == 1) {
+      code = 'November';
+    } else if (date[5] == 1 && date[6] == 2) {
+      code = 'December';
     } else {
-      code = time[0] + time[1] + time[4] + 'M';
+      code = "Unknown";
     }
     var found = false;
     if (final.length > 0) {
       for (var j = 0; j < final.length; j++) {
-        if (final[j].Time == code) {
+        if (final[j].Month == code) {
           final[j].Violations += 1;
           found = true;
           break;
         }
       }
     }
-    var line = { Time: code, Violations: 1, Percentage: 0.0 };
+    var line = { Month: code, Violations: 1, Percentage: 0.0 };
     if (!found) {
       final.push(line);
     }
@@ -53,7 +68,7 @@ router.route('/data/timeviolations').get((req, res) => {
 
   /*
     Read through the final array and calculate the percentages based on 
-    the amount of violations certain times recieved over the total number of violations
+    the amount of violations certain months recieved over the total number of violations
     */
   for (var i = 0; i < final.length; i++) {
     final[i].Percentage = parseFloat(((final[i].Violations / total) * 100).toFixed(3));
