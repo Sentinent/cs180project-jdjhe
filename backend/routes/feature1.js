@@ -1,10 +1,11 @@
 const router = require('express').Router();
+const { searchAll } = require('./search');
 const JSONDATA = require('../data.js');
 
 let final = [];
 
-function calculate() {
-  const resultsPerPage = 16;
+function calculate(DATASET) {
+  final = [];
 
   //////////////////////////////////////////////////////////////////
   // Start of Code
@@ -21,13 +22,13 @@ function calculate() {
   var total = 0;
 
   /*
-    Read through the JSONDATA rows and increment the position of the
+    Read through the DATASET rows and increment the position of the
     violation code in the former array by 1 when a specific violation
     code occures to represent the amount of times that violation code
     is found
     */
-  for (var i = 0; i < JSONDATA.length; i++) {
-    var code = Number(JSONDATA[i]['Violation Code']);
+  for (var i = 0; i < DATASET.length; i++) {
+    var code = Number(DATASET[i]['Violation Code']);
     violationCounts[code] += 1;
     total++;
   }
@@ -41,7 +42,7 @@ function calculate() {
     */
   for (var i = 1; i < violationCounts.length; i++) {
     var percent = parseFloat(((violationCounts[i] / total) * 100).toFixed(3));
-    
+
     //totalp += percent;
     // A line to represent the values needed to be returned and stored in the final result
     var line = {
@@ -49,7 +50,7 @@ function calculate() {
       Occurences: violationCounts[i],
       Percentage: percent,
     };
-    
+
     final.push(line);
   }
   //console.log(totalp);
@@ -59,11 +60,14 @@ function calculate() {
 // run it once, just so featurerepeats can access it
 // after this, it will run again each time the front
 // end calls this route
-calculate();
+calculate(JSONDATA);
 
 router.route('/data/violationcount').get((req, res) => {
-  calculate();
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
+
+  calculate(DATASET);
   res.send(final);
 });
 
-module.exports = {router, final};
+module.exports = { router, final, calculate };

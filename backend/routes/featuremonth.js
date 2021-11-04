@@ -1,36 +1,38 @@
 const router = require('express').Router();
-const JSONDATA = require('../data.js');
+const { searchAll } = require('./search');
 
 router.route('/data/monthviolations').get((req, res) => {
-  const resultsPerPage = 16;
-
   //////////////////////////////////////////////////////////////////
   // Start of Code
   //////////////////////////////////////////////////////////////////
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
 
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
 
-  const final = [{Month: 'January', Violations: 0, Percentage: 0},
-               {Month: 'February', Violations: 0, Percentage: 0},
-               {Month: 'March', Violations: 0, Percentage: 0},
-               {Month: 'April', Violations: 0, Percentage: 0},
-               {Month: 'May', Violations: 0, Percentage: 0},
-               {Month: 'June', Violations: 0, Percentage: 0},
-               {Month: 'July', Violations: 0, Percentage: 0},
-               {Month: 'August', Violations: 0, Percentage: 0},
-               {Month: 'September', Violations: 0, Percentage: 0},
-               {Month: 'October', Violations: 0, Percentage: 0},
-               {Month: 'November', Violations: 0, Percentage: 0},
-               {Month: 'December', Violations: 0, Percentage: 0},
-               {Month: 'Unknown', Violations: 0, Percentage: 0}];
+  const final = [
+    { Month: 'January', Violations: 0, Percentage: 0 },
+    { Month: 'February', Violations: 0, Percentage: 0 },
+    { Month: 'March', Violations: 0, Percentage: 0 },
+    { Month: 'April', Violations: 0, Percentage: 0 },
+    { Month: 'May', Violations: 0, Percentage: 0 },
+    { Month: 'June', Violations: 0, Percentage: 0 },
+    { Month: 'July', Violations: 0, Percentage: 0 },
+    { Month: 'August', Violations: 0, Percentage: 0 },
+    { Month: 'September', Violations: 0, Percentage: 0 },
+    { Month: 'October', Violations: 0, Percentage: 0 },
+    { Month: 'November', Violations: 0, Percentage: 0 },
+    { Month: 'December', Violations: 0, Percentage: 0 },
+    { Month: 'Unknown', Violations: 0, Percentage: 0 },
+  ];
 
   /*
     Check to see which month the violation occured and then add it to its respective
     violation count
   */
-  for (var i = 0; i < JSONDATA.length; i++) {
-    var date = JSONDATA[i]['Issue Date'];
+  for (var i = 0; i < DATASET.length; i++) {
+    var date = DATASET[i]['Issue Date'];
     if (date[5] == 0 && date[6] == 1) {
       final[0]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 2) {
@@ -67,7 +69,8 @@ router.route('/data/monthviolations').get((req, res) => {
     the amount of violations certain months recieved over the total number of violations
     */
   for (var i = 0; i < final.length; i++) {
-    final[i].Percentage = ((final[i].Violations / JSONDATA.length).toFixed(3) * 100);
+    final[i].Percentage =
+      (final[i].Violations / DATASET.length).toFixed(3) * 100;
     //totalp += final[i].Percentage;
   }
   //console.log(totalp);

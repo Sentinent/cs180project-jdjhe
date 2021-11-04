@@ -29,6 +29,7 @@ function Analytics() {
                 <button type="button" className="btn btn-dark" onClick={() => setShowPieChartVC(true)}>Learn more</button>
                 <PieChartVC show={showPieChartVC} onHide={() => setShowPieChartVC(false)} />
             </Row>
+            
             <Row className="text-center">
                 <PieChartCBS className="chart"/>
                 <button type="button" className="btn btn-dark" onClick={() => setShowPieChartCB(true)}>Learn more</button>
