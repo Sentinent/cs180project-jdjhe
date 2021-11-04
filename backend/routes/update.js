@@ -39,13 +39,23 @@ router
       (x) => x['Summons Number'] == data['Summons Number']
     );
     if (index == -1) {
-      console.log('index = ' + index);
       console.log('Summons Number does not exist');
       res.send('Summons Number does not exist');
     } else {
-      console.log('index = ' + index);
       console.log('before :');
       console.log(JSONDATA[index]);
+      //change all the data to uppercase
+      data['Plate ID'] = data['Plate ID'].toUpperCase();
+      data['Registration State'] = data['Registration State'].toUpperCase();
+      data['Issue Date'] = data['Issue Date'].toUpperCase();
+      data['Violation Time'] = data['Violation Time'].toUpperCase();
+      data['Violation Code'] = data['Violation Code'].toUpperCase();
+      data['Vehicle Make'] = data['Vehicle Make'].toUpperCase();
+      data['Vehicle Body Type'] = data['Vehicle Body Type'].toUpperCase();
+      data['Vehicle Year'] = data['Vehicle Year'].toUpperCase();
+      data['Street Name'] = data['Street Name'].toUpperCase();
+      data['County County'] = data['County County'].toUpperCase();
+      data['Violation County'] = data['Violation County'].toUpperCase();
       JSONDATA[index] = data;
       console.log('after :');
       console.log(JSONDATA[index]);

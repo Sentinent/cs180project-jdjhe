@@ -4,7 +4,7 @@ import CanvasJSReact from './canvasjs.react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface ViolationCount {
+interface RepeatOffenders {
   ViolationCode: Number;
   Percentage: Number;
 }
@@ -14,18 +14,18 @@ interface DataPoint {
   y: Number;
 }
 
-function PieChartVCS() {
+function BarChartHorS() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/feature1/data/violationcount${window.location.search}`
+        `http://localhost:5000/featurerepeats/data/repeatcount${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
-        const mappedData = data.map((x: ViolationCount) => ({
+        const mappedData = data.map((x: RepeatOffenders) => ({
           label: 'Violation ' + x['ViolationCode'],
           y: x['Percentage'],
         }));
@@ -37,16 +37,25 @@ function PieChartVCS() {
     // exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: 'Most Common Types of Violations',
+      text: 'Repeat Offenders',
     },
+    axisX: {
+      title: 'Violation',
+      // reversed: true,
+    },
+    axisY: {
+      title: '% of Repeats',
+      includeZero: true,
+    },
+    axisYType: 'secondary',
     data: [
       {
-        type: 'pie',
+        type: 'bar',
         startAngle: 75,
         toolTipContent: '<b>{label}</b>: {y}%',
         // showInLegend: "true",
         // legendText: "{label}",
-        indexLabelFontSize: 15,
+        indexLabelFontSize: 9,
         // indexLabel: "{label} - {y}%",
         dataPoints: dataPoints,
       },
@@ -58,7 +67,7 @@ function PieChartVCS() {
   };
 
   return (
-    <div className="piechart">
+    <div className="barchart">
       <CanvasJSChart
         containerProps={containerProps}
         options={options}
@@ -67,4 +76,4 @@ function PieChartVCS() {
   );
 }
 
-export default PieChartVCS;
+export default BarChartHorS;

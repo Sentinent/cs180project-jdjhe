@@ -5,7 +5,7 @@ import CanvasJSReact from './canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 interface ViolationCount {
-  ViolationCode: Number;
+  County: String;
   Percentage: Number;
 }
 
@@ -14,19 +14,19 @@ interface DataPoint {
   y: Number;
 }
 
-function PieChartVCS() {
+function PieChartVPCS() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/feature1/data/violationcount${window.location.search}`
+        `http://localhost:5000/featureVPC/data/violationspercounty${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
         const mappedData = data.map((x: ViolationCount) => ({
-          label: 'Violation ' + x['ViolationCode'],
+          label: x['County'],
           y: x['Percentage'],
         }));
         setDataPoints(mappedData);
@@ -37,7 +37,7 @@ function PieChartVCS() {
     // exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: 'Most Common Types of Violations',
+      text: 'Frequencies of Violations Per County',
     },
     data: [
       {
@@ -46,7 +46,7 @@ function PieChartVCS() {
         toolTipContent: '<b>{label}</b>: {y}%',
         // showInLegend: "true",
         // legendText: "{label}",
-        indexLabelFontSize: 15,
+        indexLabelFontSize: 9,
         // indexLabel: "{label} - {y}%",
         dataPoints: dataPoints,
       },
@@ -67,4 +67,4 @@ function PieChartVCS() {
   );
 }
 
-export default PieChartVCS;
+export default PieChartVPCS;
