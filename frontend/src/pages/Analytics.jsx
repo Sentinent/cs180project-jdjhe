@@ -26,32 +26,32 @@ function Analytics() {
         <div className='analytics-view'>
             <Row className="text-center">
                 <PieChartVCS className="chart"/>
-                <Button variant="dark" onClick={() => setShowPieChartVC(true)}>Click Here</Button>
+                <button type="button" className="btn btn-dark" onClick={() => setShowPieChartVC(true)}>Learn more</button>
                 <PieChartVC show={showPieChartVC} onHide={() => setShowPieChartVC(false)} />
             </Row>
             <Row className="text-center">
                 <PieChartCBS className="chart"/>
-                <Button variant="dark" onClick={() => setShowPieChartCB(true)}>Click Here</Button>
+                <button type="button" className="btn btn-dark" onClick={() => setShowPieChartCB(true)}>Learn more</button>
                 <PieChartCB show={showPieChartCB} onHide={() => setShowPieChartCB(false)} />
             </Row>
             <Row className="text-center">
                 <BarChartTODS className="chart"/>
-                <Button variant="dark" onClick={() => setShowBarChartTOD(true)}>Click Here</Button>
+                <button type="button" className="btn btn-dark" onClick={() => setShowBarChartTOD(true)}>Learn more</button>
                 <BarChartTOD show={showBarChartTOD} onHide={() => setShowBarChartTOD(false)} />
             </Row>
             <Row className="text-center">
                 <PieChartVPCS className="chart"/>
-                <Button variant="dark" onClick={() => setShowPieChartVPC(true)}>Click Here</Button>
+                <button type="button" className="btn btn-dark" onClick={() => setShowPieChartVPC(true)}>Learn more</button>
                 <PieChartVPC show={showPieChartVPC} onHide={() => setShowPieChartVPC(false)} />
             </Row>
             <Row className="text-center">
                 <BarChartHorS className="chart"/>
-                <Button variant="dark" onClick={() => setShowBarChartHor(true)}>Click Here</Button>
+                <button type="button" className="btn btn-dark" onClick={() => setShowBarChartHor(true)}>Learn more</button>
                 <BarChartHor show={showBarChartHor} onHide={() => setShowBarChartHor(false)} />
             </Row>
             <Row className="text-center">
                 <BarChartMOYS className="chart"/>
-                <Button variant="dark" onClick={() => setShowBarChartMOY(true)}>Click Here</Button>
+                <button type="button" className="btn btn-dark" onClick={() => setShowBarChartMOY(true)}>Learn more</button>
                 <BarChartMOY show={showBarChartMOY} onHide={() => setShowBarChartMOY(false)} />
             </Row>
         </div>

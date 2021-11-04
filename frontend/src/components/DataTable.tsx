@@ -299,8 +299,8 @@ function DataTable() {
       </div>
       <div className="datagrid-actions">
         <div className="data-actions">
-          <button onClick={onInsertClicked}>Insert Row</button>
-          <button onClick={onAnalyzeClicked}>Analyze Current Query</button>
+          <button type="button" className="btn btn-success" onClick={onInsertClicked}>Insert Row</button>
+          <button type="button" className="btn btn-info" onClick={onAnalyzeClicked}>Analyze Current Query</button>
         </div>
         <div className="page-actions">
           <p>
