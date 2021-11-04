@@ -67,16 +67,20 @@ function PieChartVCS() {
                 toolTipContent: "<b>{label}</b>: {y}%",
                 // showInLegend: "true",
                 // legendText: "{label}",
-                indexLabelFontSize: 9,
+                indexLabelFontSize: 15,
                 // indexLabel: "{label} - {y}%",
                 dataPoints: dataPoints,
             },
         ],
     };
+    const containerProps = {
+        height: "700px",
+        wight: "200px"
+    };
 
     return (
         <div className="piechart">
-            <CanvasJSChart options={options}></CanvasJSChart>
+            <CanvasJSChart containerProps = {containerProps} options={options}></CanvasJSChart>
         </div>
     );
 }

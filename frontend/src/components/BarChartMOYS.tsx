@@ -71,10 +71,14 @@ function BarChartMOYS() {
             },
         ],
     };
+    const containerProps = {
+        height: "700px",
+        wight: "200px"
+    };
 
     return (
         <div className="barchart">
-            <CanvasJSChart options={options}></CanvasJSChart>
+            <CanvasJSChart containerProps = {containerProps} options={options}></CanvasJSChart>
         </div>
     );
 }
