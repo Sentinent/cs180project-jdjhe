@@ -3,6 +3,21 @@ const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
 
+function findMaxIndex(arr)
+{
+  var max = arr[0].Percentage;
+  var index = 0;
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i].Percentage > max)
+    {
+      max = arr[i].Percentage;
+      index = i;
+    }
+  }
+  return index;
+}
+
 // Node class to represent a tree value for a BST
 class Node {
   constructor(data) {
@@ -159,10 +174,20 @@ router.route('/data/repeatcount').get((req, res) => {
 
     final.push(line);
   }
+
+  let final_temp = final;
+  let repeatOffenders20 = [];
+  var index;
+  for (var i = 0; i < 20; i++)
+  {
+    index = findMaxIndex(final_temp);
+    repeatOffenders20.push(final_temp[index]);
+    final_temp.splice(index, 1);
+  }
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
 
-  res.send(final);
+  res.send(repeatOffenders20);
 });
 
 module.exports = router;
