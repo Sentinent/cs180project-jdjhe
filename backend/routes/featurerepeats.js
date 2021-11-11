@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
+let RecalculateFeatureRepeats = 1;
 
 function findMaxIndex(arr)
 {
@@ -101,12 +102,12 @@ class BinarySearchTree {
   }
 }
 
-router.route('/data/repeatcount').get((req, res) => {
-  //////////////////////////////////////////////////////////////////
-  // Start of Code
-  //////////////////////////////////////////////////////////////////
-  const terms = (req.query.terms || '').split(',');
-  const DATASET = searchAll(terms);
+let final = [];
+let bstList = [];
+let repeatOffenders20 = [];
+var lastIndex;
+
+function repeatOffenders(DATASET) {
 
   // need to recalculate
   calculate(DATASET);
@@ -119,7 +120,9 @@ router.route('/data/repeatcount').get((req, res) => {
   Object.seal(repeats);
 
   // final is the list of violation codes, their respective occurences and their respective percent of the total
-  let final = [];
+  final = [];
+  bstList = [];
+  lastIndex = DATASET.length - 1;
 
   // Cycle through all violations
   for (var c = 1; c < 99; c++) {
@@ -150,17 +153,18 @@ router.route('/data/repeatcount').get((req, res) => {
         }
       }
     }
+    bstList.push(BST);
+    if (i == DATASET.length - 1)
+    {
+      lastIndex = DATASET.length - 1;
+    }
   }
-
-  //var totalp = 0;
 
   /*
     Calculate the percentage of violations that have been repeated based on
     the total the amount of times the violations have occured
     */
   for (var i = 1; i < repeats.length; i++) {
-    //console.log(i, ": ", violationTotals[i - 1]['Occurences']);
-
     var percent = parseFloat(
       ((repeats[i] / violationTotals[i - 1]['Occurences']) * 100).toFixed(3)
     );
@@ -176,7 +180,7 @@ router.route('/data/repeatcount').get((req, res) => {
   }
 
   let final_temp = final;
-  let repeatOffenders20 = [];
+  repeatOffenders20 = [];
   var index;
   for (var i = 0; i < 20; i++)
   {
@@ -184,10 +188,21 @@ router.route('/data/repeatcount').get((req, res) => {
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
-  //console.log(totalp);
-  //////////////////////////////////////////////////////////////////
+}
 
+router.route('/data/repeatcount').get((req, res) => {
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
+
+  console.log(RecalculateFeatureRepeats);
+  if (RecalculateFeatureRepeats == 1)
+  {
+    console.log("Hello!");
+    repeatOffenders(DATASET);
+    RecalculateFeatureRepeats = 0;
+  }
+  console.log("Here!");
   res.send(repeatOffenders20);
 });
 
-module.exports = router;
+module.exports = { router, RecalculateFeatureRepeats };

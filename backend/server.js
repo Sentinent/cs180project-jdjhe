@@ -9,7 +9,7 @@ const feature1 = require('./routes/feature1').router;
 const featurecb = require('./routes/featurecb');
 const featuretime = require('./routes/featuretime');
 const featuremonth = require('./routes/featuremonth');
-const repeats = require('./routes/featurerepeats');
+const repeats = require('./routes/featurerepeats').router;
 const featureVPC = require('./routes/featureVPC');
 const table = require('./routes/table');
 

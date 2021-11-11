@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
+let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
 
 // this route does the updating
 router
@@ -62,6 +63,9 @@ router
       console.log('Data has been updated');
       res.send('Data has been updated');
     }
+
+    RecalculateFeatureRepeats = 1;
+
     console.log('After Update length:' + JSONDATA.length);
     console.log('Update function ended\n');
   });

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
+let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
 
 // this route does the deleting
 router.route('/summonsNum=:sumNum').get((req, res) => {
@@ -18,6 +19,9 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
     console.log('Summons Number does not exist');
     res.send(sumNum + ' does not exist');
   }
+
+  RecalculateFeatureRepeats = 1;
+
   console.log('Delete function ends.\n');
 });
 
