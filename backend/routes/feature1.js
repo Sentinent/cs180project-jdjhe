@@ -1,12 +1,10 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
 const JSONDATA = require('../data.js');
-
+let RecalculateFeature1 = 1;
 let final = [];
 
 function calculate(DATASET) {
-  final = [];
-
   //////////////////////////////////////////////////////////////////
   // Start of Code
   //////////////////////////////////////////////////////////////////
@@ -57,17 +55,17 @@ function calculate(DATASET) {
   //////////////////////////////////////////////////////////////////
 }
 
-// run it once, just so featurerepeats can access it
-// after this, it will run again each time the front
-// end calls this route
-calculate(JSONDATA);
-
 router.route('/data/violationcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  calculate(DATASET);
+  if (RecalculateFeature1 == 1) {
+    console.log("recalculating feature 1");
+    calculate(DATASET);
+    RecalculateFeature1 = 0;
+  }
+
   res.send(final);
 });
 
-module.exports = { router, final, calculate };
+module.exports = { router, final, calculate, RecalculateFeature1 };

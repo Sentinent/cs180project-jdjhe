@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
+let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
+let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
 
 // this route does the inserting
@@ -63,6 +65,9 @@ router
       res.send('Data added to database');
     }
 
+    RecalculateFeatureTime = 1;
+    RecalculateFeature1 = 1;
+  
     console.log("Before: " + RecalculateFeatureRepeats);
     RecalculateFeatureRepeats = 1;
     console.log("After: " + RecalculateFeatureRepeats);

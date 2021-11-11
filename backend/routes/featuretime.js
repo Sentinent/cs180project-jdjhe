@@ -1,17 +1,19 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
 
-router.route('/data/timeviolations').get((req, res) => {
-  //////////////////////////////////////////////////////////////////
+let RecalculateFeatureTime = 1;
+// final is the list of violation codes, their respective occurences and their respective percent of the total
+let final = []; 
+
+function calculate(req) {
+//////////////////////////////////////////////////////////////////
   // Start of Code
   //////////////////////////////////////////////////////////////////
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
   // total is the max number of violations
-  // final is the list of violation codes, their respective occurences and their respective percent of the total
   var total = 0;
-  let final = [];
 
   /*
     Find the correct time the violation occured, putting any unknown time in a
@@ -64,7 +66,15 @@ router.route('/data/timeviolations').get((req, res) => {
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
 
+}
+
+router.route('/data/timeviolations').get((req, res) => {
+  if (RecalculateFeatureTime == 1) {
+    console.log("recalculating featuretime");
+    calculate(req);
+    RecalculateFeatureTime = 0;
+  }
   res.send(final);
 });
 
-module.exports = router;
+module.exports = {router, RecalculateFeatureTime};
