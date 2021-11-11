@@ -10,7 +10,7 @@ const featurecb = require('./routes/featurecb');
 const featuretime = require('./routes/featuretime').router;
 const featuremonth = require('./routes/featuremonth');
 const repeats = require('./routes/featurerepeats').router;
-const featureVPC = require('./routes/featureVPC');
+const featureVPC = require('./routes/featureVPC').router;
 const table = require('./routes/table');
 
 const app = express();
