@@ -11,6 +11,7 @@ function calculate(req) {
   //////////////////////////////////////////////////////////////////
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
+  final = [];
 
   // total is the max number of violations
   var total = 0;

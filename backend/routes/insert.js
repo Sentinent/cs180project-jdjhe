@@ -3,6 +3,7 @@ const JSONDATA = require('../data.js');
 let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
 let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
+let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
@@ -69,6 +70,7 @@ router
 
     RecalculateFeatureTime = 1;
     RecalculateFeature1 = 1;
+    RecalculateFeatureVPC = 1;
     RecalculateFeatureMonth = 1;
     RecalculateFeatureCarBrand = 1;
   
