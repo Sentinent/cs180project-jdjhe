@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
 let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
+let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 
 // this route does the deleting
 router.route('/summonsNum=:sumNum').get((req, res) => {
@@ -21,7 +22,8 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
   }
 
   RecalculateFeatureTime = 1;
-  
+  RecalculateFeature1 = 1;
+
   console.log('Delete function ends.\n');
 });
 
