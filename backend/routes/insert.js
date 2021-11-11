@@ -3,6 +3,8 @@ const JSONDATA = require('../data.js');
 let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
 let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
+let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the inserting
 router
@@ -67,6 +69,8 @@ router
 
     RecalculateFeatureTime = 1;
     RecalculateFeature1 = 1;
+    RecalculateFeatureMonth = 1;
+    RecalculateFeatureCarBrand = 1;
   
     console.log("Before: " + RecalculateFeatureRepeats);
     RecalculateFeatureRepeats = 1;
