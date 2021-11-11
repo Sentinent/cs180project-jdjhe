@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
 
-router.route('/data/timeviolations').get((req, res) => {
-  //////////////////////////////////////////////////////////////////
+let RecalculateFeatureTime = 1;
+
+function calculate() {
+//////////////////////////////////////////////////////////////////
   // Start of Code
   //////////////////////////////////////////////////////////////////
   const terms = (req.query.terms || '').split(',');
@@ -64,7 +66,14 @@ router.route('/data/timeviolations').get((req, res) => {
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
 
+}
+
+router.route('/data/timeviolations').get((req, res) => {
+  if (RecalculateFeatureTime == 1) {
+    calculate();
+    RecalculateFeatureTime = 0;
+  }
   res.send(final);
 });
 
-module.exports = router;
+module.exports = {router, RecalculateFeatureTime};

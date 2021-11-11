@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
+let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
 
 // this route does the inserting
 router
@@ -61,6 +62,9 @@ router
       console.log('Data added to database');
       res.send('Data added to database');
     }
+
+    RecalculateFeatureTime = 1;
+    
     console.log('After insertion length:' + JSONDATA.length);
     console.log('Insert function ended\n');
   });
