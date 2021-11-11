@@ -4,6 +4,8 @@ let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
 let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
+let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the deleting
 router.route('/summonsNum=:sumNum').get((req, res) => {
@@ -27,6 +29,8 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
   RecalculateFeature1 = 1;
   RecalculateFeatureRepeats = 1;
   RecalculateFeatureVPC = 1;
+  RecalculateFeatureMonth = 1;
+  RecalculateFeatureCarBrand = 1;
 
   console.log('Delete function ends.\n');
 });
