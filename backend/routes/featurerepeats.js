@@ -109,6 +109,7 @@ let bstList = [];
 let repeatOffenders20 = [];
 var lastIndex;
 
+// Function to calculate the Repeated offenders
 function repeatOffenders(DATASET) {
 
   var startTime = performance.now();
@@ -196,28 +197,34 @@ function repeatOffenders(DATASET) {
   console.log('Total calculation time: ' + (endTime - startTime))
 }
 
+
 function updateRepeats(DATASET)
 {
+  // If data was inserted in the dataset
   if (lastIndex < DATASET.length - 1)
   {
+    // start time
     var startTime = performance.now();
 
     calculate(DATASET);
+    // Traverse through all new data
     for (var i = lastIndex + 1; i < DATASET.length; i++)
     {
       var code = Number(DATASET[i]['Violation Code']);
-      console.log(code);
+      //console.log(code);
       var person = DATASET[i]['Plate ID'];
 
+      // Search through the BST list for the designated code's BST
       var BST = bstList[code - 1];
       if(BST.search(BST.getRootNode(), person) != null)
       {
-        console.log(code - 1);
-        console.log("Final[code - 1].Violation Code: " + final[code - 1].ViolationCode);
+        //console.log(code - 1);
+        //console.log("Final[code - 1].Violation Code: " + final[code - 1].ViolationCode);
         final[code - 1].Occurences += 1;
       }
     }
 
+    // Re-adjust all the percentages
     for (var i = 0; i < final.length; i++) {
       var percent = parseFloat(
         ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
@@ -225,6 +232,7 @@ function updateRepeats(DATASET)
       final[i].Percentage = percent;
     } 
 
+    // Recalculate the top 20 repeated offenders
     let final_temp = final.slice();
     repeatOffenders20 = [];
     var index;
@@ -235,7 +243,9 @@ function updateRepeats(DATASET)
       final_temp.splice(index, 1);
     }
 
+    // Update the last index
     lastIndex = DATASET.length - 1;
+    
     var endTime = performance.now();
     console.log('Update calculation time: ' + (endTime - startTime))
   }
@@ -248,13 +258,13 @@ router.route('/data/repeatcount').get((req, res) => {
   //console.log(RecalculateFeatureRepeats);
   if (initialCalculate != 1)
   {
-    console.log("Hello!");
+    //console.log("Hello!");
     updateRepeats(DATASET);
     RecalculateFeatureRepeats = 0;
   }
   if (initialCalculate == 1)
   {
-    console.log("Here!");
+    //console.log("Here!");
     repeatOffenders(DATASET);
     initialCalculate = 0;
     console.log(initialCalculate);
