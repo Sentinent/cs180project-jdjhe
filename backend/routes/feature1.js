@@ -56,6 +56,8 @@ function calculate(DATASET) {
   //////////////////////////////////////////////////////////////////
 }
 
+calculate(JSONDATA);
+
 router.route('/data/violationcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);

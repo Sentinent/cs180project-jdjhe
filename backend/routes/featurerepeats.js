@@ -1,8 +1,10 @@
 const router = require('express').Router();
+const { performance } = require('perf_hooks');
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
 let RecalculateFeatureRepeats = 1;
+let initialCalculate = 1;
 
 function findMaxIndex(arr)
 {
@@ -109,6 +111,7 @@ var lastIndex;
 
 function repeatOffenders(DATASET) {
 
+  var startTime = performance.now();
   // need to recalculate
   calculate(DATASET);
 
@@ -179,7 +182,7 @@ function repeatOffenders(DATASET) {
     final.push(line);
   }
 
-  let final_temp = final;
+  let final_temp = final.slice();
   repeatOffenders20 = [];
   var index;
   for (var i = 0; i < 20; i++)
@@ -188,20 +191,74 @@ function repeatOffenders(DATASET) {
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
+
+  var endTime = performance.now();
+  console.log('Total calculation time: ' + (endTime - startTime))
+}
+
+function updateRepeats(DATASET)
+{
+  if (lastIndex < DATASET.length - 1)
+  {
+    var startTime = performance.now();
+
+    calculate(DATASET);
+    for (var i = lastIndex + 1; i < DATASET.length; i++)
+    {
+      var code = Number(DATASET[i]['Violation Code']);
+      console.log(code);
+      var person = DATASET[i]['Plate ID'];
+
+      var BST = bstList[code - 1];
+      if(BST.search(BST.getRootNode(), person) != null)
+      {
+        console.log(code - 1);
+        console.log("Final[code - 1].Violation Code: " + final[code - 1].ViolationCode);
+        final[code - 1].Occurences += 1;
+      }
+    }
+
+    for (var i = 0; i < final.length; i++) {
+      var percent = parseFloat(
+        ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      );
+      final[i].Percentage = percent;
+    } 
+
+    let final_temp = final.slice();
+    repeatOffenders20 = [];
+    var index;
+    for (var i = 0; i < 20; i++)
+    {
+      index = findMaxIndex(final_temp);
+      repeatOffenders20.push(final_temp[index]);
+      final_temp.splice(index, 1);
+    }
+
+    lastIndex = DATASET.length - 1;
+    var endTime = performance.now();
+    console.log('Update calculation time: ' + (endTime - startTime))
+  }
 }
 
 router.route('/data/repeatcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  console.log(RecalculateFeatureRepeats);
-  if (RecalculateFeatureRepeats == 1)
+  //console.log(RecalculateFeatureRepeats);
+  if (initialCalculate != 1)
   {
     console.log("Hello!");
-    repeatOffenders(DATASET);
+    updateRepeats(DATASET);
     RecalculateFeatureRepeats = 0;
   }
-  console.log("Here!");
+  if (initialCalculate == 1)
+  {
+    console.log("Here!");
+    repeatOffenders(DATASET);
+    initialCalculate = 0;
+    console.log(initialCalculate);
+  }
   res.send(repeatOffenders20);
 });
 
