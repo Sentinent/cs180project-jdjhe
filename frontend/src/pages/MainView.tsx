@@ -2,7 +2,7 @@ import DataTable from '../components/DataTable';
 
 function MainView() {
   return (
-    <div className="main-view">
+    <div className="container">
       <DataTable />
     </div>
   );

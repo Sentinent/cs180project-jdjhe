@@ -8,11 +8,11 @@ import PieChartVPC from "../components/PieChartVPC";
 import PieChartVPCS from "../components/PieChartVPCS";
 import BarChartHor from "../components/BarChartHor";
 import BarChartHorS from "../components/BarChartHorS";
-import { Row } from 'react-bootstrap';
-import React, { useState } from 'react';
-import "../App.css";
 import BarChartMOY from "../components/BarChartMOY";
 import BarChartMOYS from "../components/BarChartMOYS";
+import { Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+// import "../App.css";
 
 function Analytics() {
     const [showPieChartVC, setShowPieChartVC] = useState(false);
@@ -25,33 +25,33 @@ function Analytics() {
     return (
         <div className='analytics-view'>
             <Row className="text-center">
-                <PieChartVCS className="chart"/>
+                <PieChartVCS />
                 <button type="button" className="btn btn-dark" onClick={() => setShowPieChartVC(true)}>Learn more</button>
                 <PieChartVC show={showPieChartVC} onHide={() => setShowPieChartVC(false)} />
             </Row>
             
             <Row className="text-center">
-                <PieChartCBS className="chart"/>
+                <PieChartCBS />
                 <button type="button" className="btn btn-dark" onClick={() => setShowPieChartCB(true)}>Learn more</button>
                 <PieChartCB show={showPieChartCB} onHide={() => setShowPieChartCB(false)} />
             </Row>
             <Row className="text-center">
-                <BarChartTODS className="chart"/>
+                <BarChartTODS />
                 <button type="button" className="btn btn-dark" onClick={() => setShowBarChartTOD(true)}>Learn more</button>
                 <BarChartTOD show={showBarChartTOD} onHide={() => setShowBarChartTOD(false)} />
             </Row>
             <Row className="text-center">
-                <PieChartVPCS className="chart"/>
+                <PieChartVPCS />
                 <button type="button" className="btn btn-dark" onClick={() => setShowPieChartVPC(true)}>Learn more</button>
                 <PieChartVPC show={showPieChartVPC} onHide={() => setShowPieChartVPC(false)} />
             </Row>
             <Row className="text-center">
-                <BarChartHorS className="chart"/>
+                <BarChartHorS />
                 <button type="button" className="btn btn-dark" onClick={() => setShowBarChartHor(true)}>Learn more</button>
                 <BarChartHor show={showBarChartHor} onHide={() => setShowBarChartHor(false)} />
             </Row>
             <Row className="text-center">
-                <BarChartMOYS className="chart"/>
+                <BarChartMOYS />
                 <button type="button" className="btn btn-dark" onClick={() => setShowBarChartMOY(true)}>Learn more</button>
                 <BarChartMOY show={showBarChartMOY} onHide={() => setShowBarChartMOY(false)} />
             </Row>

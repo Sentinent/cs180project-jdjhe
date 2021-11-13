@@ -8,9 +8,10 @@ import React, {
 import EntryModal from './EntryModal';
 import './DataTable.css';
 
-import PencilSvg from './assets/pencil.svg';
-import TrashSvg from './assets/trash.svg';
-import LeftArrowSvg from './assets/left-arrow.svg';
+import PencilSvg from '../imgs/pencil-square.svg';
+import TrashSvg from '../imgs/trash.svg';
+import LeftArrowSvg from '../imgs/arrow-left.svg';
+import RightArrowSvg from '../imgs/arrow-right.svg';
 import axios from 'axios';
 
 const ENDPOINT = 'localhost:5000';
@@ -299,49 +300,51 @@ function DataTable() {
 
   return (
     <>
-      <div className="datagrid" style={style}>
-        {state.rows}
-      </div>
-      <div className="datagrid-actions">
-        <div className="data-actions">
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={onInsertClicked}
-          >
-            Insert Row
-          </button>
-          <button
-            type="button"
-            className="btn btn-info"
-            onClick={onAnalyzeClicked}
-          >
-            Analyze Current Query
-          </button>
+      <div className="container">
+        <div className="datagrid" style={style}>
+          {state.rows}
         </div>
-        <div className="page-actions">
-          <p>
-            Page {state.currentPage} of {state.totalPages}
-          </p>
-          <p>
-            <img
-              className="icon left-arrow"
-              src={LeftArrowSvg}
-              alt=""
-              style={{ margin: '0 0.5rem' }}
-              onClick={onPrevPage}
-            />
-            <img
-              className="icon right-arrow"
-              src={LeftArrowSvg}
-              alt=""
-              style={{ margin: '0 0.5rem' }}
-              onClick={onNextPage}
-            />
-          </p>
+        <div className="datagrid-actions">
+          <div className="data-actions">
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={onInsertClicked}
+            >
+              Insert Row
+            </button>
+            <button
+              type="button"
+              className="btn btn-info"
+              onClick={onAnalyzeClicked}
+            >
+              Analyze Current Query
+            </button>
+          </div>
+          <div className="page-actions">
+            <p>
+              Page {state.currentPage} of {state.totalPages}
+            </p>
+            <p>
+              <img
+                className="icon left-arrow"
+                src={LeftArrowSvg}
+                alt=""
+                style={{ margin: '0 0.5rem' }}
+                onClick={onPrevPage}
+              />
+              <img
+                className="icon right-arrow"
+                src={RightArrowSvg}
+                alt=""
+                style={{ margin: '0 0.5rem' }}
+                onClick={onNextPage}
+              />
+            </p>
+          </div>
         </div>
+        <EntryModal state={state} dispatch={dispatch} />
       </div>
-      <EntryModal state={state} dispatch={dispatch} />
     </>
   );
 }

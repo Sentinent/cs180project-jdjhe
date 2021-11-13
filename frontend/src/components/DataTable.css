@@ -54,9 +54,6 @@
   cursor: pointer;
 }
 
-.datagrid-actions .right-arrow {
-  transform: rotate(180deg);
-}
 
 .datagrid-actions .data-actions button {
   margin: 6px;
