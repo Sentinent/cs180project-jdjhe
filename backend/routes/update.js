@@ -7,6 +7,8 @@ let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
+let updateList = []
+
 // this route does the updating
 router
   .route(
@@ -67,6 +69,8 @@ router
       console.log(JSONDATA[index]);
       console.log('Data has been updated');
       res.send('Data has been updated');
+
+      updateList.push(data['Summons Number']);  // Save the Summons number of the changed line for incremental analytics
     }
 
     RecalculateFeatureTime = 1;

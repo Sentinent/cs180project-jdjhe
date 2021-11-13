@@ -7,6 +7,8 @@ let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
+let addedList = [];
+
 // this route does the inserting
 router
   .route(
@@ -64,6 +66,7 @@ router
       data['County County'] = data['County County'].toUpperCase();
       data['Violation County'] = data['Violation County'].toUpperCase();
       JSONDATA.push(data);
+      addedList.push(data);   // Saving the data which is being added to implement IA
       console.log('Data added to database');
       res.send('Data added to database');
     }
@@ -82,4 +85,4 @@ router
     console.log('Insert function ended\n');
   });
 
-module.exports = router;
+module.exports = { router, addedList };

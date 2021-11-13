@@ -3,6 +3,7 @@ const { performance } = require('perf_hooks');
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
+let addedList = require('./insert.js').addedList;
 let RecalculateFeatureRepeats = 1;
 let initialCalculate = 1;
 
@@ -200,6 +201,7 @@ function repeatOffenders(DATASET) {
 
 function updateRepeats(DATASET)
 {
+  console.log("addedList: " + addedList);
   // If data was inserted in the dataset
   if (lastIndex < DATASET.length - 1)
   {
@@ -249,6 +251,10 @@ function updateRepeats(DATASET)
     var endTime = performance.now();
     console.log('Update calculation time: ' + (endTime - startTime))
   }
+  //else
+  //{
+    //repeatOffenders(DATASET);
+  //}
 }
 
 router.route('/data/repeatcount').get((req, res) => {
@@ -267,7 +273,7 @@ router.route('/data/repeatcount').get((req, res) => {
     //console.log("Here!");
     repeatOffenders(DATASET);
     initialCalculate = 0;
-    console.log(initialCalculate);
+    //console.log(initialCalculate);
   }
   res.send(repeatOffenders20);
 });
