@@ -1,5 +1,4 @@
-import DataTable from './DataTable';
-import './MainView.css';
+import DataTable from '../components/DataTable';
 
 function MainView() {
   return (

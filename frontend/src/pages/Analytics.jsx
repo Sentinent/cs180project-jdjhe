@@ -8,7 +8,7 @@ import PieChartVPC from "../components/PieChartVPC";
 import PieChartVPCS from "../components/PieChartVPCS";
 import BarChartHor from "../components/BarChartHor";
 import BarChartHorS from "../components/BarChartHorS";
-import { Row, Button } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import React, { useState } from 'react';
 import "../App.css";
 import BarChartMOY from "../components/BarChartMOY";

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import CanvasJSReact from './canvasjs.react';
-import { Modal, Button, ModalProps } from 'react-bootstrap';
-import { Omit, BsPrefixProps } from 'react-bootstrap/esm/helpers';
+import { Modal, Button } from 'react-bootstrap';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

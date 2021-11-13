@@ -1,9 +1,7 @@
 import React from 'react';
-// import { useState } from "react";
-// import ShowConnection from "./components/ShowConnection.jsx"
 import ToolBar from './components/ToolBar';
 // import SearchHome from "./pages/SearchHome";
-import MainView from './components/MainView';
+import MainView from './pages/MainView';
 import Analytics from './pages/Analytics';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
@@ -13,7 +11,11 @@ function App() {
     <>
       <Router>
         <Switch>
-          <Route path="/" exact={true}>
+        <Route path="/" exact={true}>
+            <ToolBar />
+            <MainView />
+          </Route>
+          <Route path="/search" exact={true}>
             <ToolBar />
             <MainView />
           </Route>
