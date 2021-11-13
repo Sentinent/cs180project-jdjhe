@@ -5,9 +5,9 @@ function Home() {
             <div className="container">
                 <div className="d-sm-flex align-items-center justify-content-between">
                     <div>
-                        <h1>New York City Parking Violations<span className="text-info"> Database </span></h1>
+                        <h1>Explore Open Data from <span className="text-info"> New York City </span></h1>
                         <p className="lead my-4">
-                            This is a dataset hosted by the City of New York. 
+                            The dataset is hosted by the City of New York. 
                             The city has an open data platform found here and 
                             they update their information according the amount 
                             of data that is brought in. Explore New York City 

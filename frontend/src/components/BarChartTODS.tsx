@@ -59,7 +59,7 @@ function BarChartTODS() {
   const options = {
     // exportEnabled: true,
     title: {
-      text: 'Violations By Time of Date',
+      text: '',
     },
     data: [
       {
@@ -68,17 +68,10 @@ function BarChartTODS() {
       },
     ],
   };
-  const containerProps = {
-    height: '700px',
-    wight: '200px',
-  };
 
   return (
     <div className="barchart">
-      <CanvasJSChart
-        containerProps={containerProps}
-        options={options}
-      ></CanvasJSChart>
+      <CanvasJSChart options={options}></CanvasJSChart>
     </div>
   );
 }

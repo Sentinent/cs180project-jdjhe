@@ -35,7 +35,7 @@ function BarChartMOYS() {
 
   const options = {
     title: {
-      text: 'Frequencies of Violations by Month',
+      text: '',
     },
     axisX: {
       interval: 1,
@@ -50,17 +50,10 @@ function BarChartMOYS() {
       },
     ],
   };
-  const containerProps = {
-    height: '700px',
-    wight: '200px',
-  };
 
   return (
     <div className="barchart">
-      <CanvasJSChart
-        containerProps={containerProps}
-        options={options}
-      ></CanvasJSChart>
+      <CanvasJSChart options={options}></CanvasJSChart>
     </div>
   );
 }

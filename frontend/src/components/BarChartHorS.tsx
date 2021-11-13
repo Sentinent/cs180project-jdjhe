@@ -34,14 +34,12 @@ function BarChartHorS() {
   }, []);
 
   const options = {
-    // exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: 'Repeat Offenders',
+      text: '',
     },
     axisX: {
       title: 'Violation',
-      // reversed: true,
     },
     axisY: {
       title: '% of Repeats',
@@ -53,25 +51,15 @@ function BarChartHorS() {
         type: 'bar',
         startAngle: 75,
         toolTipContent: '<b>{label}</b>: {y}%',
-        // showInLegend: "true",
-        // legendText: "{label}",
         indexLabelFontSize: 9,
-        // indexLabel: "{label} - {y}%",
         dataPoints: dataPoints,
       },
     ],
   };
-  const containerProps = {
-    height: '700px',
-    wight: '200px',
-  };
 
   return (
     <div className="barchart">
-      <CanvasJSChart
-        containerProps={containerProps}
-        options={options}
-      ></CanvasJSChart>
+      <CanvasJSChart options={options}></CanvasJSChart>
     </div>
   );
 }

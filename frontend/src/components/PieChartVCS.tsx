@@ -37,7 +37,7 @@ function PieChartVCS() {
     // exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: 'Most Common Types of Violations',
+      text: "",
     },
     data: [
       {
@@ -52,17 +52,10 @@ function PieChartVCS() {
       },
     ],
   };
-  const containerProps = {
-    height: '700px',
-    wight: '200px',
-  };
 
   return (
-    <div className="piechart">
-      <CanvasJSChart
-        containerProps={containerProps}
-        options={options}
-      ></CanvasJSChart>
+    <div>
+      <CanvasJSChart options={options}></CanvasJSChart>
     </div>
   );
 }

@@ -34,35 +34,24 @@ function PieChartCBS() {
   }, []);
 
   const options = {
-    // exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: 'Most Common Violations by Car Brand',
+      text: '',
     },
     data: [
       {
         type: 'pie',
         startAngle: 75,
         toolTipContent: '<b>{label}</b>: {y}%',
-        // showInLegend: "true",
-        // legendText: "{label}",
         indexLabelFontSize: 9,
-        // indexLabel: "{label} - {y}%",
         dataPoints: dataPoints,
       },
     ],
   };
-  const containerProps = {
-    height: '700px',
-    wight: '200px',
-  };
 
   return (
-    <div className="piechart">
-      <CanvasJSChart
-        containerProps={containerProps}
-        options={options}
-      ></CanvasJSChart>
+    <div>
+      <CanvasJSChart options={options}></CanvasJSChart>
     </div>
   );
 }
