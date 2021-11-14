@@ -78,9 +78,8 @@ function EntryModal({
 
   return (
     <div
-      className="modal fade"
-      id="EntryModal"
-      aria-hidden="true"
+      className="entrymodal"
+      style={{ display: state.modalShown ? 'block' : 'none' }}
       onClick={() => dispatch({ type: 'modalShown', data: undefined })}
     >
       <div className="modal-dialog">
@@ -164,10 +163,10 @@ function EntryModal({
                 )}
                 {state.modalType === 'edit' && (
                   <button className="btn btn-info m-2 mb-0" onClick={() => insertOrEditEntry('update', dispatch)}>
-                    Edit
+                    Update
                   </button>
                 )}
-                <button className="btn btn-secondary m-2 me-0 mb-0" data-bs-dismiss="modal" onClick={() => dispatch({ type: 'modalShown', data: undefined })}>
+                <button type="button" className="btn btn-secondary m-2 me-0 mb-0" data-bs-dismiss="modal" aria-label="Close" >
                   Cancel
                 </button>
               </span>

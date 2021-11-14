@@ -17,8 +17,6 @@ interface DataPoint {
 function PieChartVCS() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
-  console.log(dataPoints)
-
   useEffect(() => {
     axios
       .get(

@@ -170,7 +170,6 @@ function createData(
 
   for (let i = 0; i < data.length; i++) {
     const row = data[i];
-    // <span> </span>
     const summonsId = row[0]; // used as an id
 
     const style: React.CSSProperties = {};
