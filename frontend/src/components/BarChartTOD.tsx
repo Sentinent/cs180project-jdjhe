@@ -39,12 +39,14 @@ function sort(data: TimeViolation[]) {
   });
 }
 
-function BarChart(props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>> & { ref?: ((instance: HTMLDivElement | null) => void) | React.RefObject<HTMLDivElement> | null | undefined; }, BsPrefixProps<"div"> & ModalProps> & BsPrefixProps<"div"> & ModalProps & { children?: React.ReactNode; }) {
+function BarChartTOD(props: any) {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/featuretime/data/timeviolations')
+      .get(
+        `http://localhost:5000/featuretime/data/timeviolations${window.location.search}`
+      )
       .then((resp) => {
         const data = sort(resp.data);
 
@@ -99,4 +101,4 @@ function BarChart(props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLP
   );
 }
 
-export default BarChart;
+export default BarChartTOD;

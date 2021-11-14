@@ -1,5 +1,11 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
+let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
+let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
+let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
+let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
+let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the inserting
 router
@@ -61,6 +67,17 @@ router
       console.log('Data added to database');
       res.send('Data added to database');
     }
+
+    RecalculateFeatureTime = 1;
+    RecalculateFeature1 = 1;
+    RecalculateFeatureVPC = 1;
+    RecalculateFeatureMonth = 1;
+    RecalculateFeatureCarBrand = 1;
+  
+    console.log("Before: " + RecalculateFeatureRepeats);
+    RecalculateFeatureRepeats = 1;
+    console.log("After: " + RecalculateFeatureRepeats);
+
     console.log('After insertion length:' + JSONDATA.length);
     console.log('Insert function ended\n');
   });

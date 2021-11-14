@@ -9,5 +9,8 @@
 }
 
 .analytics-view {
-  padding: 5vh;
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }

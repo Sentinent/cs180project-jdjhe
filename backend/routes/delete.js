@@ -1,5 +1,11 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
+let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
+let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
+let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
+let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
+let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the deleting
 router.route('/summonsNum=:sumNum').get((req, res) => {
@@ -18,6 +24,14 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
     console.log('Summons Number does not exist');
     res.send(sumNum + ' does not exist');
   }
+
+  RecalculateFeatureTime = 1;
+  RecalculateFeature1 = 1;
+  RecalculateFeatureRepeats = 1;
+  RecalculateFeatureVPC = 1;
+  RecalculateFeatureMonth = 1;
+  RecalculateFeatureCarBrand = 1;
+
   console.log('Delete function ends.\n');
 });
 

@@ -65,8 +65,7 @@ function reducer(state: DataTableState, action: DataTableStateAction) {
   }
 }
 
-function getCurrentDataQuery(currPage: Number): string {
-  // returns the data query url for the current filters
+function getCurrentSearchTerms() {
   let queryParts = [];
   for (const headerCell of Array.from(
     document.querySelectorAll('.datagrid-header')
@@ -87,6 +86,12 @@ function getCurrentDataQuery(currPage: Number): string {
     }
   }
   let terms = queryParts.join(',');
+  return terms;
+}
+
+function getCurrentDataQuery(currPage: Number): string {
+  // returns the data query url for the current filters
+  const terms = getCurrentSearchTerms();
   return `http://${ENDPOINT}/data/cols=_&page=${currPage}&terms=${terms}`;
 }
 
@@ -260,7 +265,7 @@ function DataTable() {
   };
 
   const onAnalyzeClicked = () => {
-    window.location.href = '/analytics?asd';
+    window.location.href = `/analytics?terms=${getCurrentSearchTerms()}`;
   };
 
   const onPrevPage = () => {
@@ -299,8 +304,20 @@ function DataTable() {
       </div>
       <div className="datagrid-actions">
         <div className="data-actions">
-          <button onClick={onInsertClicked}>Insert Row</button>
-          <button onClick={onAnalyzeClicked}>Analyze Current Query</button>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={onInsertClicked}
+          >
+            Insert Row
+          </button>
+          <button
+            type="button"
+            className="btn btn-info"
+            onClick={onAnalyzeClicked}
+          >
+            Analyze Current Query
+          </button>
         </div>
         <div className="page-actions">
           <p>

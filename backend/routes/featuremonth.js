@@ -1,68 +1,64 @@
 const router = require('express').Router();
-const JSONDATA = require('../data.js');
+const { searchAll } = require('./search');
+let RecalculateFeatureMonth = 1;
 
-router.route('/data/monthviolations').get((req, res) => {
-  const resultsPerPage = 16;
+let final = [];
 
-  //////////////////////////////////////////////////////////////////
-  // Start of Code
-  //////////////////////////////////////////////////////////////////
+function calculateM(DATASET) {
 
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
-  var total = 0;
-  let final = [];
+
+  final = [
+    { Month: 'January', Violations: 0, Percentage: 0 },
+    { Month: 'February', Violations: 0, Percentage: 0 },
+    { Month: 'March', Violations: 0, Percentage: 0 },
+    { Month: 'April', Violations: 0, Percentage: 0 },
+    { Month: 'May', Violations: 0, Percentage: 0 },
+    { Month: 'June', Violations: 0, Percentage: 0 },
+    { Month: 'July', Violations: 0, Percentage: 0 },
+    { Month: 'August', Violations: 0, Percentage: 0 },
+    { Month: 'September', Violations: 0, Percentage: 0 },
+    { Month: 'October', Violations: 0, Percentage: 0 },
+    { Month: 'November', Violations: 0, Percentage: 0 },
+    { Month: 'December', Violations: 0, Percentage: 0 },
+    { Month: 'Unknown', Violations: 0, Percentage: 0 },
+  ];
 
   /*
     Check to see which month the violation occured and then add it to its respective
     violation count
   */
-  for (var i = 0; i < JSONDATA.length; i++) {
-    var date = JSONDATA[i]['Issue Date'];
+  for (var i = 0; i < DATASET.length; i++) {
+    var date = DATASET[i]['Issue Date'];
     if (date[5] == 0 && date[6] == 1) {
-      code = 'January';
+      final[0]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 2) {
-      code = 'February';
+      final[1]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 3) {
-      code = 'March';
+      final[2]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 4) {
-      code = 'April';
+      final[3]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 5) {
-      code = 'May';
+      final[4]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 6) {
-      code = 'June';
+      final[5]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 7) {
-      code = 'July';
+      final[6]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 8) {
-      code = 'August';
+      final[7]['Violations'] += 1;
     } else if (date[5] == 0 && date[6] == 9) {
-      code = 'September';
+      final[8]['Violations'] += 1;
     } else if (date[5] == 1 && date[6] == 0) {
-      code = 'October';
+      final[9]['Violations'] += 1;
     } else if (date[5] == 1 && date[6] == 1) {
-      code = 'November';
+      final[10]['Violations'] += 1;
     } else if (date[5] == 1 && date[6] == 2) {
-      code = 'December';
+      final[11]['Violations'] += 1;
     } else {
-      code = "Unknown";
+      final[12]['Violations'] += 1;
     }
-    var found = false;
-    if (final.length > 0) {
-      for (var j = 0; j < final.length; j++) {
-        if (final[j].Month == code) {
-          final[j].Violations += 1;
-          found = true;
-          break;
-        }
-      }
-    }
-    var line = { Month: code, Violations: 1, Percentage: 0.0 };
-    if (!found) {
-      final.push(line);
-    }
-    total++;
   }
-
   // Testing variable to check the percentages
   //var totalp = 0;
 
@@ -71,13 +67,24 @@ router.route('/data/monthviolations').get((req, res) => {
     the amount of violations certain months recieved over the total number of violations
     */
   for (var i = 0; i < final.length; i++) {
-    final[i].Percentage = parseFloat(((final[i].Violations / total) * 100).toFixed(3));
+    final[i].Percentage =
+      (final[i].Violations / DATASET.length).toFixed(3) * 100;
     //totalp += final[i].Percentage;
   }
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
+}
 
+router.route('/data/monthviolations').get((req, res) => {
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
+
+  if(RecalculateFeatureMonth == 1)
+  {
+    calculateM(DATASET);
+    RecalculateFeatureMonth = 0;
+  }
   res.send(final);
 });
 
-module.exports = router;
+module.exports = { router, RecalculateFeatureMonth };

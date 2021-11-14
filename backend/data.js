@@ -21,7 +21,7 @@ for (let i = 1; i < FILES_TO_LOAD + 1; i++) {
   console.log(`Loading file ${i}`);
   const contents = require(`${FILE_PATH}/data${i}.json`);
   if (JSONDATA) {
-    JSONDATA.concat(contents);
+    JSONDATA = JSONDATA.concat(contents);
   } else {
     JSONDATA = contents;
   }

@@ -2,11 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import CanvasJSReact from './canvasjs.react';
 import { Modal, Button, ModalProps } from 'react-bootstrap';
-import { Omit, BsPrefixProps } from 'react-bootstrap/esm/helpers';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface ViolationCount {
+interface RepeatOffenders {
   ViolationCode: Number;
   Percentage: Number;
 }
@@ -16,18 +15,18 @@ interface DataPoint {
   y: Number;
 }
 
-function PieChartVC(props: any) {
+function BarChartHor(props: any) {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/feature1/data/violationcount${window.location.search}`
+        `http://localhost:5000/featurerepeats/data/repeatcount${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
-        const mappedData = data.map((x: ViolationCount) => ({
+        const mappedData = data.map((x: RepeatOffenders) => ({
           label: 'Violation ' + x['ViolationCode'],
           y: x['Percentage'],
         }));
@@ -37,19 +36,21 @@ function PieChartVC(props: any) {
 
   const options = {
     exportEnabled: true,
-    animationEnabled: true,
     // title: {
-    //     text: 'Most Common Types of Violations',
+    //   text: 'Violations By Time of Date',
     // },
+    axisX: {
+      title: 'Violation',
+      reversed: true,
+    },
+    axisY: {
+      title: '% of Repeats',
+      includeZero: true,
+    },
+    axisYType: 'secondary',
     data: [
       {
-        type: 'pie',
-        startAngle: 75,
-        toolTipContent: '<b>{label}</b>: {y}%',
-        showInLegend: 'true',
-        legendText: '{label}',
-        indexLabelFontSize: 16,
-        indexLabel: '{label} - {y}%',
+        type: 'bar',
         dataPoints: dataPoints,
       },
     ],
@@ -64,11 +65,11 @@ function PieChartVC(props: any) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Most Common Types of Violations
+          Repeat Offenders
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="piechart">
+        <div className="barchart">
           <CanvasJSChart options={options}></CanvasJSChart>
         </div>
       </Modal.Body>
@@ -79,4 +80,4 @@ function PieChartVC(props: any) {
   );
 }
 
-export default PieChartVC;
+export default BarChartHor;
