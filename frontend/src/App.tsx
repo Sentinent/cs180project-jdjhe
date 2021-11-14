@@ -3,8 +3,8 @@ import ToolBar from './components/ToolBar';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Analytics from './pages/Analytics';
+import About from './pages/About';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-// import './App.css';
 
 function App() {
   return (
@@ -22,6 +22,10 @@ function App() {
           <Route path="/analytics" exact={true}>
             <ToolBar />
             <Analytics />
+          </Route>
+          <Route path="/about" exact={true}>
+            <ToolBar />
+            <About />
           </Route>
         </Switch>
       </Router>

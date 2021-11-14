@@ -30,7 +30,7 @@ function ToolBar() {
               <a href="/" className="nav-link">Custom analytic</a>
             </li>
             <li className="nav-item">
-              <a href="/" className="nav-link">About us</a>
+              <a href="/about" className="nav-link">About us</a>
             </li>
           </ul>
         </div>
