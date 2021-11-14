@@ -29,7 +29,7 @@ const cols = [
   'County County',
   'Violation County',
 ];
-const RESULTS_PER_PAGE = 16; // make sure this is the same in the backend
+const RESULTS_PER_PAGE = 10; // make sure this is the same in the backend
 
 let existingTimeout: NodeJS.Timeout;
 
@@ -300,49 +300,43 @@ function DataTable() {
 
   return (
     <>
-      <div className="container">
-        <div className="datagrid" style={style}>
-          {state.rows}
-        </div>
-        <div className="datagrid-actions">
-          <div className="data-actions">
+      <div className="container text-center">
+        <section className="datagrid-actions">
+          <div className="data-actions m-2 ms-0">
             <button
               type="button"
-              className="btn btn-success"
+              className="btn btn-info p-2" 
+              data-bs-toggle="modal" 
+              data-bs-target="#EntryModal"
               onClick={onInsertClicked}
             >
               Insert Row
             </button>
             <button
               type="button"
-              className="btn btn-info"
+              className="btn btn-info p-2"
               onClick={onAnalyzeClicked}
             >
               Analyze Current Query
             </button>
           </div>
-          <div className="page-actions">
-            <p>
-              Page {state.currentPage} of {state.totalPages}
-            </p>
-            <p>
-              <img
-                className="icon left-arrow"
-                src={LeftArrowSvg}
-                alt=""
-                style={{ margin: '0 0.5rem' }}
-                onClick={onPrevPage}
-              />
-              <img
-                className="icon right-arrow"
-                src={RightArrowSvg}
-                alt=""
-                style={{ margin: '0 0.5rem' }}
-                onClick={onNextPage}
-              />
-            </p>
-          </div>
-        </div>
+        </section>
+        <section className="datagrid mt-3" style={style}>
+          {state.rows}
+        </section>
+        <section className="container col-10 md-auto">
+          <nav aria-label="Page navigation">
+            <ul className="pagination justify-content-center m-3">
+              <li className="page-item">
+                <button className="page-link" onClick={onPrevPage}>Previous</button>
+              </li>
+              <li className="page-item disabled"><p className="page-link">Page {state.currentPage} of {state.totalPages}</p></li>
+              <li className="page-item">
+                <button className="page-link" onClick={onNextPage}>Next</button>
+              </li>
+            </ul>
+          </nav>
+        </section>
         <EntryModal state={state} dispatch={dispatch} />
       </div>
     </>

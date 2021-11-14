@@ -1,7 +1,7 @@
 import React from 'react';
 import ToolBar from './components/ToolBar';
 import Home from './pages/Home';
-import MainView from './pages/MainView';
+import Search from './pages/Search';
 import Analytics from './pages/Analytics';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // import './App.css';
@@ -17,7 +17,7 @@ function App() {
           </Route>
           <Route path="/search" exact={true}>
             <ToolBar />
-            <MainView />
+            <Search />
           </Route>
           <Route path="/analytics" exact={true}>
             <ToolBar />
