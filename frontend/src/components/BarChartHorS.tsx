@@ -104,7 +104,22 @@ function BarChartHorS() {
                 </div>
                 <div className="row text-center g-3 m-3">
                   <div className="col-xxl">
-                    {/* datatable */}
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>ViolationCode</th>
+                          <th>Percentage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dataPoints.map((_, index) => (
+                          <tr>
+                            <td>{_.label}</td>
+                            <td>{_.y}%</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

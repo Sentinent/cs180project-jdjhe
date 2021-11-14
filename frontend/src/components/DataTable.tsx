@@ -10,8 +10,6 @@ import './DataTable.css';
 
 import PencilSvg from '../imgs/pencil-square.svg';
 import TrashSvg from '../imgs/trash.svg';
-import LeftArrowSvg from '../imgs/arrow-left.svg';
-import RightArrowSvg from '../imgs/arrow-right.svg';
 import axios from 'axios';
 
 const ENDPOINT = 'localhost:5000';
