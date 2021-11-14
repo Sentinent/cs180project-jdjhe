@@ -56,10 +56,21 @@ function BarChartTODS() {
       });
   }, []);
 
-  const options = {
-    // exportEnabled: true,
-    title: {
-      text: '',
+  const confg1 = {
+    data: [
+      {
+        type: 'column',
+        dataPoints: dataPoints,
+      },
+    ],
+  };
+  const confg2 = {
+    exportEnabled: true,
+    axisX: {
+      title: 'Time of Day',
+    },
+    axisY: {
+      title: '% of Violations',
     },
     data: [
       {
@@ -70,8 +81,45 @@ function BarChartTODS() {
   };
 
   return (
-    <div className="barchart">
-      <CanvasJSChart options={options}></CanvasJSChart>
+    <div>
+      <h3 className="card-title mb-3">Violations By Time of Date</h3>
+      <CanvasJSChart options={confg1}></CanvasJSChart>
+      <button 
+        type="button" 
+        className="btn btn-secondary justify-content-between mt-3" 
+        data-bs-toggle="modal" 
+        data-bs-target="#TODModal"
+      >
+        Learn more
+      </button>
+
+      <div className="modal fade" id="TODModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header bg-dark text-light">
+              <h5 className="modal-title" id="exampleModalLabel">Violations By Time of Date</h5>
+              <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <div className="container-fluid">
+                <div className="row text-center g-3 m-3">
+                  <div className="col-xxl">
+                    <CanvasJSChart options={confg2}></CanvasJSChart>
+                  </div>
+                </div>
+                <div className="row text-center g-3 m-3">
+                  <div className="col-xxl">
+                    {/* datatable */}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer bg-dark text-light">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

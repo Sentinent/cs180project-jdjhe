@@ -1,4 +1,4 @@
-import logo from "../imgs/jdjhe-logos_black_52.png"
+import logo from "../imgs/jdjhe-logos_white_65.png"
 
 function ToolBar() {
   return (
