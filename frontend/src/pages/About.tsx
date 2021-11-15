@@ -89,7 +89,7 @@ function About() {
                 />
                 <h3 className="card-title mb-3">htan029</h3>
                 <p className="card-text">
-                  {/* text */}
+                  I am a Fourth Year CS Major at UC Riverside. Currently looking for SWE Internships or Full Time opportunities.
                 </p>
                 <a href="https://github.com/htan029"><i className="bi bi-github text-dark mx-1"></i></a>
               </div>
