@@ -79,23 +79,20 @@ function About() {
                     <a href="https://github.com/Pjsrcool"><i className="bi bi-github text-dark mx-1"></i></a>
                   </div>
                 </div>
-              </div>
-
-              <div className="col m-3 d-flex align-items-stretch">
-                <div className="card bg-light">
-                  <div className="card-body text-center">
-                    <img
-                      src="https://avatars.githubusercontent.com/u/61136521?v=4"
-                      className="img-thumbnail rounded-circle mb-3"
-                      alt=""
-                    />
-                    <h3 className="card-title mb-3">htan029</h3>
-                    <p className="card-text">
-                      {/* text */}
-                    </p>
-                    <a href="https://github.com/htan029"><i className="bi bi-github text-dark mx-1"></i></a>
-                  </div>
-                </div>
+              </div>          
+          <div className="col m-3 d-flex align-items-stretch">
+            <div className="card bg-light">
+              <div className="card-body text-center">
+                <img
+                src="https://avatars.githubusercontent.com/u/61136521?v=4"
+                className="img-thumbnail rounded-circle mb-3"
+                alt=""
+                />
+                <h3 className="card-title mb-3">htan029</h3>
+                <p className="card-text">
+                  I am a Fourth Year CS Major at UC Riverside. Currently looking for SWE Internships or Full Time opportunities.
+                </p>
+                <a href="https://github.com/htan029"><i className="bi bi-github text-dark mx-1"></i></a>
               </div>
             </div>
           </div>
