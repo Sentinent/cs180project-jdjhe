@@ -15,3 +15,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.background-img {
+  background: url(./imgs/newyorkoverview.jpeg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: fixed;
+  width: 100%; 
+  height: 100%;
+}
+
+#header-box {
+  background-color: rgba(0,0,0,.8);
+  color: #fff;
+}
+
+.about-background {
+  background: url(./imgs/nighttime.jpeg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: fixed;
+  width: 100%; 
+  height: 100%;
+}
+

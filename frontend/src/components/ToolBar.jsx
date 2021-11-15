@@ -4,9 +4,9 @@ function ToolBar() {
   return (
     <nav className="navbar navbar-expand-lg bg-dark navbar-dark py-3">
       <div className="container">
-        <img src={logo} className="img-fluid" alt=""/>
+        <img src={logo} className="img-fluid" alt="" />
         <a href="/" className="navbar-brand">NY Parking Violations</a>
-        <button 
+        <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -27,10 +27,10 @@ function ToolBar() {
               <a href="/analytics" className="nav-link">Analytics</a>
             </li>
             <li className="nav-item">
-              <a href="/" className="nav-link">Custom analytic</a>
+              <a href="/" className="nav-link">Custom Analytics</a>
             </li>
             <li className="nav-item">
-              <a href="/about" className="nav-link">About us</a>
+              <a href="/about" className="nav-link">About Us</a>
             </li>
           </ul>
         </div>
