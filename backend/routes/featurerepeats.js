@@ -105,7 +105,6 @@ class BinarySearchTree {
 let final = [];
 let bstList = [];
 let repeatOffenders20 = [];
-var lastIndex;
 
 function repeatOffenders(DATASET) {
 
@@ -122,7 +121,6 @@ function repeatOffenders(DATASET) {
   // final is the list of violation codes, their respective occurences and their respective percent of the total
   final = [];
   bstList = [];
-  lastIndex = DATASET.length - 1;
 
   // Cycle through all violations
   for (var c = 1; c < 99; c++) {
@@ -154,10 +152,6 @@ function repeatOffenders(DATASET) {
       }
     }
     bstList.push(BST);
-    if (i == DATASET.length - 1)
-    {
-      lastIndex = DATASET.length - 1;
-    }
   }
 
   /*
@@ -197,11 +191,9 @@ router.route('/data/repeatcount').get((req, res) => {
   console.log(RecalculateFeatureRepeats);
   if (RecalculateFeatureRepeats == 1)
   {
-    console.log("Hello!");
     repeatOffenders(DATASET);
     RecalculateFeatureRepeats = 0;
   }
-  console.log("Here!");
   res.send(repeatOffenders20);
 });
 
