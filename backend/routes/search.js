@@ -57,11 +57,12 @@ function searchAll(terms) {
 }
 
 // generalized version for above function
-function searchAllArray(terms, array) {
+function searchAllArray(terms, ...array) {
   let results = [];
   const parsedConditions = parseTerms(terms);
-  for (let row = 0; row < array.length; ++row) {
-    if (isMatch(array[row], parsedConditions)) {
+  // for (let row = 0; row < array.length; ++row) {
+  for (const row of array) {
+    if (isMatch(row, parsedConditions)) {
       results.push(array[row]);
     }
   }
