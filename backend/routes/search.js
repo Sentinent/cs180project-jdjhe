@@ -61,9 +61,9 @@ function searchAllArray(terms, ...array) {
   let results = [];
   const parsedConditions = parseTerms(terms);
   // for (let row = 0; row < array.length; ++row) {
-  for (const row of array) {
+  for (const row of array[0]) {
     if (isMatch(row, parsedConditions)) {
-      results.push(array[row]);
+      results.push(row);
     }
   }
 
