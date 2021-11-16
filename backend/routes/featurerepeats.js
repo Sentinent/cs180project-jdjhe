@@ -195,10 +195,10 @@ function repeatOffenders(DATASET) {
 // Update Funnction for Incremental Analytics
 function updateRepeats(DATASET)
 {
-  let insertedList = require('./insert.js').addedList.featurerepeatsList;
-  let removedList = require('./delete.js').deleteList.featurerepeatsList; 
-  let oldList = require('./update.js').updateList.featurerepeatsListOld;
-  let newList = require('./update.js').updateList.featurerepeatsListNeo;
+  let insertedList = require('./listWrapper.js').insertLists.featurerepeatsList;
+  let removedList = require('./listWrapper.js').deleteLists.featurerepeatsList; 
+  let oldList = require('./listWrapper.js').updateLists.featurerepeatsListOld;
+  let newList = require('./listWrapper.js').updateLists.featurerepeatsListNeo;
 
   // If data was inserted in the dataset
   if (insertedList.length > 0)
@@ -384,4 +384,4 @@ router.route('/data/repeatcount').get((req, res) => {
   res.send(repeatOffenders20);
 });
 
-module.exports = { router, RecalculateFeatureRepeats };
+module.exports = { router };
