@@ -10,36 +10,7 @@ let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCar
 let addedList = [];
 
 // this route does the inserting
-router
-  .route(
-    '/summonsNum=:sumNum&' +
-      'plateID=:plateID&' +
-      'regState=:regState&' +
-      'issDate=:issDate&' +
-      'vTime=:vioTime&' +
-      'vCode=:vioCode&' +
-      'vehMake=:vehMake&' +
-      'vehBody=:vehBody&' +
-      'vehYear=:vehYear&' +
-      'street=:street&' +
-      'cCounty=:cCounty&' +
-      'vCounty=:vCounty'
-  )
-  .get((req, res) => {
-    const data = {
-      'Summons Number': req.params.sumNum,
-      'Plate ID': req.params.plateID,
-      'Registration State': req.params.regState,
-      'Issue Date': req.params.issDate,
-      'Violation Time': req.params.vioTime,
-      'Violation Code': req.params.vioCode,
-      'Vehicle Make': req.params.vehMake,
-      'Vehicle Body Type': req.params.vehBody,
-      'Vehicle Year': req.params.vehYear,
-      'Street Name': req.params.street,
-      'County County': req.params.cCounty,
-      'Violation County': req.params.vCounty,
-    };
+function inserts(data, res) {
 
     console.log('\nInsert function:');
     console.log('Wants to insert ' + data['Summons Number']);
@@ -77,12 +48,47 @@ router
     RecalculateFeatureMonth = 1;
     RecalculateFeatureCarBrand = 1;
   
-    console.log("Before: " + RecalculateFeatureRepeats);
+    //console.log("Before: " + RecalculateFeatureRepeats);
     RecalculateFeatureRepeats = 1;
-    console.log("After: " + RecalculateFeatureRepeats);
+    //console.log("After: " + RecalculateFeatureRepeats);
 
     console.log('After insertion length:' + JSONDATA.length);
     console.log('Insert function ended\n');
+  }
+
+  router
+  .route(
+    '/summonsNum=:sumNum&' +
+      'plateID=:plateID&' +
+      'regState=:regState&' +
+      'issDate=:issDate&' +
+      'vTime=:vioTime&' +
+      'vCode=:vioCode&' +
+      'vehMake=:vehMake&' +
+      'vehBody=:vehBody&' +
+      'vehYear=:vehYear&' +
+      'street=:street&' +
+      'cCounty=:cCounty&' +
+      'vCounty=:vCounty'
+  )
+  .get((req, res) => {
+    const data = {
+      'Summons Number': req.params.sumNum,
+      'Plate ID': req.params.plateID,
+      'Registration State': req.params.regState,
+      'Issue Date': req.params.issDate,
+      'Violation Time': req.params.vioTime,
+      'Violation Code': req.params.vioCode,
+      'Vehicle Make': req.params.vehMake,
+      'Vehicle Body Type': req.params.vehBody,
+      'Vehicle Year': req.params.vehYear,
+      'Street Name': req.params.street,
+      'County County': req.params.cCounty,
+      'Violation County': req.params.vCounty,
+    };
+
+    inserts(data, res);
   });
+  
 
 module.exports = { router, addedList };
