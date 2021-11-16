@@ -1,13 +1,11 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
-let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
+let insertLists = require("./listWrapper.js").insertLists.featuretime;
 let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureRepeats = require('./featurerepeats.js').RecalculateFeatureRepeats;
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
-
-let addedList = [];
 
 // this route does the inserting
 function inserts(data, res) {
@@ -37,12 +35,11 @@ function inserts(data, res) {
       data['County County'] = data['County County'].toUpperCase();
       data['Violation County'] = data['Violation County'].toUpperCase();
       JSONDATA.push(data);
-      addedList.push(data);   // Saving the data which is being added to implement IA
+      insertLists.push(data); // lets features know that we inserted data
       console.log('Data added to database');
       res.send('Data added to database');
     }
 
-    RecalculateFeatureTime = 1;
     RecalculateFeature1 = 1;
     RecalculateFeatureVPC = 1;
     RecalculateFeatureMonth = 1;
@@ -91,4 +88,4 @@ function inserts(data, res) {
   });
   
 
-module.exports = { router, addedList };
+module.exports = { router };
