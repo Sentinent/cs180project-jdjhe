@@ -9,7 +9,7 @@ function calculate(req) {
   const DATASET = searchAll(terms);
 
   const allCounty = new Map();
-  const result = [];
+  result = [];
   let total = 0;
   for (let i = 0; i < DATASET.length; i++) {
     let county = DATASET[i]['Violation County'];

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { performance } = require('perf_hooks');
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
@@ -109,6 +110,7 @@ let repeatOffenders20 = [];
 
 function repeatOffenders(DATASET) {
 
+  var startTime = performance.now(); 
   // need to recalculate
   calculate(DATASET);
 
@@ -174,7 +176,7 @@ function repeatOffenders(DATASET) {
     final.push(line);
   }
 
-  let final_temp = final;
+  let final_temp = final.slice();
   repeatOffenders20 = [];
   var index;
   for (var i = 0; i < 20; i++)
@@ -183,11 +185,70 @@ function repeatOffenders(DATASET) {
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
+
+  var endTime = performance.now();
+  console.log('Total calculation time: ' + (endTime - startTime))
 }
+
+
+// Update Funnction for Incremental Analytics
+function updateRepeats(DATASET)
+{
+  let insertedList = require('./insert.js').addedList.featurerepeatsList;
+
+  if (insertedList.length > 0)
+  {
+    // start time
+    var startTime = performance.now();
+
+    //calculate(DATASET);
+    // Traverse through all new data
+    for (var i = 0; i < insertedList.length; i++)
+    {
+      var code = Number(insertedList[i]['Violation Code']);
+      //console.log(code);
+      var person = insertedList[i]['Plate ID'];
+
+      // Search through the BST list for the designated code's BST
+      var BST = bstList[code - 1];
+      if(BST.search(BST.getRootNode(), person) != null)
+      {
+        final[code - 1].Occurences += 1;
+      }
+    }
+    insertedList = [];
+
+    // Re-adjust all the percentages
+    for (var i = 0; i < final.length; i++) {
+      var percent = parseFloat(
+        ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      );
+      final[i].Percentage = percent;
+    } 
+
+    // Recalculate the top 20 repeated offenders
+    let final_temp = final.slice();
+    repeatOffenders20 = [];
+    var index;
+    for (var i = 0; i < 20; i++)
+    {
+      index = findMaxIndex(final_temp);
+      repeatOffenders20.push(final_temp[index]);
+      final_temp.splice(index, 1);
+    }
+    
+    var endTime = performance.now();
+    console.log('Update calculation time: ' + (endTime - startTime))
+  }
+
+}
+
 
 router.route('/data/repeatcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
+
+  //console.log(DATASET);
 
   if (initialCalculate != 1)
   {
