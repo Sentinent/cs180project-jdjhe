@@ -6,6 +6,8 @@ let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
+let deleteList = require('./listWrapper.js').deleteLists;
+
 // this route does the deleting
 router.route('/summonsNum=:sumNum').get((req, res) => {
   const sumNum = req.params.sumNum;
@@ -16,6 +18,7 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
 
   if (index != -1) {
     console.log('index = ' + index);
+    deleteList.push(JSONDATA[index]); 
     JSONDATA.splice(index, 1);
     console.log('After removal length:', JSONDATA.length);
     res.send(sumNum + ' has been deleted');
@@ -33,4 +36,4 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
   console.log('Delete function ends.\n');
 });
 
-module.exports = router;
+module.exports = { router, deleteList };
