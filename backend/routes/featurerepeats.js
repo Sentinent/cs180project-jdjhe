@@ -196,7 +196,10 @@ function updateRepeats(DATASET)
 {
   let insertedList = require('./insert.js').addedList.featurerepeatsList;
   let removedList = require('./delete.js').deleteList.featurerepeatsList; 
+  let oldList = require('./update.js').updateList.featurerepeatsListOld;
+  let newList = require('./update.js').updateList.featurerepeatsListNeo;
 
+  // If data was inserted in the dataset
   if (insertedList.length > 0)
   {
     // start time
@@ -227,6 +230,79 @@ function updateRepeats(DATASET)
       final[i].Percentage = percent;
     } 
 
+    // Recalculate the top 20 repeated offenders
+    let final_temp = final.slice();
+    repeatOffenders20 = [];
+    var index;
+    for (var i = 0; i < 20; i++)
+    {
+      index = findMaxIndex(final_temp);
+      repeatOffenders20.push(final_temp[index]);
+      final_temp.splice(index, 1);
+    }
+    
+    var endTime = performance.now();
+    console.log('Update calculation time: ' + (endTime - startTime))
+  }
+  ////////////////////////////////////////////////////////////////////////
+  //If data was updated from the dataset
+  if (oldList.length > 0 && newList.length > 0)
+  {
+    // start time
+    var startTime = performance.now();
+    // Traverse through all new data
+    for (var i = 0; i < oldList.length; i++)
+    {
+      var codeOld = Number(oldList[i]['Violation Code']);
+      var personOld = oldList[i]['Plate ID'];
+      var codeNew = Number(newList[i]['Violation Code']);
+      var personNew = newList[i]['Plate ID'];
+
+      if (personOld != personNew && codeOld != codeNew)
+      {
+        // Search through the BST list for the designated code's BST
+        var BST = bstList[codeOld - 1];
+        if(BST.search(BST.getRootNode(), personOld) != null)
+        {
+          final[codeOld - 1].Occurences -= 1;
+        }
+        var BST = bstList[codeNew - 1];
+        if(BST.search(BST.getRootNode(), personNew) != null)
+        {
+          final[codeNew - 1].Occurences += 1;
+        } 
+      }
+      else if (personOld != personNew && codeOld == codeNew)
+      {
+        var BST = bstList[codeOld - 1];
+        if(BST.search(BST.getRootNode(), personNew) == null)
+        {
+          final[codeNew - 1].Occurences -= 1;
+        }
+      }
+      else if (personOld == personNew && codeOld != codeNew)
+      {
+        var BST = bstList[codeOld - 1];
+        if(BST.search(BST.getRootNode(), personNew) != null)
+        {
+          final[codeOld - 1].Occurences -= 1;
+        }
+        var BST = bstList[codeNew - 1];
+        if(BST.search(BST.getRootNode(), personNew) != null)
+        {
+          final[codeNew - 1].Occurences += 1;
+        } 
+      }
+    }
+    oldList = [];
+    newList = [];
+    // Re-adjust all the percentages
+    for (var i = 0; i < final.length; i++) {
+      var percent = parseFloat(
+        ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      );
+      final[i].Percentage = percent;
+    } 
     // Recalculate the top 20 repeated offenders
     let final_temp = final.slice();
     repeatOffenders20 = [];

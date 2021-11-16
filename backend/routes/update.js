@@ -6,6 +6,8 @@ let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
+let updateList = require('./listWrapper.js').updateLists;
+
 // this route does the updating
 router
   .route(
@@ -49,6 +51,7 @@ router
     } else {
       console.log('before :');
       console.log(JSONDATA[index]);
+      updateList.pushOld(JSONDATA[index]);
       //change all the data to uppercase
       data['Plate ID'] = data['Plate ID'].toUpperCase();
       data['Registration State'] = data['Registration State'].toUpperCase();
@@ -64,6 +67,7 @@ router
       JSONDATA[index] = data;
       console.log('after :');
       console.log(JSONDATA[index]);
+      updateList.pushNew(JSONDATA[index]);
       console.log('Data has been updated');
       res.send('Data has been updated');
     }
@@ -78,4 +82,4 @@ router
     console.log('Update function ended\n');
   });
 
-module.exports = router;
+module.exports = { router, updateList };
