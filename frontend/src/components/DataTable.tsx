@@ -8,9 +8,8 @@ import React, {
 import EntryModal from './EntryModal';
 import './DataTable.css';
 
-import PencilSvg from './assets/pencil.svg';
-import TrashSvg from './assets/trash.svg';
-import LeftArrowSvg from './assets/left-arrow.svg';
+import PencilSvg from '../imgs/pencil-square.svg';
+import TrashSvg from '../imgs/trash.svg';
 import axios from 'axios';
 
 const ENDPOINT = 'localhost:5000';
@@ -28,7 +27,7 @@ const cols = [
   'County County',
   'Violation County',
 ];
-const RESULTS_PER_PAGE = 16; // make sure this is the same in the backend
+const RESULTS_PER_PAGE = 10; // make sure this is the same in the backend
 
 let existingTimeout: NodeJS.Timeout;
 
@@ -171,7 +170,6 @@ function createData(
 
   for (let i = 0; i < data.length; i++) {
     const row = data[i];
-    // <span> </span>
     const summonsId = row[0]; // used as an id
 
     const style: React.CSSProperties = {};
@@ -299,49 +297,45 @@ function DataTable() {
 
   return (
     <>
-      <div className="datagrid" style={style}>
-        {state.rows}
+      <div className="container text-center">
+        <section className="datagrid-actions">
+          <div className="data-actions m-2 ms-0">
+            <button
+              type="button"
+              className="btn btn-info p-2" 
+              data-bs-toggle="modal" 
+              data-bs-target="#EntryModal"
+              onClick={onInsertClicked}
+            >
+              Insert Row
+            </button>
+            <button
+              type="button"
+              className="btn btn-info p-2"
+              onClick={onAnalyzeClicked}
+            >
+              Analyze Current Query
+            </button>
+          </div>
+        </section>
+        <section className="datagrid mt-3" style={style}>
+          {state.rows}
+        </section>
+        <section className="container col-10 md-auto">
+          <nav aria-label="Page navigation">
+            <ul className="pagination justify-content-center m-3">
+              <li className="page-item">
+                <button className="page-link" onClick={onPrevPage}>Previous</button>
+              </li>
+              <li className="page-item disabled"><p className="page-link">Page {state.currentPage} of {state.totalPages}</p></li>
+              <li className="page-item">
+                <button className="page-link" onClick={onNextPage}>Next</button>
+              </li>
+            </ul>
+          </nav>
+        </section>
+        <EntryModal state={state} dispatch={dispatch} />
       </div>
-      <div className="datagrid-actions">
-        <div className="data-actions">
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={onInsertClicked}
-          >
-            Insert Row
-          </button>
-          <button
-            type="button"
-            className="btn btn-info"
-            onClick={onAnalyzeClicked}
-          >
-            Analyze Current Query
-          </button>
-        </div>
-        <div className="page-actions">
-          <p>
-            Page {state.currentPage} of {state.totalPages}
-          </p>
-          <p>
-            <img
-              className="icon left-arrow"
-              src={LeftArrowSvg}
-              alt=""
-              style={{ margin: '0 0.5rem' }}
-              onClick={onPrevPage}
-            />
-            <img
-              className="icon right-arrow"
-              src={LeftArrowSvg}
-              alt=""
-              style={{ margin: '0 0.5rem' }}
-              onClick={onNextPage}
-            />
-          </p>
-        </div>
-      </div>
-      <EntryModal state={state} dispatch={dispatch} />
     </>
   );
 }

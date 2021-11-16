@@ -82,102 +82,97 @@ function EntryModal({
       style={{ display: state.modalShown ? 'block' : 'none' }}
       onClick={() => dispatch({ type: 'modalShown', data: undefined })}
     >
-      <div
-        className="entrymodal-content"
-        id="entrymodal-content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <span>{title}</span>
-        <br />
-        <span>
-          <label htmlFor="summonsNum">Summons Number: </label>
-          <input type="text" id="summonsNum"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="plateID">Plate ID: </label>
-          <input type="text" id="plateID"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="regState">Registration State: </label>
-          <input type="text" id="regState"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="issDate">Issue Date: </label>
-          <input type="text" id="issDate"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="vTime">Violation Time: </label>
-          <input type="text" id="vTime"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="vCode">Violation Code: </label>
-          <input type="text" id="vCode"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="vehMake">Vehicle Make: </label>
-          <input type="text" id="vehMake"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="vehBody">Vehicle Body: </label>
-          <input type="text" id="vehBody"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="vehYear">Vehicle Year: </label>
-          <input type="text" id="vehYear"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="street">Street Name </label>
-          <input type="text" id="street"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="cCounty">County County: </label>
-          <input type="text" id="cCounty"></input>
-        </span>
-        <br />
-
-        <span>
-          <label htmlFor="vCounty">Violation County: </label>
-          <input type="text" id="vCounty"></input>
-        </span>
-        <br />
-
-        <span className="modal-actions">
-          {state.modalType === 'insert' && (
-            <button onClick={() => insertOrEditEntry('insert', dispatch)}>
-              Insert
-            </button>
-          )}
-          {state.modalType === 'edit' && (
-            <button onClick={() => insertOrEditEntry('update', dispatch)}>
-              Edit
-            </button>
-          )}
-          <button
-            onClick={() => dispatch({ type: 'modalShown', data: undefined })}
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">{title}</h5>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div className="modal-body">
+          <div
+            className=""
+            id="entrymodal-content"
+            onClick={(e) => e.stopPropagation()}
           >
-            Cancel
-          </button>
-        </span>
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="summonsNum">Summons Number: </label>
+              <input className="col-7" type="text" id="summonsNum"></input>
+            </div>
+          
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="plateID">Plate ID: </label>
+              <input className="col-7" type="text" id="plateID"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="regState">Registration State: </label>
+              <input className="col-7" type="text" id="regState"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="issDate">Issue Date: </label>
+              <input className="col-7" type="text" id="issDate"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="vTime">Violation Time: </label>
+              <input className="col-7" type="text" id="vTime"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="vCode">Violation Code: </label>
+              <input className="col-7" type="text" id="vCode"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="vehMake">Vehicle Make: </label>
+              <input className="col-7" type="text" id="vehMake"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="vehBody">Vehicle Body: </label>
+              <input className="col-7" type="text" id="vehBody"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="vehYear">Vehicle Year: </label>
+              <input className="col-7" type="text" id="vehYear"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="street">Street Name: </label>
+              <input className="col-7" type="text" id="street"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="cCounty">County County: </label>
+              <input className="col-7" type="text" id="cCounty"></input>
+            </div>
+
+            <div className="container mt-3 mb-3">
+              <label className="col-5" htmlFor="vCounty">Violation County: </label>
+              <input className="col-7" type="text" id="vCounty"></input>
+            </div>
+          </div>
+            <div className="modal-footer">
+              <span className="modal-actions">
+                {state.modalType === 'insert' && (
+                  <button className="btn btn-info m-2 mb-0" onClick={() => insertOrEditEntry('insert', dispatch)}>
+                    Insert
+                  </button>
+                )}
+                {state.modalType === 'edit' && (
+                  <button className="btn btn-info m-2 mb-0" onClick={() => insertOrEditEntry('update', dispatch)}>
+                    Update
+                  </button>
+                )}
+                <button type="button" className="btn btn-secondary m-2 me-0 mb-0" data-bs-dismiss="modal" aria-label="Close" >
+                  Cancel
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
