@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
+let initialCalculate = 1;
 let RecalculateFeatureRepeats = 1;
 
 function findMaxIndex(arr)
@@ -188,11 +189,14 @@ router.route('/data/repeatcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  console.log(RecalculateFeatureRepeats);
-  if (RecalculateFeatureRepeats == 1)
+  if (initialCalculate != 1)
+  {
+    updateRepeats(DATASET);
+  }
+  if (initialCalculate == 1)
   {
     repeatOffenders(DATASET);
-    RecalculateFeatureRepeats = 0;
+    initialCalculate = 0;
   }
   res.send(repeatOffenders20);
 });
