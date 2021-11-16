@@ -90,7 +90,8 @@ function About() {
                     />
                     <h3 className="card-title mb-3">htan029</h3>
                     <p className="card-text">
-                      {/* text */}
+                      I am a fourth-year student majoring in computer science at the 
+                      University of California, Riverside. Hope I can find a job...
                     </p>
                     <a href="https://github.com/htan029"><i className="bi bi-github text-dark mx-1"></i></a>
                   </div>
