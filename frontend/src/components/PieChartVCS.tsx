@@ -66,10 +66,10 @@ function PieChartVCS() {
     <>
       <h3 className="card-title mb-3">Most Common Types of Violations</h3>
       <CanvasJSChart options={confg1}></CanvasJSChart>
-      <button 
-        type="button" 
-        className="btn btn-secondary justify-content-between mt-3" 
-        data-bs-toggle="modal" 
+      <button
+        type="button"
+        className="btn btn-dark justify-content-between mt-3"
+        data-bs-toggle="modal"
         data-bs-target="#VCSModal"
       >
         Learn more
@@ -94,7 +94,7 @@ function PieChartVCS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>ViolationCode</th>
+                          <th>Violation Code</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>

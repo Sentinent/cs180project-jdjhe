@@ -79,10 +79,10 @@ function BarChartHorS() {
     <div>
       <h3 className="card-title mb-3">Repeat Offenders</h3>
       <CanvasJSChart options={confg1}></CanvasJSChart>
-      <button 
-        type="button" 
-        className="btn btn-secondary justify-content-between mt-3" 
-        data-bs-toggle="modal" 
+      <button
+        type="button"
+        className="btn btn-dark justify-content-between mt-3"
+        data-bs-toggle="modal"
         data-bs-target="#HORModal"
       >
         Learn more
@@ -107,7 +107,7 @@ function BarChartHorS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>ViolationCode</th>
+                          <th>Violation Code</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>
