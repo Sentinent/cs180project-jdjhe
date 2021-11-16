@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 import Analytics from './pages/Analytics';
 import About from './pages/About';
+import Custom from './pages/Custom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
@@ -26,6 +27,10 @@ function App() {
           <Route path="/about" exact={true}>
             <ToolBar />
             <About />
+          </Route>
+          <Route path="/custom" exact={true}>
+            <ToolBar />
+            <Custom />
           </Route>
         </Switch>
       </Router>

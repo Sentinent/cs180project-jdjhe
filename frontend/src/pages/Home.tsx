@@ -7,7 +7,7 @@ function Home() {
     <div className="background-img">
       <div className="background-backdrop">
         <section id="header-box" className="box text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start">
-            <div className="container">
+          <div className="container">
             <div className="d-sm-flex align-items-center justify-content-between">
                 <div>
                 <h1>Explore Open Data from <span className="text-info"> New York City </span></h1>
@@ -25,7 +25,7 @@ function Home() {
                 </p>
                 <a href="/search">
                     <button
-                    className="btn btn-primary btn-lg"
+                    className="btn btn-primary btn-lg m-3"
                     data-bs-toggle="modal"
                     >
                     Start Searching
@@ -33,12 +33,12 @@ function Home() {
                 </a>
                 </div>
                 <img
-                className="img-fluid w-50 d-none d-sm-block"
-                src={map}
-                alt="map of ny counties"
+                  className="img-fluid w-50 d-none d-sm-block"
+                  src={map}
+                  alt="map of ny counties"
                 />
             </div>
-            </div>
+          </div>
         </section>
         {/* <section>
             <div>

@@ -33,7 +33,7 @@ function PieChartVCS() {
       });
   }, []);
 
-  const confg1 = {
+  const config1 = {
     animationEnabled: true,
     data: [
       {
@@ -45,7 +45,7 @@ function PieChartVCS() {
       },
     ],
   };
-  const confg2 = {
+  const config2 = {
     exportEnabled: true,
     animationEnabled: true,
     data: [
@@ -65,7 +65,7 @@ function PieChartVCS() {
   return (
     <>
       <h3 className="card-title mb-3">Most Common Types of Violations</h3>
-      <CanvasJSChart options={confg1}></CanvasJSChart>
+      <CanvasJSChart options={config1}></CanvasJSChart>
       <button
         type="button"
         className="btn btn-dark justify-content-between mt-3"
@@ -86,7 +86,7 @@ function PieChartVCS() {
               <div className="container-fluid">
                 <div className="row text-center g-3 m-3">
                   <div className="col-xxl">
-                    <CanvasJSChart options={confg2}></CanvasJSChart>
+                    <CanvasJSChart options={config2}></CanvasJSChart>
                   </div>
                 </div>
                 <div className="row text-center g-3 m-3">
