@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
-let RecalculateFeatureTime = require("./featuretime.js").RecalculateFeatureTime;
+
+let deleteLists = require("./listWrapper.js").deleteLists;
+
 let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
-let deleteList = require('./listWrapper.js').deleteLists;
 
 // this route does the deleting
 router.route('/summonsNum=:sumNum').get((req, res) => {
@@ -18,7 +19,7 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
 
   if (index != -1) {
     console.log('index = ' + index);
-    deleteList.push(JSONDATA[index]); 
+    deleteLists.push(JSONDATA[index]);   // Save the delted data for incremental analytics
     JSONDATA.splice(index, 1);
     console.log('After removal length:', JSONDATA.length);
     res.send(sumNum + ' has been deleted');
@@ -27,7 +28,6 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
     res.send(sumNum + ' does not exist');
   }
 
-  RecalculateFeatureTime = 1;
   RecalculateFeature1 = 1;
   RecalculateFeatureVPC = 1;
   RecalculateFeatureMonth = 1;
@@ -36,4 +36,4 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
   console.log('Delete function ends.\n');
 });
 
-module.exports = { router, deleteList };
+module.exports = { router };

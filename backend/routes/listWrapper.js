@@ -45,4 +45,4 @@ let insertLists = new InsertList();
 let deleteLists = new DeleteList();
 let updateLists = new UpdateList();
 
-module.exports = { insertLists, deleteLists, updateLists }; 
+module.exports = { insertLists, deleteLists, updateLists };

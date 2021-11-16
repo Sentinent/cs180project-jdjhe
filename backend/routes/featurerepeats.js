@@ -108,6 +108,7 @@ let final = [];
 let bstList = [];
 let repeatOffenders20 = [];
 
+// Function to calculate the Repeated offenders
 function repeatOffenders(DATASET) {
 
   var startTime = performance.now(); 
@@ -362,7 +363,6 @@ function updateRepeats(DATASET)
     var endTime = performance.now();
     console.log('Update calculation time: ' + (endTime - startTime))
   }
-
 }
 
 
