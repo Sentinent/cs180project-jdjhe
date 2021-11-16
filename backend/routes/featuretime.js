@@ -10,7 +10,6 @@ function calculate(req) {
   // Start of Code
   //////////////////////////////////////////////////////////////////
   const terms = (req.query.terms || '').split(',');
-  console.log(terms)
   const DATASET = searchAll(terms);
   final = [];
 
@@ -77,9 +76,6 @@ function update (req) {
   const dLists = searchAllArray(terms, deleteLists);
   const uListsOld = searchAllArray(terms, updateListsOld);
   const uListsNeo = searchAllArray(terms, updateListsNeo);
-
-  console.log("iLists")
-  console.log(iLists)
 
   /*
     Find the correct time the violation occured, putting any unknown time in a
@@ -187,7 +183,7 @@ function update (req) {
   for (let z = 0; z < final.length; ++z) {
     numViolations += final[z].Violations;
   }
-  console.log(numViolations)
+  
   for (var i = 0; i < final.length; i++) {
     final[i].Percentage = parseFloat(
       ((final[i].Violations / numViolations) * 100).toFixed(3)
@@ -203,7 +199,6 @@ function update (req) {
 }
 
 router.route('/data/timeviolations').get((req, res) => {
-  console.log(req.query)
   if (final.length == 0) {
     console.log("calculating featuretime for the first time...");
     let start = performance.now();
@@ -217,7 +212,7 @@ router.route('/data/timeviolations').get((req, res) => {
     let end = performance.now();
     console.log("Took " + (end - start) + " to update Violations by Time of Day");
   }
-  console.log(final);
+  
   res.send(final); 
 });
 
