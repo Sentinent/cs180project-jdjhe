@@ -3,7 +3,7 @@ const { performance } = require('perf_hooks');
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
-let addedList = require('./insert.js').addedList;
+// const addedList = require('./insert.js').addedList;
 let RecalculateFeatureRepeats = 1;
 let initialCalculate = 1;
 
@@ -201,7 +201,9 @@ function repeatOffenders(DATASET) {
 
 function updateRepeats(DATASET)
 {
+  const addedList = require('./insert.js').addedList;
   console.log("addedList: " + addedList);
+  console.log(addedList);
   // If data was inserted in the dataset
   if (lastIndex < DATASET.length - 1)
   {
