@@ -2,9 +2,9 @@ const express = require('express');
 const cors = require('cors');
 
 const search = require('./routes/search').router;
-const insert = require('./routes/insert');
-const del = require('./routes/delete');
-const update = require('./routes/update');
+const insert = require('./routes/insert').router;
+const del = require('./routes/delete').router;
+const update = require('./routes/update').router;
 const feature1 = require('./routes/feature1').router;
 const featurecb = require('./routes/featurecb').router;
 const featuretime = require('./routes/featuretime').router;

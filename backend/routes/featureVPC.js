@@ -5,11 +5,12 @@ let RecalculateFeatureVPC = 1;
 let result = [];
 
 function calculate(req) {
+  // console.log(req);
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
   const allCounty = new Map();
-  const result = [];
+  result = [];
   let total = 0;
   for (let i = 0; i < DATASET.length; i++) {
     let county = DATASET[i]['Violation County'];
@@ -42,6 +43,7 @@ function calculate(req) {
 }
 
 router.route('/data/violationspercounty').get((req, res) => {
+  // console.log(req);
   if (RecalculateFeatureVPC == 1) {
     console.log("recalculating featureVPC");
     calculate(req);

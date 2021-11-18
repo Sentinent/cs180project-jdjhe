@@ -43,10 +43,25 @@ function parseTerms(terms) {
 }
 
 // TODO: cache if we got the memory
+// a generalized version exists below
 function searchAll(terms) {
   let results = [];
   const parsedConditions = parseTerms(terms);
   for (const row of JSONDATA) {
+    if (isMatch(row, parsedConditions)) {
+      results.push(row);
+    }
+  }
+
+  return results;
+}
+
+// generalized version for above function
+function searchAllArray(terms, ...array) {
+  let results = [];
+  const parsedConditions = parseTerms(terms);
+  // for (let row = 0; row < array.length; ++row) {
+  for (const row of array[0]) {
     if (isMatch(row, parsedConditions)) {
       results.push(row);
     }
@@ -89,4 +104,4 @@ router
     res.send(search(columns, pageNum, searchTerms.split(',')));
   });
 
-module.exports = { router, search, searchAll };
+module.exports = { router, search, searchAll, searchAllArray };
