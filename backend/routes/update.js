@@ -69,7 +69,6 @@ router
       JSONDATA[index] = data;
       console.log('after :');
       console.log(JSONDATA[index]);
-      updateList.pushNew(JSONDATA[index]);
       console.log('Data has been updated');
 
       updateLists.pushNew(JSONDATA[index]);  // Save the new row for incremental analytics
