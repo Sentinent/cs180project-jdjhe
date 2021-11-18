@@ -1,12 +1,11 @@
 import React from 'react';
-// import { useState } from "react";
-// import ShowConnection from "./components/ShowConnection.jsx"
 import ToolBar from './components/ToolBar';
-// import SearchHome from "./pages/SearchHome";
-import MainView from './components/MainView';
+import Home from './pages/Home';
+import Search from './pages/Search';
 import Analytics from './pages/Analytics';
+import About from './pages/About';
+import Custom from './pages/Custom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.css';
 
 function App() {
   return (
@@ -15,11 +14,23 @@ function App() {
         <Switch>
           <Route path="/" exact={true}>
             <ToolBar />
-            <MainView />
+            <Home />
+          </Route>
+          <Route path="/search" exact={true}>
+            <ToolBar />
+            <Search />
           </Route>
           <Route path="/analytics" exact={true}>
             <ToolBar />
             <Analytics />
+          </Route>
+          <Route path="/about" exact={true}>
+            <ToolBar />
+            <About />
+          </Route>
+          <Route path="/custom" exact={true}>
+            <ToolBar />
+            <Custom />
           </Route>
         </Switch>
       </Router>
