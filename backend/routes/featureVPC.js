@@ -1,12 +1,16 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
 
-router.route('/data/violationspercounty').get((req, res) => {
+let RecalculateFeatureVPC = 1;
+let result = [];
+
+function calculate(req) {
+  // console.log(req);
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
   const allCounty = new Map();
-  const result = [];
+  result = [];
   let total = 0;
   for (let i = 0; i < DATASET.length; i++) {
     let county = DATASET[i]['Violation County'];
@@ -36,8 +40,17 @@ router.route('/data/violationspercounty').get((req, res) => {
   }
   other.Percentage = (other.Violations / total).toFixed(2) * 100;
   result.push(other);
+}
+
+router.route('/data/violationspercounty').get((req, res) => {
+  // console.log(req);
+  if (RecalculateFeatureVPC == 1) {
+    console.log("recalculating featureVPC");
+    calculate(req);
+    RecalculateFeatureVPC = 0;
+  }
 
   res.send(result);
 });
 
-module.exports = router;
+module.exports = {router, RecalculateFeatureVPC};

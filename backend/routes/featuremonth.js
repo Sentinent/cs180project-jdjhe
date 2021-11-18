@@ -1,17 +1,15 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
+let RecalculateFeatureMonth = 1;
 
-router.route('/data/monthviolations').get((req, res) => {
-  //////////////////////////////////////////////////////////////////
-  // Start of Code
-  //////////////////////////////////////////////////////////////////
-  const terms = (req.query.terms || '').split(',');
-  const DATASET = searchAll(terms);
+let final = [];
+
+function calculateM(DATASET) {
 
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
 
-  const final = [
+  final = [
     { Month: 'January', Violations: 0, Percentage: 0 },
     { Month: 'February', Violations: 0, Percentage: 0 },
     { Month: 'March', Violations: 0, Percentage: 0 },
@@ -75,7 +73,18 @@ router.route('/data/monthviolations').get((req, res) => {
   }
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
+}
+
+router.route('/data/monthviolations').get((req, res) => {
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
+
+  if(RecalculateFeatureMonth == 1)
+  {
+    calculateM(DATASET);
+    RecalculateFeatureMonth = 0;
+  }
   res.send(final);
 });
 
-module.exports = router;
+module.exports = { router, RecalculateFeatureMonth };

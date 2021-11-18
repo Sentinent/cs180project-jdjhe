@@ -1,7 +1,25 @@
 const router = require('express').Router();
+const { performance } = require('perf_hooks');
 const { searchAll } = require('./search');
 const { calculate } = require('./feature1.js');
 const violationTotals = require('./feature1.js').final;
+let initialCalculate = 1;
+let RecalculateFeatureRepeats = 1;
+
+function findMaxIndex(arr)
+{
+  var max = arr[0].Percentage;
+  var index = 0;
+  for (var i = 0; i < arr.length; i++)
+  {
+    if (arr[i].Percentage > max)
+    {
+      max = arr[i].Percentage;
+      index = i;
+    }
+  }
+  return index;
+}
 
 // Node class to represent a tree value for a BST
 class Node {
@@ -86,13 +104,14 @@ class BinarySearchTree {
   }
 }
 
-router.route('/data/repeatcount').get((req, res) => {
-  //////////////////////////////////////////////////////////////////
-  // Start of Code
-  //////////////////////////////////////////////////////////////////
-  const terms = (req.query.terms || '').split(',');
-  const DATASET = searchAll(terms);
+let final = [];
+let bstList = [];
+let repeatOffenders20 = [];
 
+// Function to calculate the Repeated offenders
+function repeatOffenders(DATASET) {
+
+  var startTime = performance.now(); 
   // need to recalculate
   calculate(DATASET);
 
@@ -104,7 +123,8 @@ router.route('/data/repeatcount').get((req, res) => {
   Object.seal(repeats);
 
   // final is the list of violation codes, their respective occurences and their respective percent of the total
-  let final = [];
+  final = [];
+  bstList = [];
 
   // Cycle through all violations
   for (var c = 1; c < 99; c++) {
@@ -135,17 +155,14 @@ router.route('/data/repeatcount').get((req, res) => {
         }
       }
     }
+    bstList.push(BST);
   }
-
-  //var totalp = 0;
 
   /*
     Calculate the percentage of violations that have been repeated based on
     the total the amount of times the violations have occured
     */
   for (var i = 1; i < repeats.length; i++) {
-    //console.log(i, ": ", violationTotals[i - 1]['Occurences']);
-
     var percent = parseFloat(
       ((repeats[i] / violationTotals[i - 1]['Occurences']) * 100).toFixed(3)
     );
@@ -159,10 +176,212 @@ router.route('/data/repeatcount').get((req, res) => {
 
     final.push(line);
   }
-  //console.log(totalp);
-  //////////////////////////////////////////////////////////////////
 
-  res.send(final);
+  let final_temp = final.slice();
+  repeatOffenders20 = [];
+  var index;
+  for (var i = 0; i < 20; i++)
+  {
+    index = findMaxIndex(final_temp);
+    repeatOffenders20.push(final_temp[index]);
+    final_temp.splice(index, 1);
+  }
+
+  var endTime = performance.now();
+  console.log('Total calculation time: ' + (endTime - startTime))
+}
+
+
+// Update Funnction for Incremental Analytics
+function updateRepeats(DATASET)
+{
+  let insertedList = require('./listWrapper.js').insertLists.featurerepeatsList;
+  let removedList = require('./listWrapper.js').deleteLists.featurerepeatsList; 
+  let oldList = require('./listWrapper.js').updateLists.featurerepeatsListOld;
+  let newList = require('./listWrapper.js').updateLists.featurerepeatsListNeo;
+
+  // If data was inserted in the dataset
+  if (insertedList.length > 0)
+  {
+    // start time
+    var startTime = performance.now();
+
+    //calculate(DATASET);
+    // Traverse through all new data
+    for (var i = 0; i < insertedList.length; i++)
+    {
+      var code = Number(insertedList[i]['Violation Code']);
+      //console.log(code);
+      var person = insertedList[i]['Plate ID'];
+
+      // Search through the BST list for the designated code's BST
+      var BST = bstList[code - 1];
+      if(BST.search(BST.getRootNode(), person) != null)
+      {
+        final[code - 1].Occurences += 1;
+      }
+    }
+    insertedList = [];
+
+    // Re-adjust all the percentages
+    for (var i = 0; i < final.length; i++) {
+      var percent = parseFloat(
+        ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      );
+      final[i].Percentage = percent;
+    } 
+
+    // Recalculate the top 20 repeated offenders
+    let final_temp = final.slice();
+    repeatOffenders20 = [];
+    var index;
+    for (var i = 0; i < 20; i++)
+    {
+      index = findMaxIndex(final_temp);
+      repeatOffenders20.push(final_temp[index]);
+      final_temp.splice(index, 1);
+    }
+    
+    var endTime = performance.now();
+    console.log('Update calculation time: ' + (endTime - startTime))
+  }
+  ////////////////////////////////////////////////////////////////////////
+  //If data was updated from the dataset
+  if (oldList.length > 0 && newList.length > 0)
+  {
+    // start time
+    var startTime = performance.now();
+    // Traverse through all new data
+    for (var i = 0; i < oldList.length; i++)
+    {
+      var codeOld = Number(oldList[i]['Violation Code']);
+      var personOld = oldList[i]['Plate ID'];
+      var codeNew = Number(newList[i]['Violation Code']);
+      var personNew = newList[i]['Plate ID'];
+
+      if (personOld != personNew && codeOld != codeNew)
+      {
+        // Search through the BST list for the designated code's BST
+        var BST = bstList[codeOld - 1];
+        if(BST.search(BST.getRootNode(), personOld) != null)
+        {
+          final[codeOld - 1].Occurences -= 1;
+        }
+        var BST = bstList[codeNew - 1];
+        if(BST.search(BST.getRootNode(), personNew) != null)
+        {
+          final[codeNew - 1].Occurences += 1;
+        } 
+      }
+      else if (personOld != personNew && codeOld == codeNew)
+      {
+        var BST = bstList[codeOld - 1];
+        if(BST.search(BST.getRootNode(), personNew) == null)
+        {
+          final[codeNew - 1].Occurences -= 1;
+        }
+      }
+      else if (personOld == personNew && codeOld != codeNew)
+      {
+        var BST = bstList[codeOld - 1];
+        if(BST.search(BST.getRootNode(), personNew) != null)
+        {
+          final[codeOld - 1].Occurences -= 1;
+        }
+        var BST = bstList[codeNew - 1];
+        if(BST.search(BST.getRootNode(), personNew) != null)
+        {
+          final[codeNew - 1].Occurences += 1;
+        } 
+      }
+    }
+    oldList = [];
+    newList = [];
+    // Re-adjust all the percentages
+    for (var i = 0; i < final.length; i++) {
+      var percent = parseFloat(
+        ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      );
+      final[i].Percentage = percent;
+    } 
+    // Recalculate the top 20 repeated offenders
+    let final_temp = final.slice();
+    repeatOffenders20 = [];
+    var index;
+    for (var i = 0; i < 20; i++)
+    {
+      index = findMaxIndex(final_temp);
+      repeatOffenders20.push(final_temp[index]);
+      final_temp.splice(index, 1);
+    }
+    
+    var endTime = performance.now();
+    console.log('Update calculation time: ' + (endTime - startTime))
+  }
+  ////////////////////////////////////////////////////////////////
+  // If data was removed from the dataset
+  if (removedList.length > 0)
+  {
+    // start time
+    var startTime = performance.now();
+
+    // Traverse through all new data
+    for (var i = 0; i < removedList.length; i++)
+    {
+      var code = Number(removedList[i]['Violation Code']);
+      //console.log(code);
+      var person = removedList[i]['Plate ID'];
+
+      // Search through the BST list for the designated code's BST
+      var BST = bstList[code - 1];
+      if(BST.search(BST.getRootNode(), person) != null)
+      {
+        final[code - 1].Occurences -= 1;
+      }
+    }
+    removedList = [];
+
+    // Re-adjust all the percentages
+    for (var i = 0; i < final.length; i++) {
+      var percent = parseFloat(
+        ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      );
+      final[i].Percentage = percent;
+    } 
+
+    // Recalculate the top 20 repeated offenders
+    let final_temp = final.slice();
+    repeatOffenders20 = [];
+    var index;
+    for (var i = 0; i < 20; i++)
+    {
+      index = findMaxIndex(final_temp);
+      repeatOffenders20.push(final_temp[index]);
+      final_temp.splice(index, 1);
+    }
+    
+    var endTime = performance.now();
+    console.log('Update calculation time: ' + (endTime - startTime))
+  }
+}
+
+
+router.route('/data/repeatcount').get((req, res) => {
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
+
+  //console.log(DATASET);
+
+  if (initialCalculate != 1)
+  {
+    updateRepeats(DATASET);
+  }
+  if (initialCalculate == 1)
+  {
+    repeatOffenders(DATASET);
+    initialCalculate = 0;
+  }
+  res.send(repeatOffenders20);
 });
 
-module.exports = router;
+module.exports = { router };
