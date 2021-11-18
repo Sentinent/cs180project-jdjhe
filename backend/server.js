@@ -2,15 +2,17 @@ const express = require('express');
 const cors = require('cors');
 
 const search = require('./routes/search').router;
-const insert = require('./routes/insert');
-const del = require('./routes/delete');
-const update = require('./routes/update');
+const insert = require('./routes/insert').router;
+const del = require('./routes/delete').router;
+const update = require('./routes/update').router;
 const feature1 = require('./routes/feature1').router;
-const featurecb = require('./routes/featurecb');
-const featuretime = require('./routes/featuretime');
-const featuremonth = require('./routes/featuremonth');
-const repeats = require('./routes/featurerepeats');
-const featureVPC = require('./routes/featureVPC');
+
+const featurecb = require('./routes/featurecb').router;
+const featuretime = require('./routes/featuretime').router;
+const featuremonth = require('./routes/featuremonth').router;
+const repeats = require('./routes/featurerepeats').router;
+const featureVPC = require('./routes/featureVPC').router;
+const table = require('./routes/table');
 const customAnalytic = require('./routes/custom');
 
 const app = express();
@@ -29,6 +31,7 @@ app.use('/featuretime', featuretime);
 app.use('/featuremonth', featuremonth);
 app.use('/featurerepeats', repeats);
 app.use('/featureVPC', featureVPC);
+app.use('/table', table);
 app.use('/custom', customAnalytic);
 
 app.listen(port, () => {

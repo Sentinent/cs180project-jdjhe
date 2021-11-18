@@ -1,6 +1,13 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
 
+let updateLists = require("./listWrapper.js").updateLists;
+
+let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
+let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
+let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
+
 // this route does the updating
 router
   .route(
@@ -44,6 +51,9 @@ router
     } else {
       console.log('before :');
       console.log(JSONDATA[index]);
+
+      updateLists.pushOld(JSONDATA[index]);  // Save the old row for incremental analytics
+
       //change all the data to uppercase
       data['Plate ID'] = data['Plate ID'].toUpperCase();
       data['Registration State'] = data['Registration State'].toUpperCase();
@@ -60,10 +70,19 @@ router
       console.log('after :');
       console.log(JSONDATA[index]);
       console.log('Data has been updated');
+
+      updateLists.pushNew(JSONDATA[index]);  // Save the new row for incremental analytics
+
       res.send('Data has been updated');
     }
+
+    RecalculateFeature1 = 1;
+    RecalculateFeatureVPC = 1;
+    RecalculateFeatureMonth = 1;
+    RecalculateFeatureCarBrand = 1;
+
     console.log('After Update length:' + JSONDATA.length);
     console.log('Update function ended\n');
   });
 
-module.exports = router;
+module.exports = { router };

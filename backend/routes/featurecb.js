@@ -1,19 +1,17 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
+let RecalculateFeatureCarBrand = 1;
 
 const queryFilter = /([A-Za-z0-9\s]+)(<|>|==|<=|>=|~)([A-Za-z0-9\*]+)/;
 
-router.route('/data/carbrandviolations').get((req, res) => {
-  //////////////////////////////////////////////////////////////////
-  // Start of Code
-  //////////////////////////////////////////////////////////////////
-  const terms = (req.query.terms || '').split(',');
-  const DATASET = searchAll(terms);
+let final = [];
+
+function calculateCB(DATASET) {
 
   // total is the max number of violations
   // final is the list of car brands, their respective occurences and their respective percent of the total
   var total = 0;
-  let final = [];
+  final = [];
 
   /*
     Read through the DATASET array and save the Vehicle make aka Car brand
@@ -66,10 +64,18 @@ router.route('/data/carbrandviolations').get((req, res) => {
   otherline.Percentage = (otherline.Occurences / total) * 100;
   final.push(otherline);
   //console.log(totalp);
+}
 
-  //////////////////////////////////////////////////////////////////
+router.route('/data/carbrandviolations').get((req, res) => {
+  const terms = (req.query.terms || '').split(',');
+  const DATASET = searchAll(terms);
 
+  if (RecalculateFeatureCarBrand == 1)
+  {
+    calculateCB(DATASET);
+    RecalculateFeatureCarBrand = 0;
+  }
   res.send(final);
 });
 
-module.exports = router;
+module.exports = { router, RecalculateFeatureCarBrand };
