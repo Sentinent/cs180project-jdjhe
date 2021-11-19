@@ -1,10 +1,10 @@
-import PieChartVCS from "../components/PieChartVCS";
-import PieChartCBS from "../components/PieChartCBS";
-import BarChartTODS from "../components/BarChartTODS";
-import PieChartVPCS from "../components/PieChartVPCS";
-import BarChartHorS from "../components/BarChartHorS";
-import BarChartMOYS from "../components/BarChartMOYS";
-  
+import PieChartVC from "../components/PieChartVC";
+import PieChartCB from "../components/PieChartCB";
+import LineGraphTOD from "../components/LineGraphTOD";
+import PieChartVPC from "../components/PieChartVPC";
+import BarChartRO from "../components/BarChartRO";
+import BarChartMOY from "../components/BarChartMOY";
+
 function Analytics() {
   return (
     <section className="bg-dark p-2">
@@ -13,14 +13,14 @@ function Analytics() {
           <div className="col-xl m-3 align-items-stretch">
             <div className="card bg-light text-dark">
               <div className="card-body text-center">
-                <PieChartVCS />
+                <PieChartVC />
               </div>
             </div>
           </div>
           <div className="col-xl m-3 align-items-stretch">
             <div className="card bg-light text-dark">
               <div className="card-body text-center">
-                <PieChartCBS />
+                <PieChartCB />
               </div>
             </div>
           </div>
@@ -29,14 +29,14 @@ function Analytics() {
           <div className="col-xl m-3 align-items-stretch">
             <div className="card bg-light text-dark">
               <div className="card-body text-center">
-                <BarChartTODS />
+                <LineGraphTOD />
               </div>
             </div>
           </div>
           <div className="col-xl m-3 align-items-stretch">
             <div className="card bg-light text-dark">
               <div className="card-body text-center">
-                <PieChartVPCS />
+                <PieChartVPC />
               </div>
             </div>
           </div>
@@ -45,14 +45,14 @@ function Analytics() {
           <div className="col-xl m-3 align-items-stretch">
             <div className="card bg-light text-dark">
               <div className="card-body text-center">
-                <BarChartHorS />
+                <BarChartRO />
               </div>
             </div>
           </div>
           <div className="col-xl m-3 align-items-stretch">
             <div className="card bg-light text-dark">
               <div className="card-body text-center">
-                <BarChartMOYS />
+                <BarChartMOY />
               </div>
             </div>
           </div>

@@ -4,8 +4,8 @@ import CanvasJSReact from './canvasjs.react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface MonthOfYear {
-  Month: String;
+interface RepeatOffenders {
+  ViolationCode: Number;
   Percentage: Number;
 }
 
@@ -14,19 +14,19 @@ interface DataPoint {
   y: Number;
 }
 
-function BarChartMOYS() {
+function BarChartRO() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/featuremonth/data/monthviolations${window.location.search}`
+        `http://localhost:5000/featurerepeats/data/repeatcount${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
-        const mappedData = data.map((x: MonthOfYear) => ({
-          label: x['Month'],
+        const mappedData = data.map((x: RepeatOffenders) => ({
+          label: 'Violation ' + x['ViolationCode'],
           y: x['Percentage'],
         }));
         setDataPoints(mappedData);
@@ -34,15 +34,24 @@ function BarChartMOYS() {
   }, []);
 
   const config1 = {
+    animationEnabled: true,
+    title: {
+      text: '',
+    },
     axisX: {
-      interval: 1,
+      title: 'Violation',
     },
     axisY: {
-      minimum: 0,
+      title: '% of Repeats',
+      includeZero: true,
     },
+    axisYType: 'secondary',
     data: [
       {
-        type: 'column',
+        type: 'bar',
+        startAngle: 75,
+        toolTipContent: '<b>{label}</b>: {y}%',
+        indexLabelFontSize: 9,
         dataPoints: dataPoints,
       },
     ],
@@ -50,16 +59,17 @@ function BarChartMOYS() {
   const config2 = {
     exportEnabled: true,
     axisX: {
-      title: 'Month',
-      interval: 1,
+      title: 'Violation',
+      reversed: true,
     },
     axisY: {
-      title: '% of Violations',
-      minimum: 0,
+      title: '% of Repeats',
+      includeZero: true,
     },
+    axisYType: 'secondary',
     data: [
       {
-        type: 'column',
+        type: 'bar',
         dataPoints: dataPoints,
       },
     ],
@@ -67,22 +77,22 @@ function BarChartMOYS() {
 
   return (
     <div>
-      <h3 className="card-title mb-3">Frequencies of Violations by Month</h3>
+      <h3 className="card-title mb-3">Repeat Offenders</h3>
       <CanvasJSChart options={config1}></CanvasJSChart>
       <button
         type="button"
         className="btn btn-dark justify-content-between mt-3"
         data-bs-toggle="modal"
-        data-bs-target="#MOYModal"
+        data-bs-target="#HORModal"
       >
         Learn more
       </button>
 
-      <div className="modal fade" id="MOYModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="HORModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
-              <h5 className="modal-title" id="exampleModalLabel">Frequencies of Violations by Month</h5>
+              <h5 className="modal-title" id="exampleModalLabel">Repeat Offenders</h5>
               <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -97,7 +107,7 @@ function BarChartMOYS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>Month</th>
+                          <th>Violation Code</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>
@@ -124,4 +134,4 @@ function BarChartMOYS() {
   );
 }
 
-export default BarChartMOYS;
+export default BarChartRO;

@@ -4,8 +4,8 @@ import CanvasJSReact from './canvasjs.react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface RepeatOffenders {
-  ViolationCode: Number;
+interface MonthOfYear {
+  Month: String;
   Percentage: Number;
 }
 
@@ -14,19 +14,19 @@ interface DataPoint {
   y: Number;
 }
 
-function BarChartHorS() {
+function BarChartMOY() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/featurerepeats/data/repeatcount${window.location.search}`
+        `http://localhost:5000/featuremonth/data/monthviolations${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
-        const mappedData = data.map((x: RepeatOffenders) => ({
-          label: 'Violation ' + x['ViolationCode'],
+        const mappedData = data.map((x: MonthOfYear) => ({
+          label: x['Month'],
           y: x['Percentage'],
         }));
         setDataPoints(mappedData);
@@ -34,24 +34,16 @@ function BarChartHorS() {
   }, []);
 
   const config1 = {
-    animationEnabled: true,
-    title: {
-      text: '',
-    },
     axisX: {
-      title: 'Violation',
+      interval: 1,
     },
     axisY: {
-      title: '% of Repeats',
-      includeZero: true,
+      title: '% of Violations',
+      minimum: 0,
     },
-    axisYType: 'secondary',
     data: [
       {
-        type: 'bar',
-        startAngle: 75,
-        toolTipContent: '<b>{label}</b>: {y}%',
-        indexLabelFontSize: 9,
+        type: 'column',
         dataPoints: dataPoints,
       },
     ],
@@ -59,17 +51,16 @@ function BarChartHorS() {
   const config2 = {
     exportEnabled: true,
     axisX: {
-      title: 'Violation',
-      reversed: true,
+      title: 'Month',
+      interval: 1,
     },
     axisY: {
-      title: '% of Repeats',
-      includeZero: true,
+      title: '% of Violations',
+      minimum: 0,
     },
-    axisYType: 'secondary',
     data: [
       {
-        type: 'bar',
+        type: 'column',
         dataPoints: dataPoints,
       },
     ],
@@ -77,22 +68,22 @@ function BarChartHorS() {
 
   return (
     <div>
-      <h3 className="card-title mb-3">Repeat Offenders</h3>
+      <h3 className="card-title mb-3">Frequencies of Violations by Month</h3>
       <CanvasJSChart options={config1}></CanvasJSChart>
       <button
         type="button"
         className="btn btn-dark justify-content-between mt-3"
         data-bs-toggle="modal"
-        data-bs-target="#HORModal"
+        data-bs-target="#MOYModal"
       >
         Learn more
       </button>
 
-      <div className="modal fade" id="HORModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="MOYModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
-              <h5 className="modal-title" id="exampleModalLabel">Repeat Offenders</h5>
+              <h5 className="modal-title" id="exampleModalLabel">Frequencies of Violations by Month</h5>
               <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -107,7 +98,7 @@ function BarChartHorS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>Violation Code</th>
+                          <th>Month</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>
@@ -134,4 +125,4 @@ function BarChartHorS() {
   );
 }
 
-export default BarChartHorS;
+export default BarChartMOY;

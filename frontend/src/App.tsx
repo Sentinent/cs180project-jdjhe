@@ -6,6 +6,7 @@ import Analytics from './pages/Analytics';
 import About from './pages/About';
 import Custom from './pages/Custom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Violations from './pages/Violations';
 
 function App() {
   return (
@@ -31,6 +32,10 @@ function App() {
           <Route path="/custom" exact={true}>
             <ToolBar />
             <Custom />
+          </Route>
+          <Route path="/violations" exact={true}>
+            <ToolBar />
+            <Violations />
           </Route>
         </Switch>
       </Router>

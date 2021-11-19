@@ -32,6 +32,9 @@ function ToolBar() {
             <li className="nav-item">
               <a href="/about" className="nav-link">About Us</a>
             </li>
+            <li className="nav-item">
+              <a href="/violations" className="nav-link">Violations</a>
+            </li>
           </ul>
         </div>
       </div>

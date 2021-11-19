@@ -4,8 +4,8 @@ import CanvasJSReact from './canvasjs.react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface ViolationCount {
-  County: String;
+interface TimeViolation {
+  Time: String;
   Percentage: Number;
 }
 
@@ -14,19 +14,42 @@ interface DataPoint {
   y: Number;
 }
 
-function PieChartVPCS() {
+function sort(data: TimeViolation[]) {
+  return data.sort((a: any, b: any) => {
+    const aField = a['Time'];
+    const bField = b['Time'];
+
+    let timeA = Number.parseInt(aField.substr(0, 2));
+    const modA = aField.substr(2, 2);
+    let timeB = Number.parseInt(bField.substr(0, 2));
+    const modB = bField.substr(2, 2);
+
+    if (modA === 'PM') timeA += 12;
+    if (modB === 'PM') timeB += 12;
+
+    // datetimes suck
+    if (aField === '12AM') timeA = 0;
+    if (aField === '12PM') timeA = 12;
+    if (bField === '12AM') timeB = 0;
+    if (bField === '12PM') timeB = 12;
+
+    return timeA - timeB;
+  });
+}
+
+function LineGraphTOD() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/featureVPC/data/violationspercounty${window.location.search}`
+        `http://localhost:5000/featuretime/data/timeviolations${window.location.search}`
       )
       .then((resp) => {
-        const data = resp.data;
+        const data = sort(resp.data);
 
-        const mappedData = data.map((x: ViolationCount) => ({
-          label: x['County'],
+        const mappedData = data.map((x: TimeViolation) => ({
+          label: x['Time'],
           y: x['Percentage'],
         }));
         setDataPoints(mappedData);
@@ -34,29 +57,27 @@ function PieChartVPCS() {
   }, []);
 
   const config1 = {
-    animationEnabled: true,
+    axisY: {
+      title: '% of Violations',
+    },
     data: [
       {
-        type: 'pie',
-        startAngle: 75,
-        toolTipContent: '<b>{label}</b>: {y}%',
-        indexLabelFontSize: 9,
+        type: 'line',
         dataPoints: dataPoints,
       },
     ],
   };
   const config2 = {
     exportEnabled: true,
-    animationEnabled: true,
+    axisX: {
+      title: 'Time of Day',
+    },
+    axisY: {
+      title: '% of Violations',
+    },
     data: [
       {
-        type: 'pie',
-        startAngle: 75,
-        toolTipContent: '<b>{label}</b>: {y}%',
-        showInLegend: 'true',
-        legendText: '{label}',
-        indexLabelFontSize: 16,
-        indexLabel: '{label} - {y}%',
+        type: 'line',
         dataPoints: dataPoints,
       },
     ],
@@ -64,22 +85,22 @@ function PieChartVPCS() {
 
   return (
     <div>
-      <h3 className="card-title mb-3">Frequencies of Violations Per County</h3>
+      <h3 className="card-title mb-3">Violations By Time of Day</h3>
       <CanvasJSChart options={config1}></CanvasJSChart>
       <button
         type="button"
         className="btn btn-dark justify-content-between mt-3"
         data-bs-toggle="modal"
-        data-bs-target="#VPCModal"
+        data-bs-target="#TODModal"
       >
         Learn more
       </button>
 
-      <div className="modal fade" id="VPCModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="TODModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
-              <h5 className="modal-title" id="exampleModalLabel">Frequencies of Violations Per County</h5>
+              <h5 className="modal-title" id="exampleModalLabel">Violations By Time of Day</h5>
               <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -94,7 +115,7 @@ function PieChartVPCS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>County</th>
+                          <th>Time</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>
@@ -121,4 +142,4 @@ function PieChartVPCS() {
   );
 }
 
-export default PieChartVPCS;
+export default LineGraphTOD;
