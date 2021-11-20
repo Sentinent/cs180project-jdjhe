@@ -4,8 +4,8 @@ import CanvasJSReact from './canvasjs.react';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-interface CarBrand {
-  CarBrand: String;
+interface ViolationCount {
+  ViolationCode: Number;
   Percentage: Number;
 }
 
@@ -14,19 +14,19 @@ interface DataPoint {
   y: Number;
 }
 
-function PieChartCBS() {
+function PieChartVC() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/featurecb/data/carbrandviolations${window.location.search}`
+        `http://localhost:5000/feature1/data/violationcount${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
-        const mappedData = data.map((x: CarBrand) => ({
-          label: x['CarBrand'],
+        const mappedData = data.map((x: ViolationCount) => ({
+          label: 'Violation ' + x['ViolationCode'],
           y: x['Percentage'],
         }));
         setDataPoints(mappedData);
@@ -35,15 +35,12 @@ function PieChartCBS() {
 
   const config1 = {
     animationEnabled: true,
-    title: {
-      text: '',
-    },
     data: [
       {
         type: 'pie',
         startAngle: 75,
         toolTipContent: '<b>{label}</b>: {y}%',
-        indexLabelFontSize: 9,
+        indexLabelFontSize: 15,
         dataPoints: dataPoints,
       },
     ],
@@ -66,23 +63,23 @@ function PieChartCBS() {
   };
 
   return (
-    <div>
-      <h3 className="card-title mb-3">Most Common Violations by Car Brand</h3>
+    <>
+      <h3 className="card-title mb-3">Most Common Types of Violations</h3>
       <CanvasJSChart options={config1}></CanvasJSChart>
       <button
         type="button"
         className="btn btn-dark justify-content-between mt-3"
         data-bs-toggle="modal"
-        data-bs-target="#CBSModal"
+        data-bs-target="#VCSModal"
       >
         Learn more
       </button>
 
-      <div className="modal fade" id="CBSModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="VCSModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
-              <h5 className="modal-title" id="exampleModalLabel">Most Common Violations by Car Brand</h5>
+              <h5 className="modal-title" id="exampleModalLabel">Most Common Types of Violations</h5>
               <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -97,7 +94,7 @@ function PieChartCBS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>Car Brand</th>
+                          <th>Violation Code</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>
@@ -120,8 +117,8 @@ function PieChartCBS() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-export default PieChartCBS;
+export default PieChartVC;

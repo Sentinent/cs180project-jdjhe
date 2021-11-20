@@ -5,7 +5,7 @@ import CanvasJSReact from './canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 interface ViolationCount {
-  ViolationCode: Number;
+  County: String;
   Percentage: Number;
 }
 
@@ -14,19 +14,19 @@ interface DataPoint {
   y: Number;
 }
 
-function PieChartVCS() {
+function PieChartVPC() {
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/feature1/data/violationcount${window.location.search}`
+        `http://localhost:5000/featureVPC/data/violationspercounty${window.location.search}`
       )
       .then((resp) => {
         const data = resp.data;
 
         const mappedData = data.map((x: ViolationCount) => ({
-          label: 'Violation ' + x['ViolationCode'],
+          label: x['County'],
           y: x['Percentage'],
         }));
         setDataPoints(mappedData);
@@ -40,7 +40,7 @@ function PieChartVCS() {
         type: 'pie',
         startAngle: 75,
         toolTipContent: '<b>{label}</b>: {y}%',
-        indexLabelFontSize: 15,
+        indexLabelFontSize: 9,
         dataPoints: dataPoints,
       },
     ],
@@ -63,23 +63,23 @@ function PieChartVCS() {
   };
 
   return (
-    <>
-      <h3 className="card-title mb-3">Most Common Types of Violations</h3>
+    <div>
+      <h3 className="card-title mb-3">Frequencies of Violations Per County</h3>
       <CanvasJSChart options={config1}></CanvasJSChart>
       <button
         type="button"
         className="btn btn-dark justify-content-between mt-3"
         data-bs-toggle="modal"
-        data-bs-target="#VCSModal"
+        data-bs-target="#VPCModal"
       >
         Learn more
       </button>
 
-      <div className="modal fade" id="VCSModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="VPCModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header bg-dark text-light">
-              <h5 className="modal-title" id="exampleModalLabel">Most Common Types of Violations</h5>
+              <h5 className="modal-title" id="exampleModalLabel">Frequencies of Violations Per County</h5>
               <button type="button" className="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -94,7 +94,7 @@ function PieChartVCS() {
                     <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th>Violation Code</th>
+                          <th>County</th>
                           <th>Percentage</th>
                         </tr>
                       </thead>
@@ -117,8 +117,8 @@ function PieChartVCS() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-export default PieChartVCS;
+export default PieChartVPC;
