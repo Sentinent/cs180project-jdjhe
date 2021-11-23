@@ -221,7 +221,11 @@ function updateRepeats(DATASET)
         final[code - 1].Occurences += 1;
       }
     }
-    insertedList = [];
+    // Empty the inserted list
+    while(insertedList.length > 0)
+    {
+      insertedList.pop();
+    }
 
     // Re-adjust all the percentages
     for (var i = 0; i < final.length; i++) {
@@ -295,8 +299,16 @@ function updateRepeats(DATASET)
         } 
       }
     }
-    oldList = [];
-    newList = [];
+    //Empty the updated lists
+    while(oldList.length > 0)
+    {
+      oldList.pop();
+    }
+    while(newList.length > 0)
+    {
+      newList.pop();
+    }
+
     // Re-adjust all the percentages
     for (var i = 0; i < final.length; i++) {
       var percent = parseFloat(
@@ -339,7 +351,12 @@ function updateRepeats(DATASET)
         final[code - 1].Occurences -= 1;
       }
     }
-    removedList = [];
+    // Empty the deleted list
+    while(removedList.length > 0)
+    {
+      removedList.pop();
+    }
+    
 
     // Re-adjust all the percentages
     for (var i = 0; i < final.length; i++) {
@@ -363,6 +380,14 @@ function updateRepeats(DATASET)
     var endTime = performance.now();
     console.log('Update calculation time: ' + (endTime - startTime))
   }
+
+  /*
+  for (const A of [insertedList, removedList, oldList, newList]) {
+    while(A.length > 0) {
+      A.pop();
+    }
+  }
+  */
 }
 
 
