@@ -27,34 +27,34 @@ for (let i = 1; i < FILES_TO_LOAD + 1; i++) {
   }
 }
 
-process.on('SIGINT', () => {
-  console.log('Got kill signal. Backing up all data...');
-  const EntriesPerFile = 1200000;
+// process.on('SIGINT', () => {
+//   console.log('Got kill signal. Backing up all data...');
+//   const EntriesPerFile = 1200000;
 
-  for (
-    let i = 0, files = 1;
-    i < JSONDATA.length;
-    i += EntriesPerFile, files++
-  ) {
-    if (i + EntriesPerFile < JSONDATA.length) {
-      console.log(i);
-      let data = JSON.stringify(JSONDATA.slice(i, i + EntriesPerFile), null, 4);
-      fs.writeFileSync('../parsed_data/data' + files + '.json', data, (err) => {
-        if (err) throw err;
-        else console.log('wrote file data' + files + '.json');
-      });
-    } else {
-      console.log('last');
-      let data = JSON.stringify(JSONDATA.slice(i, JSONDATA.length), null, 4);
-      fs.writeFileSync('../parsed_data/data' + files + '.json', data, (err) => {
-        if (err) throw err;
-        else console.log('wrote file data' + files + '.json');
-      });
-    }
-  }
+//   for (
+//     let i = 0, files = 1;
+//     i < JSONDATA.length;
+//     i += EntriesPerFile, files++
+//   ) {
+//     if (i + EntriesPerFile < JSONDATA.length) {
+//       console.log(i);
+//       let data = JSON.stringify(JSONDATA.slice(i, i + EntriesPerFile), null, 4);
+//       fs.writeFileSync('../parsed_data/data' + files + '.json', data, (err) => {
+//         if (err) throw err;
+//         else console.log('wrote file data' + files + '.json');
+//       });
+//     } else {
+//       console.log('last');
+//       let data = JSON.stringify(JSONDATA.slice(i, JSONDATA.length), null, 4);
+//       fs.writeFileSync('../parsed_data/data' + files + '.json', data, (err) => {
+//         if (err) throw err;
+//         else console.log('wrote file data' + files + '.json');
+//       });
+//     }
+//   }
 
-  console.log('Finished backing up data');
-  process.exit();
-});
+//   console.log('Finished backing up data');
+//   process.exit();
+// });
 
 module.exports = JSONDATA;

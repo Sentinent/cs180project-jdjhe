@@ -192,10 +192,10 @@ function update (req) {
   }
   //console.log(totalp);
   //////////////////////////////////////////////////////////////////
-  insertLists = [];
-  deleteLists = [];
-  updateListsNeo = [];
-  updateListsOld = [];
+  require("./listWrapper.js").insertLists.featuretime.length = 0;
+  require("./listWrapper.js").deleteLists.featuretime.length = 0;
+  require("./listWrapper.js").updateLists.featuretimeOld.length = 0;
+  require("./listWrapper.js").updateLists.featuretimeNeo.length = 0;
 }
 
 router.route('/data/timeviolations').get((req, res) => {

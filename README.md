@@ -5,17 +5,18 @@
 ## Getting Started
 
 Install [Node.JS](https://nodejs.org/en/).
+
 Install [NY Parking Violations Dataset](https://www.kaggle.com/new-york-city/ny-parking-violations-issued?select=parking-violations-issued-fiscal-year-2014-august-2013-june-2014.csv)
 
 ### Setting Up Your Local Environment
 
 1. Open up your terminal and clone the repository using `git clone https://github.com/ucr-cs180-fall21/cs180project-021-jdjhe.git`
 2. `cd cs180project-021-jdjhe.git` to go into the project directory
-3.  `cd frontend` to go into the frontend folder
-4. run `npm install` to install all necessary packages
+3. `cd frontend` to go into the frontend folder
+4. Run `npm install` to install all necessary packages
 5. Open up a new terminal and make sure you are in the project directory
 6. `cd backend` to go into the backend folder
-7. run `npm install` to install all necessary packages
+7. Run `npm install` to install all necessary packages
 8. Stay in the backend folder and type `mkdir datasets`
 9. `ls` and you should see a new folder called `datasets`
 10. Copy the 3 .csv files downloaded earlier from the dataset into the `datasets` folder
@@ -32,7 +33,12 @@ Install [NY Parking Violations Dataset](https://www.kaggle.com/new-york-city/ny-
 - Python
 - CSS
 
-### Libraries for Frontend
+### Backend Technologies
+- Node.JS
+- Express.JS
+- Python
+
+### Frontend Technologies
 - React
 - React Bootstrap
 - React Router
