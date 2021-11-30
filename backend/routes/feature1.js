@@ -63,7 +63,7 @@ router.route('/data/violationcount').get((req, res) => {
   const DATASET = searchAll(terms);
 
   if (RecalculateFeature1 == 1) {
-    console.log("recalculating feature 1");
+    console.log('recalculating feature 1');
     calculate(DATASET);
     RecalculateFeature1 = 0;
   }

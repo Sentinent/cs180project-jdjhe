@@ -45,7 +45,7 @@ function calculate(req) {
 router.route('/data/violationspercounty').get((req, res) => {
   // console.log(req);
   if (RecalculateFeatureVPC == 1) {
-    console.log("recalculating featureVPC");
+    console.log('recalculating featureVPC');
     calculate(req);
     RecalculateFeatureVPC = 0;
   }
@@ -53,4 +53,4 @@ router.route('/data/violationspercounty').get((req, res) => {
   res.send(result);
 });
 
-module.exports = {router, RecalculateFeatureVPC};
+module.exports = { router, RecalculateFeatureVPC };

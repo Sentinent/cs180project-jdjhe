@@ -7,7 +7,6 @@ const queryFilter = /([A-Za-z0-9\s]+)(<|>|==|<=|>=|~)([A-Za-z0-9\*]+)/;
 let final = [];
 
 function calculateCB(DATASET) {
-
   // total is the max number of violations
   // final is the list of car brands, their respective occurences and their respective percent of the total
   var total = 0;
@@ -70,8 +69,7 @@ router.route('/data/carbrandviolations').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  if (RecalculateFeatureCarBrand == 1)
-  {
+  if (RecalculateFeatureCarBrand == 1) {
     calculateCB(DATASET);
     RecalculateFeatureCarBrand = 0;
   }

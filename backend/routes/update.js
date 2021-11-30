@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const JSONDATA = require('../data.js');
 
-let updateLists = require("./listWrapper.js").updateLists;
+let updateLists = require('./listWrapper.js').updateLists;
 
-let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
-let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
-let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
+let RecalculateFeature1 = require('./feature1.js').RecalculateFeature1;
+let RecalculateFeatureVPC = require('./featureVPC.js').RecalculateFeatureVPC;
+let RecalculateFeatureMonth =
+  require('./featuremonth.js').RecalculateFeatureMonth;
+let RecalculateFeatureCarBrand =
+  require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the updating
 router
@@ -52,7 +54,7 @@ router
       console.log('before :');
       console.log(JSONDATA[index]);
 
-      updateLists.pushOld(JSONDATA[index]);  // Save the old row for incremental analytics
+      updateLists.pushOld(JSONDATA[index]); // Save the old row for incremental analytics
 
       //change all the data to uppercase
       data['Plate ID'] = data['Plate ID'].toUpperCase();
@@ -71,7 +73,7 @@ router
       console.log(JSONDATA[index]);
       console.log('Data has been updated');
 
-      updateLists.pushNew(JSONDATA[index]);  // Save the new row for incremental analytics
+      updateLists.pushNew(JSONDATA[index]); // Save the new row for incremental analytics
 
       res.send('Data has been updated');
     }
