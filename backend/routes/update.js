@@ -5,7 +5,6 @@ let updateLists = require("./listWrapper.js").updateLists;
 
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the updating
 router
@@ -75,10 +74,8 @@ router
       res.send('Data has been updated');
     }
 
-    RecalculateFeature1 = 1;
     RecalculateFeatureVPC = 1;
     RecalculateFeatureMonth = 1;
-    RecalculateFeatureCarBrand = 1;
 
     console.log('After Update length:' + JSONDATA.length);
     console.log('Update function ended\n');

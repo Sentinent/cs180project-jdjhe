@@ -202,10 +202,10 @@ router.route('/data/violationcount').get((req, res) => {
 
   if (initialCalculate != 1)
   {
-    let insertedList = require('./listWrapper.js').insertLists.featurerepeatsList;
-    let removedList = require('./listWrapper.js').deleteLists.featurerepeatsList; 
-    let oldList = require('./listWrapper.js').updateLists.featurerepeatsListOld;
-    let newList = require('./listWrapper.js').updateLists.featurerepeatsListNeo;
+    let insertedList = require('./listWrapper.js').insertLists.feature1List;
+    let removedList = require('./listWrapper.js').deleteLists.feature1List; 
+    let oldList = require('./listWrapper.js').updateLists.feature1ListOld;
+    let newList = require('./listWrapper.js').updateLists.feature1ListNeo;
 
     if (insertedList.length > 0)
     {

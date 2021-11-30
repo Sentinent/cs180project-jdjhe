@@ -5,7 +5,6 @@ let deleteLists = require("./listWrapper.js").deleteLists;
 
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 
 // this route does the deleting
@@ -27,10 +26,8 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
     res.send(sumNum + ' does not exist');
   }
 
-  RecalculateFeature1 = 1;
   RecalculateFeatureVPC = 1;
   RecalculateFeatureMonth = 1;
-  RecalculateFeatureCarBrand = 1;
 
   console.log('Delete function ends.\n');
 });

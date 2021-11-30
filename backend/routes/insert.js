@@ -5,7 +5,6 @@ let insertLists = require("./listWrapper.js").insertLists;
 
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
 
 // this route does the inserting
 function inserts(data, res) {
@@ -40,10 +39,8 @@ function inserts(data, res) {
       res.send('Data added to database');
     }
 
-    RecalculateFeature1 = 1;
     RecalculateFeatureVPC = 1;
     RecalculateFeatureMonth = 1;
-    RecalculateFeatureCarBrand = 1;
 
     console.log('After insertion length:' + JSONDATA.length);
     console.log('Insert function ended\n');

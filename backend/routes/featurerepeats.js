@@ -217,7 +217,7 @@ function updateInsert(DATASET, insertedList)
     insertedList.pop();
   }
 
-  // Re-adjust all the percentages
+  // Re-adjust all percentages
   for (var i = 0; i < final.length; i++) {
     var percent = parseFloat(
       ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
