@@ -1,8 +1,11 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
+const { performance } = require('perf_hooks');
 const JSONDATA = require('../data.js');
 let RecalculateFeature1 = 1;
+let initialCalculate = 1;
 let final = [];
+var total = 0;
 
 function calculate(DATASET) {
   //////////////////////////////////////////////////////////////////
@@ -18,7 +21,7 @@ function calculate(DATASET) {
   Object.seal(violationCounts);
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
-  var total = 0;
+  total = 0;
 
   /*
     Read through the DATASET rows and increment the position of the
@@ -58,14 +61,169 @@ function calculate(DATASET) {
 
 calculate(JSONDATA);
 
+// If an item was added
+function updateInsert(DATASET, insertedList)
+{
+  // start time
+  var startTime = performance.now();
+
+  for (var i = 0; i < insertedList.length; i++)
+  {
+    var code = Number(insertedList[i]['Violation Code']);
+
+    for (var a = 0; a < final.length; a++)
+    {
+      if (code == final[a].ViolationCode)
+      {
+        final[a].Occurences += 1;
+        total++;
+        break;
+      }
+    }
+  }
+
+  // Empty the inserted list
+  while(insertedList.length > 0)
+  {
+    insertedList.pop();
+  }
+
+  // Readjust all the percentages
+  for (var i = 1; i < final.length; i++) {
+    var percent = parseFloat(((final[i].Occurences / total) * 100).toFixed(3));
+
+    final[i].Percentage = percent;
+  }
+
+  var endTime = performance.now();
+  console.log('Feature1 Update calculation time: ' + (endTime - startTime))
+}
+
+// If items were deleted
+function updateDelete(DATASET, removedList)
+{
+  // start time
+  var startTime = performance.now();
+
+  for (var i = 0; i < removedList.length; i++)
+  {
+    var code = Number(removedList[i]['Violation Code']);
+
+    for (var a = 0; a < final.length; a++)
+    {
+      if (code == final[a].ViolationCode)
+      {
+        final[a].Occurences -= 1;
+        total--;
+        break;
+      }
+    }
+  }
+
+  // Empty the deleted list
+  while(removedList.length > 0)
+  {
+    removedList.pop();
+  }
+
+  // Readjust all the percentages
+  for (var i = 1; i < final.length; i++) {
+    var percent = parseFloat(((final[i].Occurences / total) * 100).toFixed(3));
+
+    final[i].Percentage = percent;
+  }
+
+  var endTime = performance.now();
+  console.log('Feature1 Update calculation time: ' + (endTime - startTime))
+}
+
+// If items were updated
+function updateEdit(DATASET, oldList, newList)
+{
+  // start time
+  var startTime = performance.now();
+
+  // Reduce violation codes of original data
+  for (var i = 0; i < oldList.length; i++)
+  {
+    var code = Number(oldList[i]['Violation Code']);
+
+    for (var a = 0; a < final.length; a++)
+    {
+      if (code == final[a].ViolationCode)
+      {
+        final[a].Occurences -= 1;
+        total--;
+        break;
+      }
+    }
+  }
+
+  // Increase violations for new data
+  for (var i = 0; i < newList.length; i++)
+  {
+    var code = Number(newList[i]['Violation Code']);
+
+    for (var a = 0; a < final.length; a++)
+    {
+      if (code == final[a].ViolationCode)
+      {
+        final[a].Occurences += 1;
+        total++;
+        break;
+      }
+    }
+  }
+
+  //Empty the updated lists
+  while(oldList.length > 0)
+  {
+    oldList.pop();
+  }
+  while(newList.length > 0)
+  {
+    newList.pop();
+  }
+
+  // Readjust all the percentages
+  for (var i = 1; i < final.length; i++) {
+    var percent = parseFloat(((final[i].Occurences / total) * 100).toFixed(3));
+
+    final[i].Percentage = percent;
+  }
+
+  var endTime = performance.now();
+  console.log('Feature1 Update calculation time: ' + (endTime - startTime))
+}
+
 router.route('/data/violationcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  if (RecalculateFeature1 == 1) {
-    console.log("recalculating feature 1");
+  if (initialCalculate != 1)
+  {
+    let insertedList = require('./listWrapper.js').insertLists.featurerepeatsList;
+    let removedList = require('./listWrapper.js').deleteLists.featurerepeatsList; 
+    let oldList = require('./listWrapper.js').updateLists.featurerepeatsListOld;
+    let newList = require('./listWrapper.js').updateLists.featurerepeatsListNeo;
+
+    if (insertedList.length > 0)
+    {
+      updateInsert(DATASET, insertedList);
+    }
+    if (oldList.length > 0 && newList.length > 0)
+    {
+      updateEdit(DATASET, oldList, newList);
+    }
+    if (removedList.length > 0)
+    {
+      updateDelete(DATASET, removedList);
+    }
+  }
+  if (initialCalculate == 1)
+  {
     calculate(DATASET);
-    RecalculateFeature1 = 0;
+    initialCalculate = 0;
   }
 
   res.send(final);

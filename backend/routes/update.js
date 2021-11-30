@@ -3,7 +3,6 @@ const JSONDATA = require('../data.js');
 
 let updateLists = require("./listWrapper.js").updateLists;
 
-let RecalculateFeature1 =  require("./feature1.js").RecalculateFeature1;
 let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
 let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 let RecalculateFeatureCarBrand = require('./featurecb.js').RecalculateFeatureCarBrand;
