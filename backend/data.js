@@ -14,7 +14,7 @@ try {
   console.log('file does not exist, generating files...');
   spawnSync('python3', ['./functions/main.py']);
   // fail loudly if python code didn't generate parsed data
-  fs.accessSync(`${FILE_PATH}/data8.json`, fs.constants.R_OK);
+  fs.accessSync(`${FILE_PATH}/data1.json`, fs.constants.R_OK);
 }
 
 for (let i = 1; i < FILES_TO_LOAD + 1; i++) {
