@@ -31,7 +31,7 @@ function inserts(data, res) {
     data['Registration State'] = data['Registration State'].toUpperCase();
     data['Issue Date'] = data['Issue Date'].toUpperCase();
     data['Violation Time'] = data['Violation Time'].toUpperCase();
-    data['Violation Code'] = data['Violation Code'].toUpperCase();
+    data['Violation Code'] = data['Violation Code'];
     data['Vehicle Make'] = data['Vehicle Make'].toUpperCase();
     data['Vehicle Body Type'] = data['Vehicle Body Type'].toUpperCase();
     data['Vehicle Year'] = data['Vehicle Year'].toUpperCase();
@@ -56,17 +56,17 @@ function inserts(data, res) {
 router
   .route(
     '/summonsNum=:sumNum&' +
-      'plateID=:plateID&' +
-      'regState=:regState&' +
-      'issDate=:issDate&' +
-      'vTime=:vioTime&' +
-      'vCode=:vioCode&' +
-      'vehMake=:vehMake&' +
-      'vehBody=:vehBody&' +
-      'vehYear=:vehYear&' +
-      'street=:street&' +
-      'cCounty=:cCounty&' +
-      'vCounty=:vCounty'
+    'plateID=:plateID&' +
+    'regState=:regState&' +
+    'issDate=:issDate&' +
+    'vTime=:vioTime&' +
+    'vCode=:vioCode&' +
+    'vehMake=:vehMake&' +
+    'vehBody=:vehBody&' +
+    'vehYear=:vehYear&' +
+    'street=:street&' +
+    'cCounty=:cCounty&' +
+    'vCounty=:vCounty'
   )
   .get((req, res) => {
     const data = {
@@ -87,4 +87,4 @@ router
     inserts(data, res);
   });
 
-module.exports = { router };
+module.exports = { router, inserts };
