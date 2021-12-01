@@ -216,6 +216,15 @@ function update() {
       }
     }
   }
+  /*
+  Read through the final array and calculate the percentages based on 
+  the amount of violations certain months recieved over the total number of violations
+  */
+  for (var i = 0; i < final.length; i++) {
+    final[i].Percentage =
+      (final[i].Violations / DATASET.length).toFixed(3) * 100;
+    //totalp += final[i].Percentage;
+  }
 }
 
 router.route('/data/monthviolations').get((req, res) => {
