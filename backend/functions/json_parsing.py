@@ -53,34 +53,37 @@ def parsing_json():
         skipL1 = 0
         # Read through each line in the given dataset 
         for line in content:
-            # Turn the given line into a list to be manipulated
-            lineList = line.split(',')
-            if (skipL1 > 0):
-                # Assign the right values to the base dictionary object
-                violation["Summons Number"] = lineList[0]
-                violation["Plate ID"] = lineList[1]
-                violation["Registration State"] = lineList[2]
-                violation["Issue Date"] = lineList[4]
-                violation["Violation Time"] = lineList[19]
-                violation["Violation Code"] = lineList[5]
-                violation["Vehicle Make"] = lineList[7]
-                violation["Vehicle Body Type"] = lineList[6]
-                violation["Vehicle Year"] = lineList[35]
-                violation["Street Name"] = lineList[24]
-                violation["Violation County"] = lineList[21]
+            try:
+                # Turn the given line into a list to be manipulated
+                lineList = line.split(',')
+                if (skipL1 > 0):
+                    # Assign the right values to the base dictionary object
+                    violation["Summons Number"] = lineList[0]
+                    violation["Plate ID"] = lineList[1]
+                    violation["Registration State"] = lineList[2]
+                    violation["Issue Date"] = lineList[4]
+                    violation["Violation Time"] = lineList[19]
+                    violation["Violation Code"] = int(lineList[5])
+                    violation["Vehicle Make"] = lineList[7]
+                    violation["Vehicle Body Type"] = lineList[6]
+                    violation["Vehicle Year"] = lineList[35]
+                    violation["Street Name"] = lineList[24]
+                    violation["Violation County"] = lineList[21]
 
-                # Append a copy of the dictionary to the final list of dictionary objects 
-                result.append(copy.deepcopy(violation))
+                    # Append a copy of the dictionary to the final list of dictionary objects 
+                    result.append(copy.deepcopy(violation))
 
-                # Write the list of violation dictionary objects to a json object
-                if (len(result) >= 1200000):
-                    jsonString = json.dumps(result, indent = 4)
-                    jsonFile = open(f"../parsed_data/data{fileNumber}.json", "w")
-                    jsonFile.write(jsonString)
-                    jsonFile.close()
-                    result.clear()
-                    fileNumber += 1
-            skipL1 += 1
+                    # Write the list of violation dictionary objects to a json object
+                    if (len(result) >= 1200000):
+                        jsonString = json.dumps(result, indent = 4)
+                        jsonFile = open(f"../parsed_data/data{fileNumber}.json", "w")
+                        jsonFile.write(jsonString)
+                        jsonFile.close()
+                        result.clear()
+                        fileNumber += 1
+                skipL1 += 1
+            except:
+                pass
 
 
         jsonString = json.dumps(result, indent = 4)

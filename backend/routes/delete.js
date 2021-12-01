@@ -3,8 +3,7 @@ const JSONDATA = require('../data.js');
 
 let deleteLists = require('./listWrapper.js').deleteLists;
 
-// this route does the deleting
-router.route('/summonsNum=:sumNum').get((req, res) => {
+function deletes(req, res) {
   const sumNum = req.params.sumNum;
   console.log('\nDelete function:');
   console.log('Wants to delete ' + sumNum);
@@ -23,6 +22,11 @@ router.route('/summonsNum=:sumNum').get((req, res) => {
   }
 
   console.log('Delete function ends.\n');
+}
+
+// this route does the deleting
+router.route('/summonsNum=:sumNum').get((req, res) => {
+  deletes(req, res);
 });
 
-module.exports = { router };
+module.exports = { router, deletes };
