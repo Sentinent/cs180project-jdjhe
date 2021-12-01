@@ -3,12 +3,8 @@ const JSONDATA = require('../data.js');
 
 let updateLists = require('./listWrapper.js').updateLists;
 
-let RecalculateFeature1 = require('./feature1.js').RecalculateFeature1;
-let RecalculateFeatureVPC = require('./featureVPC.js').RecalculateFeatureVPC;
-let RecalculateFeatureMonth =
-  require('./featuremonth.js').RecalculateFeatureMonth;
-let RecalculateFeatureCarBrand =
-  require('./featurecb.js').RecalculateFeatureCarBrand;
+let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 
 function updates(req, res) {
   const data = {
@@ -67,9 +63,8 @@ function updates(req, res) {
   RecalculateFeatureMonth = 1;
   RecalculateFeatureCarBrand = 1;
 
-  console.log('After Update length:' + JSONDATA.length);
-  console.log('Update function ended\n');
-}
+  RecalculateFeatureVPC = 1;
+  RecalculateFeatureMonth = 1;
 
 // this route does the updating
 router

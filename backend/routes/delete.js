@@ -3,12 +3,8 @@ const JSONDATA = require('../data.js');
 
 let deleteLists = require('./listWrapper.js').deleteLists;
 
-let RecalculateFeature1 = require('./feature1.js').RecalculateFeature1;
-let RecalculateFeatureVPC = require('./featureVPC.js').RecalculateFeatureVPC;
-let RecalculateFeatureMonth =
-  require('./featuremonth.js').RecalculateFeatureMonth;
-let RecalculateFeatureCarBrand =
-  require('./featurecb.js').RecalculateFeatureCarBrand;
+let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
+let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
 
 function deletes(req, res) {
   const sumNum = req.params.sumNum;
@@ -28,10 +24,8 @@ function deletes(req, res) {
     res.send(sumNum + ' does not exist');
   }
 
-  RecalculateFeature1 = 1;
   RecalculateFeatureVPC = 1;
   RecalculateFeatureMonth = 1;
-  RecalculateFeatureCarBrand = 1;
 
   console.log('Delete function ends.\n');
 }
