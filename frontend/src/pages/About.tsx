@@ -40,7 +40,7 @@ function About() {
                     />
                     <h3 className="card-title mb-3">Sentinent</h3>
                     <p className="card-text">
-                      {/* text */}
+                      Fourth year CS student with an interest in cybersecurity and open source projects. =)
                     </p>
                     <a href="https://github.com/Sentinent"><i className="bi bi-github text-dark mx-1"></i></a>
                   </div>

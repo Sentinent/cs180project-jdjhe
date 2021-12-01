@@ -73,8 +73,8 @@ class UpdateList {
   }
 }
 
-let insertLists = new InsertList();
-let deleteLists = new DeleteList();
-let updateLists = new UpdateList();
+const insertLists = new InsertList();
+const deleteLists = new DeleteList();
+const updateLists = new UpdateList();
 
 module.exports = { insertLists, deleteLists, updateLists };

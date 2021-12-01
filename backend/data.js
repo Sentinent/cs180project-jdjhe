@@ -1,8 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const process = require('process');
 const { spawnSync } = require('child_process');
 
-const FILE_PATH = '../parsed_data';
+const FILE_PATH = path.join(__dirname, 'parsed_data');
 const FILES_TO_LOAD = 1;
 
 let JSONDATA = undefined;

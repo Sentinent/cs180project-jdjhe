@@ -3,6 +3,7 @@ const router = require('express').Router();
 const JSONDATA = require('../data.js');
 const RESULTS_PER_PAGE = 16;
 const queryFilter = /([A-Za-z0-9\s]+)(<|>|==|<=|>=|~)([A-Za-z0-9\*]+)/;
+const numerical_cols = ['Violation Code'];
 
 function isMatch(row, parsedConditions) {
   for (const condition of parsedConditions) {
@@ -13,6 +14,8 @@ function isMatch(row, parsedConditions) {
     if (op === '~') {
       if (val === '*') continue;
       query = `'${row[col]}'.indexOf('${val}') !== -1`;
+    } else if (numerical_cols.indexOf(col) !== -1) {
+      query = `${row[col]} ${op} ${val}`;
     } else {
       query = `'${row[col]}' ${op} '${val}'`;
     }
