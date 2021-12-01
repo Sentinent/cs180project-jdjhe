@@ -4,6 +4,8 @@ class InsertList {
         this.featuretime = [];
         this.feature1List = [];
         this.featurecbList = [];
+        this.featuremonthList = [];
+        this.featureVPCList = []
     }
 
     push (o) {
@@ -11,6 +13,8 @@ class InsertList {
         this.featuretime.push(o);
         this.feature1List.push(o);
         this.featurecbList.push(o);
+        this.featuremonthList.push(o);
+        this.featureVPCList.push(o)
     }
 };
 
@@ -20,6 +24,8 @@ class DeleteList {
         this.featuretime = [];
         this.feature1List = [];
         this.featurecbList = [];
+        this.featuremonthList = [];
+        this.featureVPCList = []
     }
 
     push (o) {
@@ -27,6 +33,8 @@ class DeleteList {
         this.featuretime.push(o);
         this.feature1List.push(o);
         this.featurecbList.push(o);
+        this.featuremonthList.push(o);
+        this.featureVPCList.push(o)
     }
 }
 
@@ -40,6 +48,10 @@ class UpdateList {
         this.feature1ListNeo = [];
         this.featurecbListOld = [];
         this.featurecbListNeo = [];
+        this.featuremonthListOld = [];
+        this.featuremonthListNeo = [];
+        this.featureVPCListOld = [];
+        this.featureVPCListNeo = [];
     }
 
     pushOld (o) {
@@ -47,6 +59,8 @@ class UpdateList {
         this.featuretimeOld.push(o);
         this.feature1ListOld.push(o);
         this.featurecbListOld.push(o);
+        this.featuremonthListOld.push(o);
+        this.featureVPCListOld.push(o);
     }
 
     pushNew (o) {
@@ -54,6 +68,8 @@ class UpdateList {
         this.featuretimeNeo.push(o);
         this.feature1ListNeo.push(o);
         this.featurecbListNeo.push(o);
+        this.featuremonthListNeo.push(o);
+        this.featureVPCListNeo.push(o);
     }
 }
 
