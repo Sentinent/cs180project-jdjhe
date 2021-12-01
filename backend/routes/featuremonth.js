@@ -1,11 +1,12 @@
 const router = require('express').Router();
-const { updateLists } = require('./listWrapper');
+const JSONDATA = require('../data');
+const { updateLists, deleteLists } = require('./listWrapper');
 const { searchAll } = require('./search');
 
+let calculateFeatureMonth = 1;
 let final = [];
 
 function calculateM(DATASET) {
-
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
 
@@ -77,7 +78,7 @@ function calculateM(DATASET) {
 
 function update() {
   let insertedList = require('./listWrapper.js').insertLists.featuremonthList;
-  let removedList = require('./listWrapper.js').deleteLists.featuremonthList; 
+  let removedList = require('./listWrapper.js').deleteLists.featuremonthList;
   let oldList = require('./listWrapper.js').updateLists.featuremonthListOld;
   let newList = require('./listWrapper.js').updateLists.featuremonthListNeo;
 
@@ -144,8 +145,7 @@ function update() {
       } else if (date[5] == 1 && date[6] == 2) {
         final[11]['Violations'] -= 1;
       } else {
-        if (final[12]['Violations'] > 0)
-          final[12]['Violations'] -= 1;
+        if (final[12]['Violations'] > 0) final[12]['Violations'] -= 1;
       }
     }
   }
@@ -180,8 +180,7 @@ function update() {
       } else if (date[5] == 1 && date[6] == 2) {
         final[11]['Violations'] -= 1;
       } else {
-        if (final[12]['Violations'] > 0)
-          final[12]['Violations'] -= 1;
+        if (final[12]['Violations'] > 0) final[12]['Violations'] -= 1;
       }
     }
     // now we add the new entry
@@ -222,8 +221,21 @@ function update() {
   */
   for (var i = 0; i < final.length; i++) {
     final[i].Percentage =
-      (final[i].Violations / DATASET.length).toFixed(3) * 100;
-    //totalp += final[i].Percentage;
+      (final[i].Violations / JSONDATA.length).toFixed(3) * 100;
+  }
+
+  // now we clear the update buffers
+  while (insertedList.length > 0) {
+    insertedList.pop();
+  }
+  while (deleteLists.length > 0) {
+    deleteLists.pop();
+  }
+  while (oldList.length > 0) {
+    oldList.pop();
+  }
+  while (newList.length > 0) {
+    newList.pop();
   }
 }
 
@@ -231,12 +243,10 @@ router.route('/data/monthviolations').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  if(RecalculateFeatureMonth == 1)
-  {
+  if (calculateFeatureMonth == 1) {
     calculateM(DATASET);
-    RecalculateFeatureMonth = 0;
-  }
-  else {
+    calculateFeatureMonth = 0;
+  } else {
     update();
   }
   res.send(final);
