@@ -10,7 +10,6 @@ let final = [];
 var total = 0;
 
 function calculateCB(DATASET) {
-
   // total is the max number of violations
   // final is the list of car brands, their respective occurences and their respective percent of the total
   total = 0;
@@ -206,7 +205,6 @@ function updateEdit(DATASET, oldList, newList)
   var endTime = performance.now();
   console.log('Car Brand Update calculation time: ' + (endTime - startTime))
 }
-
 
 router.route('/data/carbrandviolations').get((req, res) => {
   const terms = (req.query.terms || '').split(',');

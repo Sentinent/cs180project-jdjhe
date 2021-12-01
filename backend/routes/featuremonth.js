@@ -5,7 +5,6 @@ let RecalculateFeatureMonth = 1;
 let final = [];
 
 function calculateM(DATASET) {
-
   // total is the max number of violations
   // final is the list of violation codes, their respective occurences and their respective percent of the total
 
@@ -79,8 +78,7 @@ router.route('/data/monthviolations').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  if(RecalculateFeatureMonth == 1)
-  {
+  if (RecalculateFeatureMonth == 1) {
     calculateM(DATASET);
     RecalculateFeatureMonth = 0;
   }

@@ -6,14 +6,11 @@ const violationTotals = require('./feature1.js').final;
 let initialCalculate = 1;
 let RecalculateFeatureRepeats = 1;
 
-function findMaxIndex(arr)
-{
+function findMaxIndex(arr) {
   var max = arr[0].Percentage;
   var index = 0;
-  for (var i = 0; i < arr.length; i++)
-  {
-    if (arr[i].Percentage > max)
-    {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].Percentage > max) {
       max = arr[i].Percentage;
       index = i;
     }
@@ -110,8 +107,7 @@ let repeatOffenders20 = [];
 
 // Function to calculate the Repeated offenders
 function repeatOffenders(DATASET) {
-
-  var startTime = performance.now(); 
+  var startTime = performance.now();
   // need to recalculate
   calculate(DATASET);
 
@@ -180,15 +176,14 @@ function repeatOffenders(DATASET) {
   let final_temp = final.slice();
   repeatOffenders20 = [];
   var index;
-  for (var i = 0; i < 20; i++)
-  {
+  for (var i = 0; i < 20; i++) {
     index = findMaxIndex(final_temp);
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
 
   var endTime = performance.now();
-  console.log('Total calculation time: ' + (endTime - startTime))
+  console.log('Total calculation time: ' + (endTime - startTime));
 }
 
 function updateInsert(DATASET, insertedList)
@@ -369,7 +364,6 @@ function updateDelete(DATASET, removedList)
   console.log('Update calculation time: ' + (endTime - startTime))
 }
 
-
 router.route('/data/repeatcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
@@ -396,8 +390,7 @@ router.route('/data/repeatcount').get((req, res) => {
       updateDelete(DATASET, removedList);
     }
   }
-  if (initialCalculate == 1)
-  {
+  if (initialCalculate == 1) {
     repeatOffenders(DATASET);
     initialCalculate = 0;
   }
