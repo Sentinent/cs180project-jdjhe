@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { updateLists } = require('./listWrapper');
 const { searchAll } = require('./search');
-let RecalculateFeatureMonth = 1;
 
 let final = [];
 
@@ -234,4 +233,4 @@ router.route('/data/monthviolations').get((req, res) => {
   res.send(final);
 });
 
-module.exports = { router, RecalculateFeatureMonth };
+module.exports = { router };

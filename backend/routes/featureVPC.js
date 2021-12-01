@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { searchAll } = require('./search');
 
-let RecalculateFeatureVPC = 1;
+let calculateFeatureVPC = 1;
 let result = [];
 
 function calculate(req) {
@@ -42,15 +42,24 @@ function calculate(req) {
   result.push(other);
 }
 
+function update() {
+  let insertedList = require('./listWrapper.js').insertLists.featureVPCList;
+  let removedList = require('./listWrapper.js').deleteLists.featureVPCList; 
+  let oldList = require('./listWrapper.js').updateLists.featureVPCListOld;
+  let newList = require('./listWrapper.js').updateLists.featureVPCListNeo;
+}
+
 router.route('/data/violationspercounty').get((req, res) => {
   // console.log(req);
-  if (RecalculateFeatureVPC == 1) {
+  if (calculateFeatureVPC == 1) {
     console.log("recalculating featureVPC");
     calculate(req);
-    RecalculateFeatureVPC = 0;
+    calculateFeatureVPC = 0;
+  } else {
+    update();
   }
 
   res.send(result);
 });
 
-module.exports = {router, RecalculateFeatureVPC};
+module.exports = {router};
