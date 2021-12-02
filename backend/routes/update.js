@@ -54,6 +54,7 @@ function updates(req, res) {
 
     res.send('Data has been updated');
   }
+}
 
 // this route does the updating
 router
