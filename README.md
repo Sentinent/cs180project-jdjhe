@@ -4,8 +4,7 @@
 
 ## Introduction
 JDJHE - An application for searching, querying, and analyzing NY parking violation data.
-
-
+![](overview.gif)
 
 ## Installation
 
@@ -87,4 +86,6 @@ JDJHE - An application for searching, querying, and analyzing NY parking violati
 
 ### Test Automation / Continuous Integration
 We implemented automated testing and continuous integration using the [Jest](https://jestjs.io/) framework.
-The tests can be found [here](backend/backend.test.js).
+The tests can be found [here](backend/backend.test.js). Our tests run on every push/pull request to master/develop.
+- [Example of a successful PR](https://github.com/ucr-cs180-fall21/cs180project-021-jdjhe/pull/77)
+- [Example of a failing PR](https://github.com/ucr-cs180-fall21/cs180project-021-jdjhe/pull/78)
