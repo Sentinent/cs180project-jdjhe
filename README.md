@@ -87,4 +87,4 @@ JDJHE - An application for searching, querying, and analyzing NY parking violati
 
 ### Test Automation / Continuous Integration
 We implemented automated testing and continuous integration using the [Jest](https://jestjs.io/) framework.
-The tests can be found [insert test folder location here]
+The tests can be found [here](backend/backend.test.js).

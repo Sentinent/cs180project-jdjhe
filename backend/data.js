@@ -10,7 +10,7 @@ let JSONDATA = undefined;
 
 try {
   console.log('checking if file exists');
-  fs.accessSync(`${FILE_PATH}/data8.json`, fs.constants.R_OK);
+  fs.accessSync(`${FILE_PATH}/data1.json`, fs.constants.R_OK);
 } catch (err) {
   console.log('file does not exist, generating files...');
   spawnSync('python3', ['./functions/main.py']);

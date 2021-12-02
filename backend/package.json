@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --max-old-space-size=8192 server.js",
+    "download_data": "wget https://thelinjson-uploadserver.s3.us-west-1.amazonaws.com/sample_parsed_data.zip && unzip sample_parsed_data.zip",
     "test": "jest --runInBand",
     "prettier": "prettier --write '**/*.js'"
   },
