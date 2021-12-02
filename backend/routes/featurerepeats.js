@@ -186,182 +186,162 @@ function repeatOffenders(DATASET) {
   console.log('Total calculation time: ' + (endTime - startTime));
 }
 
-function updateInsert(DATASET, insertedList)
-{
+function updateInsert(DATASET, insertedList) {
   // start time
   var startTime = performance.now();
 
   //calculate(DATASET);
   // Traverse through all new data
-  for (var i = 0; i < insertedList.length; i++)
-  {
+  for (var i = 0; i < insertedList.length; i++) {
     var code = Number(insertedList[i]['Violation Code']);
     //console.log(code);
     var person = insertedList[i]['Plate ID'];
 
     // Search through the BST list for the designated code's BST
     var BST = bstList[code - 1];
-    if(BST.search(BST.getRootNode(), person) != null)
-    {
+    if (BST.search(BST.getRootNode(), person) != null) {
       final[code - 1].Occurences += 1;
     }
   }
   // Empty the inserted list
-  while(insertedList.length > 0)
-  {
+  while (insertedList.length > 0) {
     insertedList.pop();
   }
 
   // Re-adjust all percentages
   for (var i = 0; i < final.length; i++) {
     var percent = parseFloat(
-      ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(
+        3
+      )
     );
     final[i].Percentage = percent;
-  } 
+  }
 
   // Recalculate the top 20 repeated offenders
   let final_temp = final.slice();
   repeatOffenders20 = [];
   var index;
-  for (var i = 0; i < 20; i++)
-  {
+  for (var i = 0; i < 20; i++) {
     index = findMaxIndex(final_temp);
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
-  
+
   var endTime = performance.now();
-  console.log('Update calculation time: ' + (endTime - startTime))
+  console.log('Update calculation time: ' + (endTime - startTime));
 }
 
-function updateEdit(DATASET, oldList, newList)
-{
+function updateEdit(DATASET, oldList, newList) {
   // start time
   var startTime = performance.now();
   // Traverse through all new data
-  for (var i = 0; i < oldList.length; i++)
-  {
+  for (var i = 0; i < oldList.length; i++) {
     var codeOld = Number(oldList[i]['Violation Code']);
     var personOld = oldList[i]['Plate ID'];
     var codeNew = Number(newList[i]['Violation Code']);
     var personNew = newList[i]['Plate ID'];
 
-    if (personOld != personNew && codeOld != codeNew)
-    {
+    if (personOld != personNew && codeOld != codeNew) {
       // Search through the BST list for the designated code's BST
       var BST = bstList[codeOld - 1];
-      if(BST.search(BST.getRootNode(), personOld) != null)
-      {
+      if (BST.search(BST.getRootNode(), personOld) != null) {
         final[codeOld - 1].Occurences -= 1;
       }
       var BST = bstList[codeNew - 1];
-      if(BST.search(BST.getRootNode(), personNew) != null)
-      {
+      if (BST.search(BST.getRootNode(), personNew) != null) {
         final[codeNew - 1].Occurences += 1;
-      } 
-    }
-    else if (personOld != personNew && codeOld == codeNew)
-    {
+      }
+    } else if (personOld != personNew && codeOld == codeNew) {
       var BST = bstList[codeOld - 1];
-      if(BST.search(BST.getRootNode(), personNew) == null)
-      {
+      if (BST.search(BST.getRootNode(), personNew) == null) {
         final[codeNew - 1].Occurences -= 1;
       }
-    }
-    else if (personOld == personNew && codeOld != codeNew)
-    {
+    } else if (personOld == personNew && codeOld != codeNew) {
       var BST = bstList[codeOld - 1];
-      if(BST.search(BST.getRootNode(), personNew) != null)
-      {
+      if (BST.search(BST.getRootNode(), personNew) != null) {
         final[codeOld - 1].Occurences -= 1;
       }
       var BST = bstList[codeNew - 1];
-      if(BST.search(BST.getRootNode(), personNew) != null)
-      {
+      if (BST.search(BST.getRootNode(), personNew) != null) {
         final[codeNew - 1].Occurences += 1;
-      } 
+      }
     }
   }
   //Empty the updated lists
-  while(oldList.length > 0)
-  {
+  while (oldList.length > 0) {
     oldList.pop();
   }
-  while(newList.length > 0)
-  {
+  while (newList.length > 0) {
     newList.pop();
   }
 
   // Re-adjust all the percentages
   for (var i = 0; i < final.length; i++) {
     var percent = parseFloat(
-      ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(
+        3
+      )
     );
     final[i].Percentage = percent;
-  } 
+  }
   // Recalculate the top 20 repeated offenders
   let final_temp = final.slice();
   repeatOffenders20 = [];
   var index;
-  for (var i = 0; i < 20; i++)
-  {
+  for (var i = 0; i < 20; i++) {
     index = findMaxIndex(final_temp);
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
-  
+
   var endTime = performance.now();
-  console.log('Update calculation time: ' + (endTime - startTime))
+  console.log('Update calculation time: ' + (endTime - startTime));
 }
 
-function updateDelete(DATASET, removedList)
-{
+function updateDelete(DATASET, removedList) {
   // start time
   var startTime = performance.now();
 
   // Traverse through all new data
-  for (var i = 0; i < removedList.length; i++)
-  {
+  for (var i = 0; i < removedList.length; i++) {
     var code = Number(removedList[i]['Violation Code']);
     //console.log(code);
     var person = removedList[i]['Plate ID'];
 
     // Search through the BST list for the designated code's BST
     var BST = bstList[code - 1];
-    if(BST.search(BST.getRootNode(), person) != null)
-    {
+    if (BST.search(BST.getRootNode(), person) != null) {
       final[code - 1].Occurences -= 1;
     }
   }
   // Empty the deleted list
-  while(removedList.length > 0)
-  {
+  while (removedList.length > 0) {
     removedList.pop();
   }
-  
 
   // Re-adjust all the percentages
   for (var i = 0; i < final.length; i++) {
     var percent = parseFloat(
-      ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(3)
+      ((final[i].Occurences / violationTotals[i]['Occurences']) * 100).toFixed(
+        3
+      )
     );
     final[i].Percentage = percent;
-  } 
+  }
 
   // Recalculate the top 20 repeated offenders
   let final_temp = final.slice();
   repeatOffenders20 = [];
   var index;
-  for (var i = 0; i < 20; i++)
-  {
+  for (var i = 0; i < 20; i++) {
     index = findMaxIndex(final_temp);
     repeatOffenders20.push(final_temp[index]);
     final_temp.splice(index, 1);
   }
-  
+
   var endTime = performance.now();
-  console.log('Update calculation time: ' + (endTime - startTime))
+  console.log('Update calculation time: ' + (endTime - startTime));
 }
 
 router.route('/data/repeatcount').get((req, res) => {
@@ -370,23 +350,21 @@ router.route('/data/repeatcount').get((req, res) => {
 
   //console.log(DATASET);
 
-  if (initialCalculate != 1)
-  {
-    let insertedList = require('./listWrapper.js').insertLists.featurerepeatsList;
-    let removedList = require('./listWrapper.js').deleteLists.featurerepeatsList; 
+  if (initialCalculate != 1) {
+    let insertedList =
+      require('./listWrapper.js').insertLists.featurerepeatsList;
+    let removedList =
+      require('./listWrapper.js').deleteLists.featurerepeatsList;
     let oldList = require('./listWrapper.js').updateLists.featurerepeatsListOld;
     let newList = require('./listWrapper.js').updateLists.featurerepeatsListNeo;
 
-    if (insertedList.length > 0)
-    {
+    if (insertedList.length > 0) {
       updateInsert(DATASET, insertedList);
     }
-    if (oldList.length > 0 && newList.length > 0)
-    {
+    if (oldList.length > 0 && newList.length > 0) {
       updateEdit(DATASET, oldList, newList);
     }
-    if (removedList.length > 0)
-    {
+    if (removedList.length > 0) {
       updateDelete(DATASET, removedList);
     }
   }

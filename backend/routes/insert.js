@@ -3,9 +3,6 @@ const JSONDATA = require('../data.js');
 
 let insertLists = require('./listWrapper.js').insertLists;
 
-let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
-let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-
 // this route does the inserting
 function inserts(data, res) {
   console.log('\nInsert function:');

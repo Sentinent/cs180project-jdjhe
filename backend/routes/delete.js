@@ -3,9 +3,6 @@ const JSONDATA = require('../data.js');
 
 let deleteLists = require('./listWrapper.js').deleteLists;
 
-let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
-let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-
 function deletes(req, res) {
   const sumNum = req.params.sumNum;
   console.log('\nDelete function:');
@@ -23,9 +20,6 @@ function deletes(req, res) {
     console.log('Summons Number does not exist');
     res.send(sumNum + ' does not exist');
   }
-
-  RecalculateFeatureVPC = 1;
-  RecalculateFeatureMonth = 1;
 
   console.log('Delete function ends.\n');
 }

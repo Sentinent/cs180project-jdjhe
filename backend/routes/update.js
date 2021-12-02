@@ -3,9 +3,6 @@ const JSONDATA = require('../data.js');
 
 let updateLists = require('./listWrapper.js').updateLists;
 
-let RecalculateFeatureVPC = require("./featureVPC.js").RecalculateFeatureVPC;
-let RecalculateFeatureMonth = require('./featuremonth.js').RecalculateFeatureMonth;
-
 function updates(req, res) {
   const data = {
     'Summons Number': req.params.sumNum,
@@ -57,15 +54,6 @@ function updates(req, res) {
 
     res.send('Data has been updated');
   }
-
-  RecalculateFeature1 = 1;
-  RecalculateFeatureVPC = 1;
-  RecalculateFeatureMonth = 1;
-  RecalculateFeatureCarBrand = 1;
-
-  RecalculateFeatureVPC = 1;
-  RecalculateFeatureMonth = 1;
-};
 
 // this route does the updating
 router

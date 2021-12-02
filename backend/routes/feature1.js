@@ -62,19 +62,15 @@ function calculate(DATASET) {
 calculate(JSONDATA);
 
 // If an item was added
-function updateInsert(DATASET, insertedList)
-{
+function updateInsert(DATASET, insertedList) {
   // start time
   var startTime = performance.now();
 
-  for (var i = 0; i < insertedList.length; i++)
-  {
+  for (var i = 0; i < insertedList.length; i++) {
     var code = Number(insertedList[i]['Violation Code']);
 
-    for (var a = 0; a < final.length; a++)
-    {
-      if (code == final[a].ViolationCode)
-      {
+    for (var a = 0; a < final.length; a++) {
+      if (code == final[a].ViolationCode) {
         final[a].Occurences += 1;
         total++;
         break;
@@ -83,8 +79,7 @@ function updateInsert(DATASET, insertedList)
   }
 
   // Empty the inserted list
-  while(insertedList.length > 0)
-  {
+  while (insertedList.length > 0) {
     insertedList.pop();
   }
 
@@ -96,23 +91,19 @@ function updateInsert(DATASET, insertedList)
   }
 
   var endTime = performance.now();
-  console.log('Feature1 Update calculation time: ' + (endTime - startTime))
+  console.log('Feature1 Update calculation time: ' + (endTime - startTime));
 }
 
 // If items were deleted
-function updateDelete(DATASET, removedList)
-{
+function updateDelete(DATASET, removedList) {
   // start time
   var startTime = performance.now();
 
-  for (var i = 0; i < removedList.length; i++)
-  {
+  for (var i = 0; i < removedList.length; i++) {
     var code = Number(removedList[i]['Violation Code']);
 
-    for (var a = 0; a < final.length; a++)
-    {
-      if (code == final[a].ViolationCode)
-      {
+    for (var a = 0; a < final.length; a++) {
+      if (code == final[a].ViolationCode) {
         final[a].Occurences -= 1;
         total--;
         break;
@@ -121,8 +112,7 @@ function updateDelete(DATASET, removedList)
   }
 
   // Empty the deleted list
-  while(removedList.length > 0)
-  {
+  while (removedList.length > 0) {
     removedList.pop();
   }
 
@@ -134,24 +124,20 @@ function updateDelete(DATASET, removedList)
   }
 
   var endTime = performance.now();
-  console.log('Feature1 Update calculation time: ' + (endTime - startTime))
+  console.log('Feature1 Update calculation time: ' + (endTime - startTime));
 }
 
 // If items were updated
-function updateEdit(DATASET, oldList, newList)
-{
+function updateEdit(DATASET, oldList, newList) {
   // start time
   var startTime = performance.now();
 
   // Reduce violation codes of original data
-  for (var i = 0; i < oldList.length; i++)
-  {
+  for (var i = 0; i < oldList.length; i++) {
     var code = Number(oldList[i]['Violation Code']);
 
-    for (var a = 0; a < final.length; a++)
-    {
-      if (code == final[a].ViolationCode)
-      {
+    for (var a = 0; a < final.length; a++) {
+      if (code == final[a].ViolationCode) {
         final[a].Occurences -= 1;
         total--;
         break;
@@ -160,14 +146,11 @@ function updateEdit(DATASET, oldList, newList)
   }
 
   // Increase violations for new data
-  for (var i = 0; i < newList.length; i++)
-  {
+  for (var i = 0; i < newList.length; i++) {
     var code = Number(newList[i]['Violation Code']);
 
-    for (var a = 0; a < final.length; a++)
-    {
-      if (code == final[a].ViolationCode)
-      {
+    for (var a = 0; a < final.length; a++) {
+      if (code == final[a].ViolationCode) {
         final[a].Occurences += 1;
         total++;
         break;
@@ -176,12 +159,10 @@ function updateEdit(DATASET, oldList, newList)
   }
 
   //Empty the updated lists
-  while(oldList.length > 0)
-  {
+  while (oldList.length > 0) {
     oldList.pop();
   }
-  while(newList.length > 0)
-  {
+  while (newList.length > 0) {
     newList.pop();
   }
 
@@ -193,35 +174,30 @@ function updateEdit(DATASET, oldList, newList)
   }
 
   var endTime = performance.now();
-  console.log('Feature1 Update calculation time: ' + (endTime - startTime))
+  console.log('Feature1 Update calculation time: ' + (endTime - startTime));
 }
 
 router.route('/data/violationcount').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  if (initialCalculate != 1)
-  {
+  if (initialCalculate != 1) {
     let insertedList = require('./listWrapper.js').insertLists.feature1List;
-    let removedList = require('./listWrapper.js').deleteLists.feature1List; 
+    let removedList = require('./listWrapper.js').deleteLists.feature1List;
     let oldList = require('./listWrapper.js').updateLists.feature1ListOld;
     let newList = require('./listWrapper.js').updateLists.feature1ListNeo;
 
-    if (insertedList.length > 0)
-    {
+    if (insertedList.length > 0) {
       updateInsert(DATASET, insertedList);
     }
-    if (oldList.length > 0 && newList.length > 0)
-    {
+    if (oldList.length > 0 && newList.length > 0) {
       updateEdit(DATASET, oldList, newList);
     }
-    if (removedList.length > 0)
-    {
+    if (removedList.length > 0) {
       updateDelete(DATASET, removedList);
     }
   }
-  if (initialCalculate == 1)
-  {
+  if (initialCalculate == 1) {
     calculate(DATASET);
     initialCalculate = 0;
   }

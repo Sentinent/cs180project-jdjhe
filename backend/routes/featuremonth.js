@@ -1,7 +1,9 @@
 const router = require('express').Router();
+const JSONDATA = require('../data');
+const { updateLists, deleteLists } = require('./listWrapper');
 const { searchAll } = require('./search');
-let RecalculateFeatureMonth = 1;
 
+let calculateFeatureMonth = 1;
 let final = [];
 
 function calculateM(DATASET) {
@@ -74,15 +76,180 @@ function calculateM(DATASET) {
   //////////////////////////////////////////////////////////////////
 }
 
+function update() {
+  let insertedList = require('./listWrapper.js').insertLists.featuremonthList;
+  let removedList = require('./listWrapper.js').deleteLists.featuremonthList;
+  let oldList = require('./listWrapper.js').updateLists.featuremonthListOld;
+  let newList = require('./listWrapper.js').updateLists.featuremonthListNeo;
+
+  // update based on new rows inserted
+  if (insertedList.length > 0) {
+    for (var i = 0; i < insertedList.length; i++) {
+      var date = insertedList[i]['Issue Date'];
+      if (date[5] == 0 && date[6] == 1) {
+        final[0]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 2) {
+        final[1]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 3) {
+        final[2]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 4) {
+        final[3]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 5) {
+        final[4]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 6) {
+        final[5]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 7) {
+        final[6]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 8) {
+        final[7]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 9) {
+        final[8]['Violations'] += 1;
+      } else if (date[5] == 1 && date[6] == 0) {
+        final[9]['Violations'] += 1;
+      } else if (date[5] == 1 && date[6] == 1) {
+        final[10]['Violations'] += 1;
+      } else if (date[5] == 1 && date[6] == 2) {
+        final[11]['Violations'] += 1;
+      } else {
+        final[12]['Violations'] += 1;
+      }
+    }
+  }
+
+  // update based on rows that were deleted
+  if (removedList.length > 0) {
+    for (var i = 0; i < removedList.length; i++) {
+      var date = removedList[i]['Issue Date'];
+      if (date[5] == 0 && date[6] == 1) {
+        final[0]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 2) {
+        final[1]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 3) {
+        final[2]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 4) {
+        final[3]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 5) {
+        final[4]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 6) {
+        final[5]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 7) {
+        final[6]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 8) {
+        final[7]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 9) {
+        final[8]['Violations'] -= 1;
+      } else if (date[5] == 1 && date[6] == 0) {
+        final[9]['Violations'] -= 1;
+      } else if (date[5] == 1 && date[6] == 1) {
+        final[10]['Violations'] -= 1;
+      } else if (date[5] == 1 && date[6] == 2) {
+        final[11]['Violations'] -= 1;
+      } else {
+        if (final[12]['Violations'] > 0) final[12]['Violations'] -= 1;
+      }
+    }
+  }
+
+  // update based on rows that were modified
+  if (oldList.length > 0) {
+    // first we remove the old entry
+    for (var i = 0; i < oldList.length; i++) {
+      var date = oldList[i]['Issue Date'];
+      if (date[5] == 0 && date[6] == 1) {
+        final[0]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 2) {
+        final[1]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 3) {
+        final[2]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 4) {
+        final[3]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 5) {
+        final[4]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 6) {
+        final[5]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 7) {
+        final[6]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 8) {
+        final[7]['Violations'] -= 1;
+      } else if (date[5] == 0 && date[6] == 9) {
+        final[8]['Violations'] -= 1;
+      } else if (date[5] == 1 && date[6] == 0) {
+        final[9]['Violations'] -= 1;
+      } else if (date[5] == 1 && date[6] == 1) {
+        final[10]['Violations'] -= 1;
+      } else if (date[5] == 1 && date[6] == 2) {
+        final[11]['Violations'] -= 1;
+      } else {
+        if (final[12]['Violations'] > 0) final[12]['Violations'] -= 1;
+      }
+    }
+    // now we add the new entry
+    for (var i = 0; i < newList.length; i++) {
+      var date = newList[i]['Issue Date'];
+      if (date[5] == 0 && date[6] == 1) {
+        final[0]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 2) {
+        final[1]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 3) {
+        final[2]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 4) {
+        final[3]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 5) {
+        final[4]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 6) {
+        final[5]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 7) {
+        final[6]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 8) {
+        final[7]['Violations'] += 1;
+      } else if (date[5] == 0 && date[6] == 9) {
+        final[8]['Violations'] += 1;
+      } else if (date[5] == 1 && date[6] == 0) {
+        final[9]['Violations'] += 1;
+      } else if (date[5] == 1 && date[6] == 1) {
+        final[10]['Violations'] += 1;
+      } else if (date[5] == 1 && date[6] == 2) {
+        final[11]['Violations'] += 1;
+      } else {
+        final[12]['Violations'] += 1;
+      }
+    }
+  }
+  /*
+  Read through the final array and calculate the percentages based on 
+  the amount of violations certain months recieved over the total number of violations
+  */
+  for (var i = 0; i < final.length; i++) {
+    final[i].Percentage =
+      (final[i].Violations / JSONDATA.length).toFixed(3) * 100;
+  }
+
+  // now we clear the update buffers
+  while (insertedList.length > 0) {
+    insertedList.pop();
+  }
+  while (deleteLists.length > 0) {
+    deleteLists.pop();
+  }
+  while (oldList.length > 0) {
+    oldList.pop();
+  }
+  while (newList.length > 0) {
+    newList.pop();
+  }
+}
+
 router.route('/data/monthviolations').get((req, res) => {
   const terms = (req.query.terms || '').split(',');
   const DATASET = searchAll(terms);
 
-  if (RecalculateFeatureMonth == 1) {
+  if (calculateFeatureMonth == 1) {
     calculateM(DATASET);
-    RecalculateFeatureMonth = 0;
+    calculateFeatureMonth = 0;
+  } else {
+    update();
   }
   res.send(final);
 });
 
-module.exports = { router, RecalculateFeatureMonth };
+module.exports = { router };
