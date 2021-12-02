@@ -29,4 +29,5 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './backend/package-lock.json'
     - run: npm install
+    - run: npm run download_data
     - run: npm test

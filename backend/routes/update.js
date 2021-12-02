@@ -65,6 +65,7 @@ function updates(req, res) {
 
   RecalculateFeatureVPC = 1;
   RecalculateFeatureMonth = 1;
+};
 
 // this route does the updating
 router
